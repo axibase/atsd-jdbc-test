@@ -1,0 +1,19 @@
+# Eclipse
+.project
+.metadata
+.classpath
+.settings/
+test-output/
+
+# Idea
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Temp
+bin/
+target/
+
+# Deploy
+deploy.*

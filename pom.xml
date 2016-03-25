@@ -151,7 +151,7 @@
 		<dependency>
 			<groupId>com.axibase</groupId>
 			<artifactId>atsd-jdbc</artifactId>
-			<version>1.2.2-SNAPSHOT</version>
+			<version>1.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>

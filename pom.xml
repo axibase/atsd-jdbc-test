@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.axibase</groupId>
 	<artifactId>atsd-jdbc-test</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.2.0</version>
 	<name>ATSD JDBC tests</name>
 	<description>Integration tests for JDBC driver</description>
 	<url>http://axibase.com</url>
@@ -31,7 +31,7 @@
 		<connection>scm:git:git@github.com:axibase/atsd-jdbc-test.git</connection>
 		<developerConnection>scm:git:git@github.com:axibase/atsd-jdbc-test.git</developerConnection>
 		<url>https://github.com/axibase/atsd-jdbc-test.git</url>
-		<tag>jdbc-driver-test-0.2.x</tag>
+		<tag>RELEASE-0.2.0</tag>
 	</scm>
 	<properties>
 		<java.source.version>1.7</java.source.version>

@@ -1,3 +1,5 @@
+[![Dependency Status](https://www.versioneye.com/user/projects/56f5282e35630e003e0a85e3/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56f5282e35630e003e0a85e3)
+
 # Integration tests for JDBC driver
 
 ## Requirements
@@ -10,20 +12,14 @@
 $ mvn clean test
 ```
 
-To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. The first three parameters are mandatory. You can use the rest of the parameters to get more accurate test results.
+To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. The first five parameters are mandatory.
 
 ```
 * -Daxibase.tsd.driver.jdbc.url=<ATSD_URL | http, https | >
-* -Daxibase.tsd.driver.jdbc.username=<ATSD_LOGIN> 
-* -Daxibase.tsd.driver.jdbc.password=<ATSD_PASSWORD> 
-* -Daxibase.tsd.driver.jdbc.metric.tiny=<METRIC_NAME> 
-* -Daxibase.tsd.driver.jdbc.metric.small=<METRIC_NAME>
-* -Daxibase.tsd.driver.jdbc.metric.medium=<METRIC_NAME>
-* -Daxibase.tsd.driver.jdbc.metric.large=<METRIC_NAME>
-* -Daxibase.tsd.driver.jdbc.metric.huge=<METRIC_NAME>
-* -Daxibase.tsd.driver.jdbc.metric.jumbo=<METRIC_NAME>
-* -Daxibase.tsd.driver.jdbc.metric.wrong=<METRIC_NAME_THROWING_SQL_EXCEPTION>
-* -Daxibase.tsd.driver.jdbc.metric.concurrent=<SEVERAL_COMMA_SEPARATED_METRIC_NAMES>
-* -Daxibase.tsd.driver.jdbc.trust=<IGNORE_CERTIFICATES> 
-* -Daxibase.tsd.driver.jdbc.strategy=<STORE_STRATEGY | file,stream | >
+* -Daxibase.tsd.driver.jdbc.username=<ATSD_LOGIN>
+* -Daxibase.tsd.driver.jdbc.password=<ATSD_PASSWORD>
+* -Daxibase.tsd.driver.jdbc.metric.tiny=<TEST_METRIC_NAME>
+* -Daxibase.tsd.driver.jdbc.metric.tiny.count=<TEST_METRIC_EXPECTED_RECORDS>
+* -Daxibase.tsd.driver.jdbc.trust=<TRUST_SERVER_CERTIFICATE>
+* -Daxibase.tsd.driver.jdbc.strategy=<STORE_STRATEGY | file, stream | >
 ```

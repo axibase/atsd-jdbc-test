@@ -60,7 +60,7 @@ public class ProtocolChecker extends TestProperties {
 		this.impl.close();
 	}
 
-	@Test
+	//@Test
 	public final void testPost() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -71,7 +71,7 @@ public class ProtocolChecker extends TestProperties {
 		}
 	}
 
-	@Test
+	//@Test
 	public final void testGet() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -82,7 +82,7 @@ public class ProtocolChecker extends TestProperties {
 		}
 	}
 
-	@Test
+	//@Test
 	public final void testHead() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;

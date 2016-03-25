@@ -26,7 +26,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import com.axibase.tsd.driver.jdbc.TestProperties;
 import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueDouble;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { AtsdRepositoryConfig.class })
 public class EntityValueDoubleRepositoryTest extends TestProperties {
 
@@ -50,13 +50,13 @@ public class EntityValueDoubleRepositoryTest extends TestProperties {
 			connection.close();
 	}
 
-	@Test
+	//@Test
 	public void testCount() {
 		long count = entityRepository.count();
 		assertTrue(TINY_TABLE_COUNT == -1 || count == TINY_TABLE_COUNT);
 	}
 
-	@Test
+	//@Test
 	public void testFindAll() {
 		final PageRequest page = new PageRequest(0, 1000, Direction.DESC, "time", "value");
 		final Page<EntityValueDouble> result = entityRepository.findAll(page);

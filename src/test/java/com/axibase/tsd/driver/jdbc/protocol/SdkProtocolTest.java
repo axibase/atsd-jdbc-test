@@ -47,7 +47,7 @@ public class SdkProtocolTest extends TestProperties {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	//@Test
 	public final void testCheckContentSecure() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -61,7 +61,7 @@ public class SdkProtocolTest extends TestProperties {
 		assertNotNull(cd.getJsonScheme());
 	}
 
-	@Test
+	//@Test
 	public final void testReadContentSecure() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;

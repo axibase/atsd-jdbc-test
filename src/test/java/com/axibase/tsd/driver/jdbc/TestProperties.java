@@ -72,7 +72,6 @@ public class TestProperties implements TestConstants {
 		TWO_TABLES = System.getProperty("axibase.tsd.driver.jdbc.metric.concurrent");
 		WRONG_TABLE = System.getProperty("axibase.tsd.driver.jdbc.metric.wrong");
 		driver = new AtsdDriver();
-		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
 		if (logger.isDebugEnabled())
 			logger.debug("System properies has been set");
 	}

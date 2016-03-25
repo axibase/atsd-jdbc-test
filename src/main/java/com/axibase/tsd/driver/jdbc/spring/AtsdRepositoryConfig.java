@@ -20,14 +20,14 @@ public class AtsdRepositoryConfig implements TestConstants {
 
 	@Bean
 	public DataSource dataSource() {
-		String trustProp = System.getProperty("axibase.tsd.driver.jdbc.trust");
-		String login = System.getProperty("axibase.tsd.driver.jdbc.username");
-		String password = System.getProperty("axibase.tsd.driver.jdbc.password");
-		String url = System.getProperty("axibase.tsd.driver.jdbc.url");
+		final String trustProp = System.getProperty("axibase.tsd.driver.jdbc.trust");
+		final String login = System.getProperty("axibase.tsd.driver.jdbc.username");
+		final String password = System.getProperty("axibase.tsd.driver.jdbc.password");
+		final String url = System.getProperty("axibase.tsd.driver.jdbc.url");
 		final StringBuilder sb = new StringBuilder(JDBC_ATDS_URL_PREFIX).append(url);
 		if (trustProp != null)
 			sb.append(Boolean.valueOf(trustProp) ? TRUST_PARAMETER_IN_QUERY : UNTRUST_PARAMETER_IN_QUERY);
-		String strategy = System.getProperty("axibase.tsd.driver.jdbc.strategy");
+		final String strategy = System.getProperty("axibase.tsd.driver.jdbc.strategy");
 		if (strategy != null) {
 			if (trustProp == null)
 				sb.append(PARAM_SEPARATOR);
@@ -44,7 +44,7 @@ public class AtsdRepositoryConfig implements TestConstants {
 
 	@Bean
 	public EntityValueDoubleRepository entityRepository() {
-		String table = System.getProperty("axibase.tsd.driver.jdbc.metric.tiny");
+		final String table = System.getProperty("axibase.tsd.driver.jdbc.metric.tiny");
 		return new EntityValueDoubleRepository(table);
 	}
 

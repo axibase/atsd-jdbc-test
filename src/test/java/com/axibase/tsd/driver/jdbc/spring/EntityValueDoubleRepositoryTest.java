@@ -24,19 +24,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import com.axibase.tsd.driver.jdbc.TestProperties;
-import com.axibase.tsd.driver.jdbc.logging.LoggingFacade;
 import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueDouble;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { AtsdRepositoryConfig.class })
 public class EntityValueDoubleRepositoryTest extends TestProperties {
-	private static final LoggingFacade logger = LoggingFacade.getLogger(EntityValueDoubleRepositoryTest.class);
-
-	public EntityValueDoubleRepositoryTest() {
-	}
 
 	@Resource
-	private EntityValueDoubleRepository repository;
+	private EntityValueDoubleRepository entityRepository;
 
 	@Resource
 	private DataSource dataSource;
@@ -57,19 +52,17 @@ public class EntityValueDoubleRepositoryTest extends TestProperties {
 
 	@Test
 	public void testCount() {
-		long count = repository.count();
+		long count = entityRepository.count();
 		assertTrue(TINY_TABLE_COUNT == -1 || count == TINY_TABLE_COUNT);
 	}
 
 	@Test
 	public void testFindAll() {
-		final PageRequest page = new PageRequest(0, 100, Direction.DESC, "time", "value");
-		final Page<EntityValueDouble> result = repository.findAll(page);
+		final PageRequest page = new PageRequest(0, 1000, Direction.DESC, "time", "value");
+		final Page<EntityValueDouble> result = entityRepository.findAll(page);
 		List<EntityValueDouble> list = result.getContent();
-		if (logger.isInfoEnabled())
-			logger.info("List: " + list.toString());
 		final List<Map<String, Object>> map = jdbc.queryForList(
-				String.format("SELECT entity, time, value FROM %s ORDER BY time, value DESC LIMIT 100", TINY_TABLE));
+				String.format("SELECT entity, time, value FROM %s ORDER BY time, value DESC LIMIT 1000", TINY_TABLE));
 		final Iterator<Map<String, Object>> iterator = map.iterator();
 		while (iterator.hasNext()) {
 			final Map<String, Object> next = iterator.next();

@@ -13,7 +13,7 @@ import com.nurkiewicz.jdbcrepository.JdbcRepository;
 import com.nurkiewicz.jdbcrepository.MissingRowUnmapper;
 import com.nurkiewicz.jdbcrepository.RowUnmapper;
 
-@Repository
+@Repository("entityRepository")
 public class EntityValueDoubleRepository extends JdbcRepository<EntityValueDouble, Double> {
 
 	public EntityValueDoubleRepository() {

@@ -22,4 +22,5 @@ To run tests, you have to choose (or create) your own ATSD metrics. A test phase
 * -Daxibase.tsd.driver.jdbc.metric.tiny.count=<TEST_METRIC_EXPECTED_RECORDS>
 * -Daxibase.tsd.driver.jdbc.trust=<TRUST_SERVER_CERTIFICATE>
 * -Daxibase.tsd.driver.jdbc.strategy=<STORE_STRATEGY | file, stream | >
+
 ```

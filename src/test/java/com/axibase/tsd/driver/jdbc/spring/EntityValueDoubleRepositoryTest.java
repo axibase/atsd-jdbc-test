@@ -50,13 +50,13 @@ public class EntityValueDoubleRepositoryTest extends TestProperties {
 			connection.close();
 	}
 
-	//@Test
+	@Test
 	public void testCount() {
 		long count = entityRepository.count();
 		assertTrue(TINY_TABLE_COUNT == -1 || count == TINY_TABLE_COUNT);
 	}
 
-	//@Test
+	@Test
 	public void testFindAll() {
 		final PageRequest page = new PageRequest(0, 1000, Direction.DESC, "time", "value");
 		final Page<EntityValueDouble> result = entityRepository.findAll(page);

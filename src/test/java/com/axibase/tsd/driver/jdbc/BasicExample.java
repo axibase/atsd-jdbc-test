@@ -22,7 +22,7 @@ public class BasicExample extends TestProperties {
 	public void tearDown() throws Exception {
 	}
 
-	 //@Test
+	 @Test
 	public void testData() throws ClassNotFoundException, SQLException {
 		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
 		// String url = "jdbc:axibase:atsd:https://10.102.0.6:8443/api/sql";
@@ -47,7 +47,7 @@ public class BasicExample extends TestProperties {
 
 	}
 
-	//@Test
+	@Test
 	public void testMetadata() throws ClassNotFoundException, SQLException {
 		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
 		String url = "jdbc:axibase:atsd:https://10.102.0.6:8443/api/sql";

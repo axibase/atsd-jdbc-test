@@ -42,7 +42,7 @@ public class DataProviderTest extends TestProperties {
 	public void tearDown() throws Exception {
 	}
 
-	//@Test
+	@Test
 	public final void testSecureByDefault() throws Exception {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -53,7 +53,7 @@ public class DataProviderTest extends TestProperties {
 		}
 	}
 
-	//@Test
+	@Test
 	public final void testSecureTrusted() throws Exception {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -64,7 +64,7 @@ public class DataProviderTest extends TestProperties {
 		}
 	}
 
-	//@Test
+	@Test
 	public final void testSecureUntrusted() throws Exception {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -75,7 +75,7 @@ public class DataProviderTest extends TestProperties {
 		}
 	}
 
-	//@Test
+	@Test
 	public final void testCheckScheme() throws Exception {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -87,7 +87,7 @@ public class DataProviderTest extends TestProperties {
 		}
 	}
 
-	//@Test
+	@Test
 	public final void testGetContentDescription() throws Exception {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -103,7 +103,7 @@ public class DataProviderTest extends TestProperties {
 		}
 	}
 
-	//@Test
+	@Test
 	public final void testClose() throws Exception {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;

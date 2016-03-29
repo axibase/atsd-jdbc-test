@@ -51,7 +51,7 @@ public class StrategyTest extends TestProperties {
 	public void tearDown() throws Exception {
 	}
 
-	//@Test
+	@Test
 	public final void testFullPassOnTiny() throws Exception {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			return;
@@ -59,7 +59,7 @@ public class StrategyTest extends TestProperties {
 		assertNotNull(last);
 	}
 
-	//@Test
+	@Test
 	public final void testFullPassOnSmall() throws Exception {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -67,7 +67,7 @@ public class StrategyTest extends TestProperties {
 		assertNotNull(last);
 	}
 
-	//@Test
+	@Test
 	public final void testFullPassOnMedium() throws Exception {
 		if (StringUtils.isEmpty(MEDIUM_TABLE))
 			return;
@@ -75,7 +75,7 @@ public class StrategyTest extends TestProperties {
 		assertNotNull(last);
 	}
 
-	//@Test
+	@Test
 	public final void testFullPassOnLarge() throws Exception {
 		if (StringUtils.isEmpty(LARGE_TABLE))
 			return;

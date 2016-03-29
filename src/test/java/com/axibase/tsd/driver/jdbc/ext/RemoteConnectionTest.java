@@ -68,7 +68,7 @@ public class RemoteConnectionTest extends TestProperties {
 		DriverManager.deregisterDriver(driver);
 	}
 
-	//@Test
+	@Test
 	public final void tinyRemoteStatement() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			return;
@@ -79,7 +79,7 @@ public class RemoteConnectionTest extends TestProperties {
 			}.getClass().getEnclosingMethod().getName(), count));
 	}
 
-	//@Test
+	@Test
 	public final void smallRemoteStatement() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -89,7 +89,7 @@ public class RemoteConnectionTest extends TestProperties {
 			}.getClass().getEnclosingMethod().getName(), count));
 	}
 
-	//@Test
+	@Test
 	public final void mediumRemoteStatement() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(MEDIUM_TABLE))
 			return;
@@ -99,7 +99,7 @@ public class RemoteConnectionTest extends TestProperties {
 			}.getClass().getEnclosingMethod().getName(), count));
 	}
 
-	//@Test
+	@Test
 	public final void largeRemoteStatement() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(LARGE_TABLE))
 			return;
@@ -109,7 +109,7 @@ public class RemoteConnectionTest extends TestProperties {
 			}.getClass().getEnclosingMethod().getName(), count));
 	}
 
-	//@Test
+	@Test
 	public final void hugeRemoteStatement() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(HUGE_TABLE))
 			return;
@@ -119,7 +119,7 @@ public class RemoteConnectionTest extends TestProperties {
 			}.getClass().getEnclosingMethod().getName(), count));
 	}
 
-	//@Test
+	@Test
 	public final void testRemoteStatementWithFields() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			return;
@@ -127,7 +127,7 @@ public class RemoteConnectionTest extends TestProperties {
 		assertTrue(TINY_TABLE_COUNT == -1 || count == TINY_TABLE_COUNT);
 	}
 
-	//@Test
+	@Test
 	public final void testRemoteStatementWithDates() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			return;
@@ -135,7 +135,7 @@ public class RemoteConnectionTest extends TestProperties {
 		assertTrue(TINY_TABLE_COUNT == -1 || count == TINY_TABLE_COUNT);
 	}
 
-	//@Test
+	@Test
 	public final void testRemoteStatementWithJoins() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE) || !TINY_TABLE.toLowerCase(Locale.US).endsWith("cpu_busy"))
 			return;
@@ -170,7 +170,7 @@ public class RemoteConnectionTest extends TestProperties {
 			}.getClass().getEnclosingMethod().getName(), count));
 	}
 
-	//@Test
+	@Test
 	public final void testRemotePreparedStatement() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			return;
@@ -178,7 +178,7 @@ public class RemoteConnectionTest extends TestProperties {
 		assertTrue(TINY_TABLE_COUNT == -1 || count == TINY_TABLE_COUNT);
 	}
 
-	//@Test
+	@Test
 	public final void testRemotePreparedStatementsWithArg() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE) || !TINY_TABLE.toLowerCase(Locale.US).endsWith("cpu_busy"))
 			return;
@@ -186,7 +186,7 @@ public class RemoteConnectionTest extends TestProperties {
 				new String[] { "nurswgvml212" }, 1001, 10001);
 	}
 
-	//@Test
+	@Test
 	public final void smallRemoteStatementTwice() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
@@ -198,20 +198,20 @@ public class RemoteConnectionTest extends TestProperties {
 		RETRIES = 1;
 	}
 
-	//@Test
+	@Test
 	public final void testStatementsWithCondition() throws AtsdException, SQLException {
 		checkRemoteStatement(
 				"SELECT entity, datetime, value, tags.mount_point, tags.file_system FROM df.disk_used_percent WHERE entity = 'NURSWGHBS001' AND datetime > now - 1 * HOUR LIMIT 10");
 	}
 
-	//@Test
+	@Test
 	public final void testPreparedStatementsWithArgs() throws AtsdException, SQLException {
 		checkRemotePreparedStatementWithLimits(
 				"SELECT time, value, tags.file_system FROM df.disk_used_percent WHERE tags.file_system LIKE ? AND datetime between ? and ?",
 				new String[] { "tmpfs", "2015-07-08T16:00:00Z", "2017-07-08T16:30:00Z" }, 1001, 10001);
 	}
 
-	//@Test
+	@Test
 	public final void testPreparedStatementsWithAggregation() throws AtsdException, SQLException {
 		checkRemotePreparedStatementWithLimits(
 				"SELECT count(*), entity, tags.*, period (30 minute) FROM df.disk_used "
@@ -221,39 +221,39 @@ public class RemoteConnectionTest extends TestProperties {
 				10001);
 	}
 
-	//@Test
+	@Test
 	public final void testRemoteStatementsOnSmall() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
 		checkRemoteStatementWithLimits(SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, 1001, 10001);
 	}
 
-	//@Test
+	@Test
 	public final void testRemoteStatementsOnMedium() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(MEDIUM_TABLE))
 			return;
 		checkRemoteStatementWithLimits(SELECT_ALL_CLAUSE + MEDIUM_TABLE + SELECT_LIMIT_100000, 10001, 100001);
 	}
 
-	//@Test
+	@Test
 	public final void testRemoteStatementsOnLarge() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(LARGE_TABLE))
 			return;
 		checkRemoteStatementWithLimits(SELECT_ALL_CLAUSE + LARGE_TABLE + SELECT_LIMIT_100000, 100001, 1000001);
 	}
 
-	//@Test
+	@Test
 	public final void remoteStatementWithDifferentResultSets() throws AtsdException, SQLException {
 		checkRemoteStatementWithDifferentResultSets();
 	}
 
-	//@Test
+	@Test
 	public final void remoteStatementWithTraversingSimultaneously()
 			throws AtsdException, SQLException, InterruptedException {
 		checkStatementWithTraversingSimultaneously();
 	}
 
-	//@Test
+	@Test
 	public final void testRemoteStatementsWithLimits() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			return;
@@ -261,21 +261,21 @@ public class RemoteConnectionTest extends TestProperties {
 		assertTrue(TINY_TABLE_COUNT == -1 || count == TINY_TABLE_COUNT);
 	}
 
-	//@Test(expected = UnsupportedOperationException.class)
+	@Test(expected = UnsupportedOperationException.class)
 	public final void smallRemoteStatementWithAbsPos() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			throw new UnsupportedOperationException();
 		checkRemoteStatementWithAbsolute(SELECT_ALL_CLAUSE + TINY_TABLE);
 	}
 
-	//@Test(expected = UnsupportedOperationException.class)
+	@Test(expected = UnsupportedOperationException.class)
 	public final void smallRemoteStatementWithRelPos() throws AtsdException, SQLException {
 		if (StringUtils.isEmpty(TINY_TABLE))
 			throw new UnsupportedOperationException();
 		checkRemoteStatementWithRelative(SELECT_ALL_CLAUSE + TINY_TABLE);
 	}
 
-	//@Test(expected = SQLException.class)
+	@Test(expected = SQLException.class)
 	public final void wrongRemoteStatement() throws AssertionError, AtsdException, SQLException {
 		if (StringUtils.isEmpty(WRONG_TABLE))
 			throw new SQLException();

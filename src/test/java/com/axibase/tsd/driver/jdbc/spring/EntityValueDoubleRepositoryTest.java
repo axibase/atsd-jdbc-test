@@ -26,7 +26,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import com.axibase.tsd.driver.jdbc.TestProperties;
 import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueDouble;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { AtsdRepositoryConfig.class })
 public class EntityValueDoubleRepositoryTest extends TestProperties {
 

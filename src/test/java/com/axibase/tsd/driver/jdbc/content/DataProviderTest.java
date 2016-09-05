@@ -48,8 +48,9 @@ public class DataProviderTest extends TestProperties {
 			return;
 		try (DataProvider provider = new DataProvider(HTTP_ATDS_URL,
 				SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD,
-				new StatementContext());) {
-			provider.checkScheme(provider.getContentDescription().getQuery());
+				new StatementContext())) {
+			provider.fetchData(1, 0);
+			provider.getStrategy().close();
 		}
 	}
 
@@ -59,8 +60,9 @@ public class DataProviderTest extends TestProperties {
 			return;
 		try (DataProvider provider = new DataProvider(HTTP_ATDS_URL + TRUST_PARAMETER_IN_QUERY,
 				SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD,
-				new StatementContext());) {
-			provider.checkScheme(provider.getContentDescription().getQuery());
+				new StatementContext())) {
+			provider.fetchData(1, 0);
+			provider.getStrategy().close();
 		}
 	}
 
@@ -70,8 +72,9 @@ public class DataProviderTest extends TestProperties {
 			return;
 		try (DataProvider provider = new DataProvider(HTTP_ATDS_URL + UNTRUST_PARAMETER_IN_QUERY,
 				SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD,
-				new StatementContext());) {
-			provider.checkScheme(provider.getContentDescription().getQuery());
+				new StatementContext())) {
+			provider.fetchData(1, 0);
+			provider.getStrategy().close();
 		}
 	}
 
@@ -81,9 +84,9 @@ public class DataProviderTest extends TestProperties {
 			return;
 		try (DataProvider provider = new DataProvider(HTTP_ATDS_URL,
 				SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD,
-				new StatementContext());) {
-			final ContentDescription contentDescription = provider.getContentDescription();
-			provider.checkScheme(contentDescription.getQuery());
+				new StatementContext())) {
+			provider.fetchData(1, 0);
+			provider.getStrategy().close();
 		}
 	}
 
@@ -98,7 +101,7 @@ public class DataProviderTest extends TestProperties {
 			assertNotNull(contentDescription);
 			if (logger.isDebugEnabled()) {
 				logger.debug(contentDescription.getHost());
-				logger.debug(Arrays.toString(contentDescription.getParams()));
+				logger.debug(contentDescription.getQueryParamsAsMap().toString());
 			}
 		}
 	}
@@ -109,7 +112,7 @@ public class DataProviderTest extends TestProperties {
 			return;
 		try (DataProvider provider = new DataProvider(HTTP_ATDS_URL,
 				SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD,
-				new StatementContext());) {
+				new StatementContext())) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(provider.toString());
 			}

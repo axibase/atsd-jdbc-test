@@ -15,7 +15,6 @@
 package com.axibase.tsd.driver.jdbc.protocol;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 
+import com.axibase.tsd.driver.jdbc.DriverConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -48,7 +48,7 @@ public class ProtocolChecker extends TestProperties {
 	@Before
 	public void setUp() throws Exception {
 		String[] params = TRUST_URL != null ? new String[] {
-				TRUST_URL.booleanValue() ? ContentDescription.TRUST_PARAM_TRUE : ContentDescription.TRUST_PARAM_FALSE }
+			PARAM_SEPARATOR + DriverConstants.TRUST_PARAM_NAME + "=" + TRUST_URL}
 				: new String[0];
 		ContentDescription cd = new ContentDescription(HTTP_ATDS_URL,
 				SELECT_TVE_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD, params);
@@ -64,7 +64,7 @@ public class ProtocolChecker extends TestProperties {
 	public final void testPost() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
-		InputStream is = this.impl.executeRequest(SdkProtocolImpl.POST_METHOD);
+		InputStream is = this.impl.readContent();
 		assertNotNull(is);
 		if (logger.isTraceEnabled()) {
 			printContent(is);
@@ -75,19 +75,11 @@ public class ProtocolChecker extends TestProperties {
 	public final void testGet() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
-		InputStream is = this.impl.executeRequest(SdkProtocolImpl.GET_METHOD);
+		InputStream is = this.impl.readInfo();
 		assertNotNull(is);
 		if (logger.isTraceEnabled()) {
 			printContent(is);
 		}
-	}
-
-	@Test
-	public final void testHead() throws IOException, AtsdException, GeneralSecurityException {
-		if (StringUtils.isEmpty(SMALL_TABLE))
-			return;
-		InputStream is = this.impl.executeRequest(SdkProtocolImpl.HEAD_METHOD);
-		assertNull(is);
 	}
 
 	private void printContent(final InputStream inputStream) throws IOException {

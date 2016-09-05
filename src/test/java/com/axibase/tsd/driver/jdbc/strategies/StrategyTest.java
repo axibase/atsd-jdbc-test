@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.axibase.tsd.driver.jdbc.DriverConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -85,15 +86,15 @@ public class StrategyTest extends TestProperties {
 
 	private String[] fullPassOnTable(String table) throws Exception {
 		final List<String> params = new ArrayList<String>();
-		if (TRUST_URL != null)
-			params.add(TRUST_URL.booleanValue() ? ContentDescription.TRUST_PARAM_TRUE
-					: ContentDescription.TRUST_PARAM_FALSE);
+		if (TRUST_URL != null) {
+			params.add(PARAM_SEPARATOR + DriverConstants.TRUST_PARAM_NAME + '=' + TRUST_URL);
+		}
 		boolean isDefault = READ_STRATEGY == null || READ_STRATEGY.equalsIgnoreCase("stream");
 		params.add(isDefault ? STRATEGY_STREAM_PARAMETER : STRATEGY_FILE_PARAMETER);
 		final ContentDescription cd = new ContentDescription(HTTP_ATDS_URL, SELECT_ALL_CLAUSE + table, LOGIN_NAME,
 				LOGIN_PASSWORD, params.toArray(new String[params.size()]));
 		final IContentProtocol tp = ProtocolFactory.create(SdkProtocolImpl.class, cd);
-		tp.getContentSchema();
+		tp.readContent();
 		StatementContext context = new StatementContext();
 		try (final IStoreStrategy strategy = isDefault ? new KeepAliveStrategy(context)
 				: new FileStoreStrategy(context); final InputStream is = tp.readContent();) {

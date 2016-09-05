@@ -14,7 +14,8 @@
 */
 package com.axibase.tsd.driver.jdbc.ext;
 
-import static org.junit.Assert.assertNotNull;
+import static com.axibase.tsd.driver.jdbc.ext.LogUtil.logTime;
+import static com.axibase.tsd.driver.jdbc.ext.LogUtil.printResultSet;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -23,11 +24,8 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -289,13 +287,13 @@ public class RemoteConnectionTest extends TestProperties {
 			int count = 0;
 			for (int i = 0; i < RETRIES; i++) {
 				try (final ResultSet resultSet = statement.executeQuery(sql);) {
-					count = printResultSet(resultSet);
+					count = printResultSet(resultSet, logger);
 				}
 			}
 			return count;
 		} finally {
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
@@ -308,13 +306,13 @@ public class RemoteConnectionTest extends TestProperties {
 			String[] metrics = TWO_TABLES.split(",");
 			for (String metric : metrics) {
 				try (final ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + metric);) {
-					int count = printResultSet(resultSet);
+					int count = printResultSet(resultSet, logger);
 					assertTrue(count != 0);
 				}
 			}
 		} finally {
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
@@ -330,7 +328,7 @@ public class RemoteConnectionTest extends TestProperties {
 				service.submit(new Runnable() {
 					public void run() {
 						try (final ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + metric);) {
-							int count = printResultSet(resultSet);
+							int count = printResultSet(resultSet, logger);
 							assertTrue(count != 0);
 						} catch (SQLException | AtsdException e) {
 							logger.error(e.getMessage(), e);
@@ -345,7 +343,7 @@ public class RemoteConnectionTest extends TestProperties {
 		} finally {
 			service.shutdown();
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
@@ -355,10 +353,10 @@ public class RemoteConnectionTest extends TestProperties {
 				final Statement statement = connection.createStatement();
 				final ResultSet resultSet = statement.executeQuery(sql);) {
 			resultSet.absolute(100);
-			return printResultSet(resultSet);
+			return printResultSet(resultSet, logger);
 		} finally {
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
@@ -368,10 +366,10 @@ public class RemoteConnectionTest extends TestProperties {
 				final Statement statement = connection.createStatement();
 				final ResultSet resultSet = statement.executeQuery(sql);) {
 			resultSet.relative(100);
-			return printResultSet(resultSet);
+			return printResultSet(resultSet, logger);
 		} finally {
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
@@ -383,11 +381,11 @@ public class RemoteConnectionTest extends TestProperties {
 			statement.setFetchSize(fetchSize);
 			statement.setMaxRows(maxRows);
 			try (final ResultSet resultSet = statement.executeQuery(sql);) {
-				return printResultSet(resultSet);
+				return printResultSet(resultSet, logger);
 			}
 		} finally {
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
@@ -396,10 +394,10 @@ public class RemoteConnectionTest extends TestProperties {
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
 				final PreparedStatement prepareStatement = connection.prepareStatement(sql);
 				final ResultSet resultSet = prepareStatement.executeQuery();) {
-			return printResultSet(resultSet);
+			return printResultSet(resultSet, logger);
 		} finally {
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
@@ -415,83 +413,12 @@ public class RemoteConnectionTest extends TestProperties {
 				prepareStatement.setString(num++, arg);
 			}
 			try (final ResultSet resultSet = prepareStatement.executeQuery();) {
-				return printResultSet(resultSet);
+				return printResultSet(resultSet, logger);
 			}
 		} finally {
 			logTime(start, new Object() {
-			}.getClass().getEnclosingMethod().getName());
+			}.getClass().getEnclosingMethod().getName(), logger);
 		}
 	}
 
-	private int printResultSet(final ResultSet resultSet) throws AtsdException, SQLException {
-		assertNotNull(resultSet);
-		final ResultSetMetaData rsmd = resultSet.getMetaData();
-		assertNotNull(rsmd);
-		if (logger.isDebugEnabled())
-			logger.debug("Columns:");
-		for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-			int type = rsmd.getColumnType(i);
-			String name = rsmd.getColumnName(i);
-			String typeName = rsmd.getColumnTypeName(i);
-			if (logger.isDebugEnabled())
-				logger.debug(String.format("%s\t%s    \t%s", type, name, typeName));
-		}
-		if (logger.isTraceEnabled())
-			logger.trace("Data:");
-		int count = 0;
-		StringBuilder sb;
-		while (resultSet.next()) {
-			sb = new StringBuilder();
-			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-				int type = rsmd.getColumnType(i);
-				if (i > 1)
-					sb.append("     \t");
-				sb.append(type).append(':');
-				switch (type) {
-				case Types.VARCHAR:
-					sb.append("getString: ").append(resultSet.getString(i));
-					break;
-				case Types.INTEGER:
-					sb.append("getInt: ").append(resultSet.getInt(i));
-					break;
-				case Types.BIGINT:
-					sb.append("getLong: ").append(resultSet.getLong(i));
-					break;
-				case Types.SMALLINT:
-					sb.append("getShort: ").append(resultSet.getShort(i));
-					break;
-				case Types.FLOAT:
-					sb.append("getFloat: ").append(resultSet.getFloat(i));
-					break;
-				case Types.DOUBLE:
-					sb.append("getDouble: ").append(resultSet.getDouble(i));
-					break;
-				case Types.DECIMAL:
-					sb.append("getDecimal: ").append(resultSet.getBigDecimal(i));
-					break;
-				case Types.TIMESTAMP:
-					sb.append("getTimestamp: ").append(resultSet.getTimestamp(i).toString());
-					break;
-				default:
-					throw new UnsupportedOperationException();
-				}
-			}
-			count++;
-			if (logger.isTraceEnabled()) {
-				logger.trace(sb.toString());
-			}
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("Total: " + count);
-		}
-		final SQLWarning warnings = resultSet.getWarnings();
-		if (warnings != null)
-			logger.error(warnings.getMessage(), warnings);
-		return count;
-	}
-
-	private void logTime(long start, String name) {
-		if (logger.isDebugEnabled())
-			logger.debug(String.format("Test [%s] is done in %d msecs", name, (System.currentTimeMillis() - start)));
-	}
 }

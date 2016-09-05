@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.axibase</groupId>
 	<artifactId>atsd-jdbc-test</artifactId>
-	<version>0.3.7-SNAPSHOT</version>
+	<version>0.4.0-SNAPSHOT</version>
 	<name>ATSD JDBC tests</name>
 	<description>Integration tests for JDBC driver</description>
 	<url>http://axibase.com</url>
@@ -175,7 +175,7 @@
 		<dependency>
 			<groupId>com.axibase</groupId>
 			<artifactId>atsd-jdbc</artifactId>
-			<version>1.2.6</version>
+			<version>1.2.9-RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -218,6 +218,11 @@
 			<artifactId>powermock-api-mockito</artifactId>
 			<version>${powermock.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.tngtech.java</groupId>
+			<artifactId>junit-dataprovider</artifactId>
+			<version>1.11.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.opencsv</groupId>

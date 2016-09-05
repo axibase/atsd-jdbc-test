@@ -1,18 +1,12 @@
 package com.axibase.tsd.driver.jdbc;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
+import java.sql.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BasicExample extends TestProperties {
+public class BasicExampleTest extends TestProperties {
 
 	@Before
 	public void setUp() throws Exception {
@@ -25,7 +19,6 @@ public class BasicExample extends TestProperties {
 	 @Test
 	public void testData() throws ClassNotFoundException, SQLException {
 		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
-		// String url = "jdbc:axibase:atsd:https://10.102.0.6:8443/api/sql";
 		String query = "SELECT entity, datetime, value, tags.mount_point, tags.file_system "
 				+ "FROM df.disk_used_percent WHERE entity = 'NURSWGHBS001' AND datetime > now - 1 * HOUR LIMIT 10";
 		try (Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
@@ -50,14 +43,18 @@ public class BasicExample extends TestProperties {
 	@Test
 	public void testMetadata() throws ClassNotFoundException, SQLException {
 		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
-		String url = "jdbc:axibase:atsd:https://10.102.0.6:8443/api/sql";
-		try (Connection connection = DriverManager.getConnection(url, "axibase", "axibase");
-				Statement statement = connection.createStatement();) {
-			final DatabaseMetaData metaData = connection.getMetaData();
-			final String databaseProductName = metaData.getDatabaseProductName();
-			final String databaseProductVersion = metaData.getDatabaseProductVersion();
-			final String driverName = metaData.getDriverName();
-			final String driverVersion = metaData.getDriverVersion();
+		String username = System.getProperty("axibase.tsd.driver.jdbc.username");
+		String password = System.getProperty("axibase.tsd.driver.jdbc.password");
+		String hostUrl = System.getProperty("axibase.tsd.driver.jdbc.url");
+		String sqlUrl = "jdbc:axibase:atsd:" + hostUrl + ";trustServerCertificate=true";
+
+		try (Connection connection = DriverManager.getConnection(sqlUrl, username, password)) {
+
+			DatabaseMetaData metaData = connection.getMetaData();
+			String databaseProductName = metaData.getDatabaseProductName();
+			String databaseProductVersion = metaData.getDatabaseProductVersion();
+			String driverName = metaData.getDriverName();
+			String driverVersion = metaData.getDriverVersion();
 			System.out.println("Product Name:   \t" + databaseProductName);
 			System.out.println("Product Version:\t" + databaseProductVersion);
 			System.out.println("Driver Name:    \t" + driverName);
@@ -69,13 +66,14 @@ public class BasicExample extends TestProperties {
 				int type = rs.getInt("DATA_TYPE");
 				int precision = rs.getInt("PRECISION");
 				boolean isCS = rs.getBoolean("CASE_SENSITIVE");
-				System.out.println(
-						String.format("\tName:%s \tCS: %s \tType: %s \tPrecision: %s", name, isCS, type, precision));
+				System.out.println(String.format(
+						"\tName:%s \tCS: %s \tType: %s \tPrecision: %s", name, isCS, type, precision));
 			}
 			System.out.println("\nTableTypes:");
+
 			rs = metaData.getTableTypes();
 			while (rs.next()) {
-				final String type = rs.getString(1);
+				String type = rs.getString(1);
 				System.out.println('\t' + type);
 			}
 			rs = metaData.getCatalogs();
@@ -88,7 +86,6 @@ public class BasicExample extends TestProperties {
 					System.out.println("Schema: \t" + schema);
 				}
 			}
-
 		}
 	}
 

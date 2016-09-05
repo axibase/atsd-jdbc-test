@@ -24,6 +24,7 @@ import java.io.Reader;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
+import com.axibase.tsd.driver.jdbc.DriverConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -48,25 +49,11 @@ public class SdkProtocolTest extends TestProperties {
 	}
 
 	@Test
-	public final void testCheckContentSecure() throws IOException, AtsdException, GeneralSecurityException {
-		if (StringUtils.isEmpty(SMALL_TABLE))
-			return;
-		String[] params = TRUST_URL != null ? new String[] {
-				TRUST_URL.booleanValue() ? ContentDescription.TRUST_PARAM_TRUE : ContentDescription.TRUST_PARAM_FALSE }
-				: new String[0];
-		final ContentDescription cd = new ContentDescription(HTTP_ATDS_URL,
-				SELECT_TVE_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD, params);
-		IContentProtocol impl = ProtocolFactory.create(SdkProtocolImpl.class, cd);
-		impl.getContentSchema();
-		assertNotNull(cd.getJsonScheme());
-	}
-
-	@Test
 	public final void testReadContentSecure() throws IOException, AtsdException, GeneralSecurityException {
 		if (StringUtils.isEmpty(SMALL_TABLE))
 			return;
 		String[] params = TRUST_URL != null ? new String[] {
-				TRUST_URL.booleanValue() ? ContentDescription.TRUST_PARAM_TRUE : ContentDescription.TRUST_PARAM_FALSE }
+				PARAM_SEPARATOR + DriverConstants.TRUST_PARAM_NAME + '=' + TRUST_URL}
 				: new String[0];
 		final ContentDescription cd = new ContentDescription(HTTP_ATDS_URL,
 				SELECT_TVE_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD, params);

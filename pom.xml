@@ -5,7 +5,7 @@
 	<version>0.4.0-SNAPSHOT</version>
 	<name>ATSD JDBC tests</name>
 	<description>Integration tests for JDBC driver</description>
-	<url>http://axibase.com</url>
+	<url>https://axibase.com</url>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -15,7 +15,7 @@
 	<inceptionYear>2016</inceptionYear>
 	<organization>
 		<name>Axibase</name>
-		<url>http://axibase.com</url>
+		<url>https://axibase.com</url>
 	</organization>
 	<prerequisites>
 		<maven>3.3.3</maven>
@@ -36,7 +36,7 @@
 	<properties>
 		<java.source.version>1.7</java.source.version>
 		<java.target.version>1.7</java.target.version>
-		<powermock.version>1.6.4</powermock.version>
+		<powermock.version>1.6.5</powermock.version>
 		<locale>en_US</locale>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -175,7 +175,7 @@
 		<dependency>
 			<groupId>com.axibase</groupId>
 			<artifactId>atsd-jdbc</artifactId>
-			<version>1.2.10</version>
+			<version>1.2.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -227,16 +227,15 @@
 		<dependency>
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
-			<version>3.7</version>
+			<version>3.8</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<developers>
 		<developer>
-			<id>real</id>
-			<name>Alexey Reztsov</name>
-			<email>alexey.reztsov@axibase.com</email>
-			<timezone>UTC+3</timezone>
+			<id>raipc</id>
+			<name>Anton Rybochkin</name>
+			<email>anton.rybochkin@axibase.com</email>
 		</developer>
 	</developers>
 </project>

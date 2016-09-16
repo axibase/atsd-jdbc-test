@@ -14,6 +14,7 @@
 */
 package com.axibase.tsd.driver.jdbc.ext;
 
+import static com.axibase.tsd.driver.jdbc.TestConstants.*;
 import static com.axibase.tsd.driver.jdbc.ext.LogUtil.logTime;
 import static com.axibase.tsd.driver.jdbc.ext.LogUtil.printResultSet;
 import static org.junit.Assert.assertTrue;
@@ -181,7 +182,7 @@ public class RemoteConnectionTest extends TestProperties {
 		if (StringUtils.isEmpty(TINY_TABLE) || !TINY_TABLE.toLowerCase(Locale.US).endsWith("cpu_busy"))
 			return;
 		checkRemotePreparedStatementWithLimits(SELECT_ALL_CLAUSE + TINY_TABLE + WHERE_CLAUSE,
-				new String[] { "nurswgvml212" }, 1001, 10001);
+				new String[]{"nurswgvml212"}, 1001, 10001);
 	}
 
 	@Test
@@ -206,7 +207,7 @@ public class RemoteConnectionTest extends TestProperties {
 	public final void testPreparedStatementsWithArgs() throws AtsdException, SQLException {
 		checkRemotePreparedStatementWithLimits(
 				"SELECT time, value, tags.file_system FROM df.disk_used_percent WHERE tags.file_system LIKE ? AND datetime between ? and ?",
-				new String[] { "tmpfs", "2015-07-08T16:00:00Z", "2017-07-08T16:30:00Z" }, 1001, 10001);
+				new String[]{"tmpfs", "2015-07-08T16:00:00Z", "2017-07-08T16:30:00Z"}, 1001, 10001);
 	}
 
 	@Test
@@ -215,7 +216,7 @@ public class RemoteConnectionTest extends TestProperties {
 				"SELECT count(*), entity, tags.*, period (30 minute) FROM df.disk_used "
 						+ "WHERE entity = ? AND tags.mount_point = ? AND tags.file_system = ? "
 						+ "AND datetime BETWEEN ? AND ? GROUP BY entity, tags, period (30 minute)",
-				new String[] { "nurswgvml502", "/run", "tmpfs", "2015-07-08T16:00:00Z", "2017-07-08T16:30:00Z" }, 1001,
+				new String[]{"nurswgvml502", "/run", "tmpfs", "2015-07-08T16:00:00Z", "2017-07-08T16:30:00Z"}, 1001,
 				10001);
 	}
 
@@ -283,10 +284,10 @@ public class RemoteConnectionTest extends TestProperties {
 	private int checkRemoteStatement(String sql) throws AtsdException, SQLException {
 		long start = System.currentTimeMillis();
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final Statement statement = connection.createStatement();) {
+			 final Statement statement = connection.createStatement()) {
 			int count = 0;
 			for (int i = 0; i < RETRIES; i++) {
-				try (final ResultSet resultSet = statement.executeQuery(sql);) {
+				try (final ResultSet resultSet = statement.executeQuery(sql)) {
 					count = printResultSet(resultSet, logger);
 				}
 			}
@@ -302,10 +303,10 @@ public class RemoteConnectionTest extends TestProperties {
 			return;
 		long start = System.currentTimeMillis();
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final Statement statement = connection.createStatement();) {
+			 final Statement statement = connection.createStatement()) {
 			String[] metrics = TWO_TABLES.split(",");
 			for (String metric : metrics) {
-				try (final ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + metric);) {
+				try (final ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + metric)) {
 					int count = printResultSet(resultSet, logger);
 					assertTrue(count != 0);
 				}
@@ -322,12 +323,12 @@ public class RemoteConnectionTest extends TestProperties {
 		long start = System.currentTimeMillis();
 		ExecutorService service = Executors.newFixedThreadPool(2);
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final Statement statement = connection.createStatement();) {
+			 final Statement statement = connection.createStatement()) {
 			String[] metrics = TWO_TABLES.split(",");
 			for (final String metric : metrics) {
 				service.submit(new Runnable() {
 					public void run() {
-						try (final ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + metric);) {
+						try (final ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + metric)) {
 							int count = printResultSet(resultSet, logger);
 							assertTrue(count != 0);
 						} catch (SQLException | AtsdException e) {
@@ -350,8 +351,8 @@ public class RemoteConnectionTest extends TestProperties {
 	private int checkRemoteStatementWithAbsolute(String sql) throws AtsdException, SQLException {
 		long start = System.currentTimeMillis();
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final Statement statement = connection.createStatement();
-				final ResultSet resultSet = statement.executeQuery(sql);) {
+			 final Statement statement = connection.createStatement();
+			 final ResultSet resultSet = statement.executeQuery(sql)) {
 			resultSet.absolute(100);
 			return printResultSet(resultSet, logger);
 		} finally {
@@ -363,8 +364,8 @@ public class RemoteConnectionTest extends TestProperties {
 	private int checkRemoteStatementWithRelative(String sql) throws AtsdException, SQLException {
 		long start = System.currentTimeMillis();
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final Statement statement = connection.createStatement();
-				final ResultSet resultSet = statement.executeQuery(sql);) {
+			 final Statement statement = connection.createStatement();
+			 final ResultSet resultSet = statement.executeQuery(sql)) {
 			resultSet.relative(100);
 			return printResultSet(resultSet, logger);
 		} finally {
@@ -377,10 +378,10 @@ public class RemoteConnectionTest extends TestProperties {
 			throws AtsdException, SQLException {
 		long start = System.currentTimeMillis();
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final Statement statement = connection.createStatement();) {
+			 final Statement statement = connection.createStatement()) {
 			statement.setFetchSize(fetchSize);
 			statement.setMaxRows(maxRows);
-			try (final ResultSet resultSet = statement.executeQuery(sql);) {
+			try (final ResultSet resultSet = statement.executeQuery(sql)) {
 				return printResultSet(resultSet, logger);
 			}
 		} finally {
@@ -392,8 +393,8 @@ public class RemoteConnectionTest extends TestProperties {
 	private int checkRemotePreparedStatementNoArgs(String sql) throws AtsdException, SQLException {
 		long start = System.currentTimeMillis();
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final PreparedStatement prepareStatement = connection.prepareStatement(sql);
-				final ResultSet resultSet = prepareStatement.executeQuery();) {
+			 final PreparedStatement prepareStatement = connection.prepareStatement(sql);
+			 final ResultSet resultSet = prepareStatement.executeQuery()) {
 			return printResultSet(resultSet, logger);
 		} finally {
 			logTime(start, new Object() {
@@ -405,14 +406,14 @@ public class RemoteConnectionTest extends TestProperties {
 			throws AtsdException, SQLException {
 		long start = System.currentTimeMillis();
 		try (final Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				final PreparedStatement prepareStatement = connection.prepareStatement(sql);) {
+			 final PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
 			prepareStatement.setFetchSize(fetchSize);
 			prepareStatement.setMaxRows(maxRows);
 			int num = 1;
 			for (String arg : args) {
 				prepareStatement.setString(num++, arg);
 			}
-			try (final ResultSet resultSet = prepareStatement.executeQuery();) {
+			try (final ResultSet resultSet = prepareStatement.executeQuery()) {
 				return printResultSet(resultSet, logger);
 			}
 		} finally {

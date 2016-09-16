@@ -23,7 +23,9 @@ import org.junit.BeforeClass;
 import com.axibase.tsd.driver.jdbc.logging.LoggingFacade;
 import com.axibase.tsd.driver.jdbc.strategies.StrategyFactory;
 
-public class TestProperties implements TestConstants {
+import static com.axibase.tsd.driver.jdbc.TestConstants.*;
+
+public class TestProperties {
 	private static final LoggingFacade logger = LoggingFacade.getLogger(TestProperties.class);
 	protected static int RETRIES = 1;
 	protected static Boolean TRUST_URL;
@@ -50,22 +52,21 @@ public class TestProperties implements TestConstants {
 		LOGIN_NAME = System.getProperty("axibase.tsd.driver.jdbc.username");
 		LOGIN_PASSWORD = System.getProperty("axibase.tsd.driver.jdbc.password");
 		HTTP_ATDS_URL = System.getProperty("axibase.tsd.driver.jdbc.url");
-		final StringBuilder sb = new StringBuilder(JDBC_ATDS_URL_PREFIX).append(HTTP_ATDS_URL);
+		final StringBuilder buffer = new StringBuilder(JDBC_ATDS_URL_PREFIX).append(HTTP_ATDS_URL);
 		if (TRUST_URL != null) {
-			sb.append(';')
-				.append(DriverConstants.TRUST_PARAM_NAME)
-				.append('=')
-				.append(TRUST_URL);
+			buffer.append(PARAM_SEPARATOR)
+					.append(DriverConstants.TRUST_PARAM_NAME)
+					.append('=')
+					.append(TRUST_URL);
 		}
 		READ_STRATEGY = System.getProperty("axibase.tsd.driver.jdbc.strategy");
 		if (READ_STRATEGY != null) {
-			if (TRUST_URL == null) {
-				sb.append(PARAM_SEPARATOR);
-			}
-			sb.append(READ_STRATEGY.equalsIgnoreCase(StrategyFactory.FILE_STRATEGY) ? STRATEGY_FILE_PARAMETER
-					: STRATEGY_STREAM_PARAMETER);
+			buffer.append(PARAM_SEPARATOR)
+					.append(DriverConstants.STRATEGY_PARAM_NAME)
+					.append('=')
+					.append(READ_STRATEGY);
 		}
-		JDBC_ATDS_URL = sb.toString();
+		JDBC_ATDS_URL = buffer.toString();
 		String counted = System.getProperty("axibase.tsd.driver.jdbc.metric.tiny.count");
 		TINY_TABLE_COUNT = !StringUtils.isEmpty(counted) ? Integer.parseInt(counted) : -1;
 		TINY_TABLE = System.getProperty("axibase.tsd.driver.jdbc.metric.tiny");

@@ -5,13 +5,13 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.axibase.tsd.driver.jdbc.TestConstants;
-import com.axibase.tsd.driver.jdbc.strategies.StrategyFactory;
 import com.nurkiewicz.jdbcrepository.sql.SqlGenerator;
 import com.zaxxer.hikari.HikariDataSource;
 
+import static com.axibase.tsd.driver.jdbc.TestConstants.*;
+
 @Configuration
-public class AtsdRepositoryConfig implements TestConstants {
+public class AtsdRepositoryConfig {
 
 	@Bean
 	public SqlGenerator sqlGenerator() {
@@ -29,10 +29,10 @@ public class AtsdRepositoryConfig implements TestConstants {
 			sb.append(Boolean.valueOf(trustProp) ? TRUST_PARAMETER_IN_QUERY : UNTRUST_PARAMETER_IN_QUERY);
 		final String strategy = System.getProperty("axibase.tsd.driver.jdbc.strategy");
 		if (strategy != null) {
-			if (trustProp == null)
+			if (trustProp == null) {
 				sb.append(PARAM_SEPARATOR);
-			sb.append(strategy.equalsIgnoreCase(StrategyFactory.FILE_STRATEGY) ? STRATEGY_FILE_PARAMETER
-					: STRATEGY_STREAM_PARAMETER);
+			}
+			sb.append(strategy);
 		}
 		final HikariDataSource dataSource = new HikariDataSource();
 		dataSource.setJdbcUrl(sb.toString());

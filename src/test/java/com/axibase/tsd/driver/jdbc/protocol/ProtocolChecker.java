@@ -14,6 +14,7 @@
 */
 package com.axibase.tsd.driver.jdbc.protocol;
 
+import static com.axibase.tsd.driver.jdbc.TestConstants.*;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.BufferedReader;

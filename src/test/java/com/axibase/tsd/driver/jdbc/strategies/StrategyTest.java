@@ -14,6 +14,7 @@
 */
 package com.axibase.tsd.driver.jdbc.strategies;
 
+import static com.axibase.tsd.driver.jdbc.TestConstants.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -38,8 +39,6 @@ import com.axibase.tsd.driver.jdbc.intf.IContentProtocol;
 import com.axibase.tsd.driver.jdbc.intf.IStoreStrategy;
 import com.axibase.tsd.driver.jdbc.protocol.ProtocolFactory;
 import com.axibase.tsd.driver.jdbc.protocol.SdkProtocolImpl;
-import com.axibase.tsd.driver.jdbc.strategies.storage.FileStoreStrategy;
-import com.axibase.tsd.driver.jdbc.strategies.stream.KeepAliveStrategy;
 
 public class StrategyTest extends TestProperties {
 	private static final Logger logger = LoggerFactory.getLogger(StrategyTest.class);
@@ -85,21 +84,21 @@ public class StrategyTest extends TestProperties {
 	}
 
 	private String[] fullPassOnTable(String table) throws Exception {
-		final List<String> params = new ArrayList<String>();
+		final List<String> params = new ArrayList<>();
 		if (TRUST_URL != null) {
-			params.add(PARAM_SEPARATOR + DriverConstants.TRUST_PARAM_NAME + '=' + TRUST_URL);
+			params.add(DriverConstants.TRUST_PARAM_NAME + '=' + TRUST_URL);
 		}
-		boolean isDefault = READ_STRATEGY == null || READ_STRATEGY.equalsIgnoreCase("stream");
-		params.add(isDefault ? STRATEGY_STREAM_PARAMETER : STRATEGY_FILE_PARAMETER);
-		final ContentDescription cd = new ContentDescription(HTTP_ATDS_URL, SELECT_ALL_CLAUSE + table, LOGIN_NAME,
+		params.add(READ_STRATEGY);
+		final ContentDescription contentDescription = new ContentDescription(HTTP_ATDS_URL, SELECT_ALL_CLAUSE + table, LOGIN_NAME,
 				LOGIN_PASSWORD, params.toArray(new String[params.size()]));
-		final IContentProtocol tp = ProtocolFactory.create(SdkProtocolImpl.class, cd);
-		tp.readContent();
+		final IContentProtocol protocol = ProtocolFactory.create(SdkProtocolImpl.class, contentDescription);
+		protocol.readContent();
 		StatementContext context = new StatementContext();
-		try (final IStoreStrategy strategy = isDefault ? new KeepAliveStrategy(context)
-				: new FileStoreStrategy(context); final InputStream is = tp.readContent();) {
-			assertNotNull(is);
-			strategy.store(is);
+		try (final IStoreStrategy strategy = StrategyFactory.create(
+				StrategyFactory.findClassByName(READ_STRATEGY), context);
+			 final InputStream inputStream = protocol.readContent()) {
+			assertNotNull(inputStream);
+			strategy.store(inputStream);
 			final String[] header = strategy.openToRead();
 			assertNotNull(header);
 			if (logger.isDebugEnabled())

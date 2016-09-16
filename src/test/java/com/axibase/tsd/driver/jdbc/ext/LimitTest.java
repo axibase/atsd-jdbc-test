@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import java.sql.*;
 import java.util.Enumeration;
 
+import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_ALL_CLAUSE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.fail;

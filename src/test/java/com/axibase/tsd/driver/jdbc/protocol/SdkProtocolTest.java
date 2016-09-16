@@ -14,6 +14,7 @@
 */
 package com.axibase.tsd.driver.jdbc.protocol;
 
+import static com.axibase.tsd.driver.jdbc.TestConstants.*;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.BufferedReader;
@@ -58,11 +59,11 @@ public class SdkProtocolTest extends TestProperties {
 		final ContentDescription cd = new ContentDescription(HTTP_ATDS_URL,
 				SELECT_TVE_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD, params);
 		IContentProtocol impl = ProtocolFactory.create(SdkProtocolImpl.class, cd);
-		try (final InputStream is = impl.readContent();) {
+		try (final InputStream is = impl.readContent()) {
 			final Reader reader = new BufferedReader(new InputStreamReader(is));
 			assertNotNull(cd.getJsonScheme());
 			String[] nextLine;
-			try (final CSVReader csvReader = new CSVReader(reader);) {
+			try (final CSVReader csvReader = new CSVReader(reader)) {
 				while ((nextLine = csvReader.readNext()) != null) {
 					String next = Arrays.toString(nextLine);
 					assertNotNull(next);

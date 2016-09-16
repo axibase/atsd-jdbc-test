@@ -14,9 +14,9 @@
 */
 package com.axibase.tsd.driver.jdbc.content;
 
+import static com.axibase.tsd.driver.jdbc.TestConstants.*;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
@@ -96,7 +96,7 @@ public class DataProviderTest extends TestProperties {
 			return;
 		try (DataProvider provider = new DataProvider(HTTP_ATDS_URL + UNTRUST_PARAMETER_IN_QUERY,
 				SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, LOGIN_NAME, LOGIN_PASSWORD,
-				new StatementContext());) {
+				new StatementContext())) {
 			final ContentDescription contentDescription = provider.getContentDescription();
 			assertNotNull(contentDescription);
 			if (logger.isDebugEnabled()) {

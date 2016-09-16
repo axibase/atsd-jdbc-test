@@ -13,12 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 
-import com.axibase.tsd.driver.jdbc.TestConstants;
 import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueDouble;
 import org.springframework.util.Assert;
 
 @Component
-public class SampleDriverRunner implements CommandLineRunner, TestConstants {
+public class SampleDriverRunner implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(SampleDriverRunner.class);
 
 	@Resource

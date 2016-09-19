@@ -28,4 +28,6 @@ public final class TestConstants {
 	public static final String TRUST_PARAMETER_IN_QUERY = PARAM_SEPARATOR + TRUST_PARAMETER + PARAM_SEPARATOR;
 	public static final String UNTRUST_PARAMETER_IN_QUERY = PARAM_SEPARATOR + UNTRUST_PARAMETER + PARAM_SEPARATOR;
 	static final int DEFAULT_ATSD_VERSION = 14000;
+
+	private TestConstants() {}
 }

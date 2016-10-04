@@ -1,9 +1,6 @@
 package com.axibase.tsd.driver.jdbc.spring;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueFloat;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,16 +9,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
-
-import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueDouble;
 import org.springframework.util.Assert;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Component
 public class SampleDriverRunner implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(SampleDriverRunner.class);
 
 	@Resource
-	private EntityValueDoubleRepository entityRepository;
+	private EntityValueFloatRepository entityRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -35,8 +33,8 @@ public class SampleDriverRunner implements CommandLineRunner {
 			logger.info("Count: " + counted);
 		Assert.isTrue(counted == expected);
 		final PageRequest page = new PageRequest(0, 1000, Direction.DESC, "time", "value");
-		final Page<EntityValueDouble> result = entityRepository.findAll(page);
-		List<EntityValueDouble> list = result.getContent();
+		final Page<EntityValueFloat> result = entityRepository.findAll(page);
+		List<EntityValueFloat> list = result.getContent();
 		Assert.notEmpty(list);
 		if (logger.isInfoEnabled())
 			logger.info("Size: " + list.size());

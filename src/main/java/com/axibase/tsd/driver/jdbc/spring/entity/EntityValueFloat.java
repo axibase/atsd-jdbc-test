@@ -1,10 +1,12 @@
 package com.axibase.tsd.driver.jdbc.spring.entity;
 
+import java.sql.Timestamp;
+
 public class EntityValueFloat extends Entity<Float> {
 	private static final long serialVersionUID = 2082760089730598828L;
 
-	public EntityValueFloat(String entity, Long time, Float value) {
-		super(entity, time, value);
+	public EntityValueFloat(String entity, Timestamp datetime, Float value) {
+		super(entity, datetime, value);
 	}
 
 	@Override

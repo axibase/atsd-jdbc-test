@@ -1,10 +1,12 @@
 package com.axibase.tsd.driver.jdbc.spring.entity;
 
+import java.sql.Timestamp;
+
 public class EntityValueShort extends Entity<Short> {
 	private static final long serialVersionUID = -7563334205049438473L;
 
-	public EntityValueShort(String entity, Long time, Short value) {
-		super(entity, time, value);
+	public EntityValueShort(String entity, Timestamp datetime, Short value) {
+		super(entity, datetime, value);
 	}
 
 	@Override

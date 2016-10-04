@@ -1,12 +1,13 @@
 package com.axibase.tsd.driver.jdbc.spring.entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class EntityValueDecimal extends Entity<BigDecimal> {
 	private static final long serialVersionUID = -2193339029893527586L;
 
-	public EntityValueDecimal(String entity, Long time, BigDecimal value) {
-		super(entity, time, value);
+	public EntityValueDecimal(String entity, Timestamp datetime, BigDecimal value) {
+		super(entity, datetime, value);
 	}
 
 	@Override

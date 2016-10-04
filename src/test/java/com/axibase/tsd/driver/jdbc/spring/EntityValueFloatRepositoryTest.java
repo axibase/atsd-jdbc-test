@@ -1,18 +1,9 @@
 package com.axibase.tsd.driver.jdbc.spring;
 
-import static org.junit.Assert.assertTrue;
-
-import java.sql.Connection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
+import com.axibase.tsd.driver.jdbc.TestProperties;
+import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueFloat;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.data.domain.Page;
@@ -24,15 +15,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import com.axibase.tsd.driver.jdbc.TestProperties;
-import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueDouble;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { AtsdRepositoryConfig.class })
-public class EntityValueDoubleRepositoryTest extends TestProperties {
+public class EntityValueFloatRepositoryTest extends TestProperties {
 
 	@Resource
-	private EntityValueDoubleRepository entityRepository;
+	private EntityValueFloatRepository entityRepository;
 
 	@Resource
 	private DataSource dataSource;
@@ -58,19 +55,18 @@ public class EntityValueDoubleRepositoryTest extends TestProperties {
 	}
 
 	@Test
-	@Ignore
 	public void testFindAll() {
 		final PageRequest page = new PageRequest(0, 1000, Direction.DESC, "time", "value");
-		final Page<EntityValueDouble> result = entityRepository.findAll(page);
-		List<EntityValueDouble> list = result.getContent();
+		final Page<EntityValueFloat> result = entityRepository.findAll(page);
+		List<EntityValueFloat> list = result.getContent();
 		final List<Map<String, Object>> map = jdbc.queryForList(
-				String.format("SELECT entity, time, value FROM %s ORDER BY time, value DESC LIMIT 1000", TINY_TABLE));
-		final Iterator<Map<String, Object>> iterator = map.iterator();
-		while (iterator.hasNext()) {
-			final Map<String, Object> next = iterator.next();
-			final EntityValueDouble evd = new EntityValueDouble((String) next.get("entity"), (Long) next.get("time"),
-					(Double) next.get("value"));
-			assertTrue(list.contains(evd));
+				String.format("SELECT entity, datetime, value FROM %s ORDER BY time, value DESC LIMIT 1000", TINY_TABLE));
+		for (Map<String, Object> next : map) {
+			final EntityValueFloat entityValueFloat = new EntityValueFloat(
+					(String) next.get("entity"),
+					(Timestamp) next.get("datetime"),
+					(Float) next.get("value"));
+			assertTrue(list.contains(entityValueFloat));
 		}
 	}
 

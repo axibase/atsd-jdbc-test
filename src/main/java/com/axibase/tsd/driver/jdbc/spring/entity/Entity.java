@@ -2,16 +2,18 @@ package com.axibase.tsd.driver.jdbc.spring.entity;
 
 import org.springframework.data.domain.Persistable;
 
+import java.sql.Timestamp;
+
 public class Entity<T extends Number> implements Persistable<T> {
 	private static final long serialVersionUID = 3165628205392048453L;
 	private String entity;
-	private Long time;
+	private Timestamp datetime;
 	private T value;
 	private String tags;
 
-	public Entity(String entity, Long time, T value) {
+	public Entity(String entity, Timestamp datetime, T value) {
 		this.entity = entity;
-		this.time = time;
+		this.datetime = datetime;
 		this.value = value;
 	}
 
@@ -29,8 +31,8 @@ public class Entity<T extends Number> implements Persistable<T> {
 		return entity;
 	}
 
-	public Long getTime() {
-		return time;
+	public Timestamp getDatetime() {
+		return datetime;
 	}
 
 	public T getValue() {
@@ -45,8 +47,8 @@ public class Entity<T extends Number> implements Persistable<T> {
 		this.entity = entity;
 	}
 
-	public void setTime(Long time) {
-		this.time = time;
+	public void setDatetime(Timestamp datetime) {
+		this.datetime = datetime;
 	}
 
 	public void setValue(T value) {
@@ -63,7 +65,7 @@ public class Entity<T extends Number> implements Persistable<T> {
 		int result = 1;
 		result = prime * result + ((entity == null) ? 0 : entity.hashCode());
 		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
-		result = prime * result + ((time == null) ? 0 : time.hashCode());
+		result = prime * result + ((datetime == null) ? 0 : datetime.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
@@ -87,10 +89,10 @@ public class Entity<T extends Number> implements Persistable<T> {
 				return false;
 		} else if (!tags.equals(other.tags))
 			return false;
-		if (time == null) {
-			if (other.time != null)
+		if (datetime == null) {
+			if (other.datetime != null)
 				return false;
-		} else if (!time.equals(other.time))
+		} else if (!datetime.equals(other.datetime))
 			return false;
 		if (value == null) {
 			if (other.value != null)
@@ -102,7 +104,7 @@ public class Entity<T extends Number> implements Persistable<T> {
 
 	@Override
 	public String toString() {
-		return "Entity [entity=" + entity + ", time=" + time + ", value=" + value + ", tags=" + tags + "]";
+		return "Entity [entity=" + entity + ", datetime=" + datetime + ", value=" + value + ", tags=" + tags + "]";
 	}
 
 }

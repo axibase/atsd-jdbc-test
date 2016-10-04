@@ -1,12 +1,11 @@
 package com.axibase.tsd.driver.jdbc.spring;
 
-import javax.sql.DataSource;
-
+import com.nurkiewicz.jdbcrepository.sql.SqlGenerator;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nurkiewicz.jdbcrepository.sql.SqlGenerator;
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 
 import static com.axibase.tsd.driver.jdbc.TestConstants.*;
 
@@ -43,9 +42,9 @@ public class AtsdRepositoryConfig {
 	}
 
 	@Bean
-	public EntityValueDoubleRepository entityRepository() {
+	public EntityValueFloatRepository entityRepository() {
 		final String table = System.getProperty("axibase.tsd.driver.jdbc.metric.tiny");
-		return new EntityValueDoubleRepository(table);
+		return new EntityValueFloatRepository(table);
 	}
 
 }

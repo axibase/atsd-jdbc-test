@@ -32,7 +32,7 @@ The following parameters may be specified to control test execution:
 
 Parameter | Supported Values | Example | Description
 ------------|-------------|------------|-----------
-output.redirect.allure | true or not set | -Doutput.redirect.allure=true | Redirect pre-test execution logging to allure attachment
+output.redirect.allure | true or not set | -Doutput.redirect.allure=true | Redirect per-test execution logging to allure attachment
 allure.link.issue.pattern | string with `{}` placeholder | -Dallure.link.issue.pattern=https://localhost/redmine/issues/{} | Pattern for generating links to bugtracking system
 insert.wait | integral number | -Dinsert.wait=5000 | waiting timeout in ms between insert and subsequent select statement 
 

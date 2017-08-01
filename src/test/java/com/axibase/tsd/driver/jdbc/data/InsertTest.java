@@ -89,22 +89,22 @@ public class InsertTest extends DriverTestBase {
 		Assert.assertEquals(currentTime, (long) last.get(TIME));
 		Assert.assertEquals(DEFAULT_VALUE, (Double) last.get(VALUE), 0.001);
 		Assert.assertNull(last.get(TAGS));
-    }
+	}
 
-    @Test
+	@Test
 	public void testStatementBatch() throws SQLException {
-        final String entityName = buildVariableName(ENTITY);
-        final String metricName = buildVariableName(METRIC);
-        final String pattern1 = "INSERT INTO '{}' (time, entity, value, entity.tags, metric.tags) VALUES ({},'{}',{},{},{})";
+		final String entityName = buildVariableName(ENTITY);
+		final String metricName = buildVariableName(METRIC);
+		final String pattern1 = "INSERT INTO '{}' (time, entity, value, entity.tags, metric.tags) VALUES ({},'{}',{},{},{})";
 		final String pattern2 = "INSERT INTO atsd_series (metric, time, entity, value, entity.tags, metric.tags) VALUES ('{}',{},'{}',{},{},{})";
-        try (Statement stmt = connection.createStatement()) {
-            stmt.addBatch(format(pattern1, metricName, currentTime + 1, entityName, DEFAULT_VALUE + 1, null, "'test1=value1'"));
-            stmt.addBatch(format(pattern1, metricName, currentTime + 2, entityName, DEFAULT_VALUE + 2, "'test1=value1'", null));
-            stmt.addBatch(format(pattern2, metricName, currentTime + 3, entityName, DEFAULT_VALUE + 3, null, null));
-            stmt.addBatch(format(pattern2, metricName, currentTime + 4, entityName, DEFAULT_VALUE + 4, "'test1=value1'", "'test1=value1'"));
-            int[] res = stmt.executeBatch();
-            Assert.assertArrayEquals(new int[] {2,2,1,3}, res);
-        }
+		try (Statement stmt = connection.createStatement()) {
+			stmt.addBatch(format(pattern1, metricName, currentTime + 1, entityName, DEFAULT_VALUE + 1, null, "'test1=value1'"));
+			stmt.addBatch(format(pattern1, metricName, currentTime + 2, entityName, DEFAULT_VALUE + 2, "'test1=value1'", null));
+			stmt.addBatch(format(pattern2, metricName, currentTime + 3, entityName, DEFAULT_VALUE + 3, null, null));
+			stmt.addBatch(format(pattern2, metricName, currentTime + 4, entityName, DEFAULT_VALUE + 4, "'test1=value1'", "'test1=value1'"));
+			int[] res = stmt.executeBatch();
+			Assert.assertArrayEquals(new int[] {2,2,1,3}, res);
+		}
 	}
 
 	@Test

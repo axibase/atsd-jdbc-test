@@ -42,6 +42,7 @@
 		<aspectj.version>1.8.10</aspectj.version>
 		<jackson.version>2.9.0</jackson.version>
 		<locale>en_US</locale>
+		<allure.results.directory>allure-results</allure.results.directory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
@@ -181,6 +182,10 @@
 						<property>
 							<name>axibase.tsd.driver.jdbc.strategy</name>
 							<value>${axibase.tsd.driver.jdbc.strategy}</value>
+						</property>
+						<property>
+							<name>allure.results.directory</name>
+							<value>target/${allure.results.directory}</value>
 						</property>
 					</systemProperties>
 

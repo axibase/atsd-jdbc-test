@@ -24,6 +24,22 @@ $ mvn clean test -Doutput.redirect.allure=true
 $ mvn allure:report jetty:run -Djetty.port=1234
 ```
 
+![](images/allure_fullscreen.png)
+
+## Exposed parameters
+
+The following parameters may be specified to control test execution:
+
+Parameter | Supported Values | Example | Description
+------------|-------------|------------|-----------
+output.redirect.allure | true or not set | -Doutput.redirect.allure=true | Redirect per-test execution logging to allure attachment
+allure.link.issue.pattern | string with `{}` placeholder | -Dallure.link.issue.pattern=https://localhost/redmine/issues/{} | Pattern for generating links to bugtracking system
+insert.wait | integral number | -Dinsert.wait=5000 | waiting timeout in ms between insert and subsequent select statement 
+
+## Custom JUnit Rules
+* `OutputLogsToAllure(boolean enable)` -- redirect logging to allure attachments
+* `SkipTestOnCondition` -- allows to skip test if required system variable is not set. Tests with required variables should be annotated with the `ExecuteWhenSysVariableSet` annotation which has a string parameter -- required system variable. This annotation is repeatable.
+
 To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. You need to fill the file `src/test/resources/dev.properties` with your metrics. The following properties are mandatory: 
 
 ```

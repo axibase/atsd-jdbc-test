@@ -41,6 +41,7 @@
 		<allure.version>2.0-BETA16</allure.version>
 		<aspectj.version>1.8.10</aspectj.version>
 		<jackson.version>2.9.0</jackson.version>
+		<hamcrest.version>1.3</hamcrest.version>
 		<locale>en_US</locale>
 		<allure.results.directory>allure-results</allure.results.directory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -111,7 +112,7 @@
 						</goals>
 						<configuration>
 							<files>
-								<file>${build.testOutputDirectory}/dev.properties</file>
+								<file>${project.build.testOutputDirectory}/dev.properties</file>
 							</files>
 						</configuration>
 					</execution>
@@ -122,6 +123,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20</version>
 				<configuration>
+					<testFailureIgnore>false</testFailureIgnore>
 					<useSystemClassLoader>true</useSystemClassLoader>
 					<printSummary>true</printSummary>
 					<forkCount>1</forkCount>
@@ -187,6 +189,10 @@
 							<name>allure.results.directory</name>
 							<value>target/${allure.results.directory}</value>
 						</property>
+						<property>
+							<name>allure.link.issue.pattern</name>
+							<value>${allure.link.issue.pattern}</value>
+						</property>
 					</systemProperties>
 
 					<testFailureIgnore>false</testFailureIgnore>
@@ -219,9 +225,6 @@
 				<version>2.8</version>
 				<configuration>
 					<reportVersion>2.3.1</reportVersion>
-					<properties>
-						<allure.issues.tracker.pattern>${issues.tracker.pattern}</allure.issues.tracker.pattern>
-					</properties>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -298,7 +301,13 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-core</artifactId>
-			<version>1.3</version>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>${hamcrest.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

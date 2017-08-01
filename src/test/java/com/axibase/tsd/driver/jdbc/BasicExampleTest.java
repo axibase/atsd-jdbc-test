@@ -1,29 +1,21 @@
 package com.axibase.tsd.driver.jdbc;
 
-import java.sql.*;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class BasicExampleTest extends TestProperties {
+import java.sql.*;
 
-	@Before
-	public void setUp() throws Exception {
-	}
+import static util.TestProperties.*;
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	 @Test
+public class BasicExampleTest extends DriverTestBase {
+	@Test
 	public void testData() throws ClassNotFoundException, SQLException {
 		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
 		String query = "SELECT entity, datetime, value, tags.mount_point, tags.file_system "
 				+ "FROM df.disk_used_percent WHERE entity = 'NURSWGHBS001' AND datetime > now - 1 * HOUR LIMIT 10";
-		try (Connection connection = DriverManager.getConnection(JDBC_ATDS_URL, LOGIN_NAME, LOGIN_PASSWORD);
-				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery(query);) {
+		try (Connection connection = DriverManager.getConnection(DEFAULT_JDBC_ATSD_URL, LOGIN_NAME, LOGIN_PASSWORD);
+			 Statement statement = connection.createStatement();
+			 ResultSet resultSet = statement.executeQuery(query)) {
+
 			int rowNumber = 1;
 			while (resultSet.next()) {
 				System.out.print(rowNumber++);
@@ -43,13 +35,8 @@ public class BasicExampleTest extends TestProperties {
 	@Test
 	public void testMetadata() throws ClassNotFoundException, SQLException {
 		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
-		String username = System.getProperty("axibase.tsd.driver.jdbc.username");
-		String password = System.getProperty("axibase.tsd.driver.jdbc.password");
-		String hostUrl = System.getProperty("axibase.tsd.driver.jdbc.url");
-		String sqlUrl = "jdbc:axibase:atsd:" + hostUrl + ";trustServerCertificate=true";
-
-		try (Connection connection = DriverManager.getConnection(sqlUrl, username, password)) {
-
+		String sqlUrl = "jdbc:atsd://" + HTTP_ATSD_URL;
+    try (Connection connection = DriverManager.getConnection(sqlUrl, LOGIN_NAME, LOGIN_PASSWORD)) {
 			DatabaseMetaData metaData = connection.getMetaData();
 			String databaseProductName = metaData.getDatabaseProductName();
 			String databaseProductVersion = metaData.getDatabaseProductVersion();

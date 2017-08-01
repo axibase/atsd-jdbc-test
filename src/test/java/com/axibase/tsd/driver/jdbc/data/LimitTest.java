@@ -51,6 +51,7 @@ public class LimitTest extends DriverTestBase {
     }
 
     @Test
+    @ExecuteWhenSysVariableSet(TINY_TABLE_KEY)
     @UseDataProvider("dataQueryLimitMaxRowsResult")
     public void testPreparedStatementLimit(Integer maxRows, Integer queryLimit, long expectedResultsetSize) throws SQLException, AtsdException {
         StringBuilder sql = new StringBuilder(SELECT_ALL_CLAUSE).append(TINY_TABLE);

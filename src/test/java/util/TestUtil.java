@@ -83,7 +83,7 @@ public class TestUtil {
     }
 
     public static Map<String, Object> getLastInserted(Connection connection, String sql) throws SQLException, InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(TestProperties.INSERT_WAIT);
         try(PreparedStatement stmt = connection.prepareStatement(sql)) {
             try(ResultSet rs = stmt.executeQuery()) {
                 ResultSetMetaData rsmd = rs.getMetaData();

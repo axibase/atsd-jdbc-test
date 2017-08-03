@@ -32,13 +32,17 @@ $ mvn allure:report jetty:run -Djetty.port=1234
 
 ## Exposed parameters
 
-The following parameters may be specified to control test execution:
+The following parameters may be specified on test execution, for example:
 
-Parameter | Supported Values | Example | Description
+```
+mvn clean test -Dinsert.wait=500
+```
+
+Parameter | Supported Values | Example Value | Description
 ------------|-------------|------------|-----------
-output.redirect.allure | true or not set | -Doutput.redirect.allure=true | Redirect per-test execution logging to allure attachment
-allure.link.issue.pattern | string with `{}` placeholder | -Dallure.link.issue.pattern=https://localhost/redmine/issues/{} | Pattern for generating links to bugtracking system
-insert.wait | integral number | -Dinsert.wait=5000 | waiting timeout in ms between insert and subsequent select statement 
+output.redirect.allure | true or not set | true | Redirect per-test execution logging to allure attachment
+allure.link.issue.pattern | string with `{}` placeholder | https://localhost/redmine/issues/{} | Pattern for generating links to bugtracking system
+insert.wait | integral number, default is 1000 | 5000 | waiting timeout in ms between insert and subsequent select statement 
 
 To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. You need to fill the file `src/test/resources/dev.properties` with your metrics. The following properties are mandatory: 
 

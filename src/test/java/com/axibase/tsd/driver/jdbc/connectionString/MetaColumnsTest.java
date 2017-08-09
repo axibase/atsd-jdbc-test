@@ -67,7 +67,7 @@ public class MetaColumnsTest extends DriverTestBase {
     }
 
     @Test
-    @DisplayName("Test that meta columns are exposed in getColumns and table remarks if metaColumns=false")
+    @DisplayName("Test that meta columns are exposed in getColumns and table remarks if metaColumns=true")
     public void testMetaColumnsTrue() throws SQLException {
         final String connectString = getConnectStringWithMetaColumnsValue("true");
         final String expectedRemarks = "SELECT time, datetime, value, text, metric, entity, tags, " +

@@ -15,35 +15,36 @@ import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static util.TestProperties.*;
 
 @Slf4j
+@Issue("4291")
 public class TablesTest extends DriverTestBase {
     @Rule
     public final OutputLogsToAllure outputLogsToAllure = new OutputLogsToAllure(REDIRECT_OUTPUT_TO_ALLURE);
 
     @Step("Retrieve tables using DatabaseMetadata#getTables method")
-    private Set<String> testGetTablesSet(String connectionString, DatabaseMetaData metaData, Matcher<Integer> sizeMatcher, Matcher<Iterable<? extends String>> tablesMatcher) throws SQLException {
+    private Set<String> testGetTablesSet(String connectionString, DatabaseMetaData metaData, Matcher<Integer> sizeMatcher, Matcher<Iterable<? super String>> tablesMatcher) throws SQLException {
         log.info("Connection String: {}", connectionString);
-        final Set<String> getTablesSet = getTablesSet(metaData.getTables(null, null, null, null));
-        assertThat(getTablesSet, hasSize(sizeMatcher));
-        assertThat(getTablesSet, tablesMatcher);
-        log.info("Number of tables: {}", getTablesSet.size());
-        return getTablesSet;
+        final Set<String> tables = getTablesSet(metaData.getTables(null, null, null, null));
+        assertThat(tables, hasSize(sizeMatcher));
+        assertThat(tables, tablesMatcher);
+        log.info("Number of tables: {}", tables.size());
+        log.info("Tables: {}", tables);
+        return tables;
     }
 
     @Step("Retrieve tables using DatabaseMetadata#getColumns method")
-    private Set<String> testGetColumnsSet(DatabaseMetaData metaData, Matcher<Integer> sizeMatcher, Matcher<Iterable<? extends String>> tablesMatcher, String connectionString) throws SQLException {
+    private Set<String> testGetColumnsSet(DatabaseMetaData metaData, Matcher<Integer> sizeMatcher, Matcher<Iterable<? super String>> tablesMatcher, String connectionString) throws SQLException {
         log.info("Connection String: {}", connectionString);
-        final Set<String> getColumnsSet = getTablesSet(metaData.getColumns(null, null, null, null));
-        assertThat(getColumnsSet, hasSize(sizeMatcher));
-        assertThat(getColumnsSet, tablesMatcher);
-        log.info("Number of tables: {}", getColumnsSet.size());
-        return getColumnsSet;
+        final Set<String> tables = getTablesSet(metaData.getColumns(null, null, null, null));
+        assertThat(tables, hasSize(sizeMatcher));
+        assertThat(tables, tablesMatcher);
+        log.info("Number of tables: {}", tables.size());
+        log.info("Tables: {}", tables);
+        return tables;
     }
 
     @Step("Test that getTables and getColumns contain same values")
@@ -52,7 +53,7 @@ public class TablesTest extends DriverTestBase {
         assertThat(getColumnsSet, hasSize(getTablesSet.size()));
     }
 
-    private void getTablesGetColumnsCompare(String connectionString, Matcher<Integer> sizeMatcher, Matcher<Iterable<? extends String>> tablesMatcher) throws SQLException {
+    private void getTablesGetColumnsCompare(String connectionString, Matcher<Integer> sizeMatcher, Matcher<Iterable<? super String>> tablesMatcher) throws SQLException {
         try (final Connection connection = DriverManager.getConnection(connectionString, LOGIN_NAME, LOGIN_PASSWORD)) {
             final DatabaseMetaData metaData = connection.getMetaData();
             final Set<String> tablesFromTables = testGetTablesSet(connectionString, metaData, sizeMatcher, tablesMatcher);
@@ -62,9 +63,9 @@ public class TablesTest extends DriverTestBase {
     }
 
     @Test
-    @DisplayName("Test that all metrics are represented as tables by default")
+    @DisplayName("Test that all metrics are represented as tables by default, including 'atsd_series'")
     public void testDefaultValue() throws SQLException {
-        getTablesGetColumnsCompare(DEFAULT_JDBC_ATSD_URL, greaterThan(0), not(contains("atsd_series")));
+        getTablesGetColumnsCompare(DEFAULT_JDBC_ATSD_URL, greaterThan(0), hasItem("atsd_series"));
     }
 
     @Test
@@ -72,14 +73,14 @@ public class TablesTest extends DriverTestBase {
     @DisplayName("Test that 'match all' wildcard allows to represent all metrics as tables together with 'atsd_series'")
     public void testAllMetrics() throws SQLException {
         final String connectionString = getConnectStringWithTables("*");
-        getTablesGetColumnsCompare(connectionString, greaterThan(1), contains("atsd_series"));
+        getTablesGetColumnsCompare(connectionString, greaterThan(1), hasItem("atsd_series"));
     }
 
     @Test
     @DisplayName("Test that atsd_series can be resolved from string")
     public void testAtsdSeriesRaw() throws SQLException {
         final String connectionString = getConnectStringWithTables("atsd_series");
-        getTablesGetColumnsCompare(connectionString, equalTo(1), contains("atsd_series"));
+        getTablesGetColumnsCompare(connectionString, equalTo(1), hasItem("atsd_series"));
     }
 
     @Test
@@ -87,14 +88,14 @@ public class TablesTest extends DriverTestBase {
     @DisplayName("Test that atsd_series can be resolved from wildcard")
     public void testAtsdSeriesWildcard() throws SQLException {
         final String connectionString = getConnectStringWithTables("atsd?series");
-        getTablesGetColumnsCompare(connectionString, equalTo(1), contains("atsd_series"));
+        getTablesGetColumnsCompare(connectionString, equalTo(1), hasItem("atsd_series"));
     }
 
     @Test
     @DisplayName("Test that explicitly specified non-existent metrics are added to list of tables")
     public void testNonExistentMetricsShownOnGetTables() throws SQLException {
         final String connectionString = getConnectStringWithTables("tablestest_nonexistent_metric");
-        getTablesGetColumnsCompare(connectionString, equalTo(1), contains("tablestest_nonexistent_metric"));
+        getTablesGetColumnsCompare(connectionString, equalTo(1), hasItem("tablestest_nonexistent_metric"));
     }
 
     private static Set<String> getTablesSet(ResultSet tablesResultSet) throws SQLException {

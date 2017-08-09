@@ -50,14 +50,14 @@ public class ExpandTagsTest extends DriverTestBase {
     }
 
     @Test
-    @DisplayName("Test that tags are expanded as additional columns")
+    @DisplayName("Test that tags are expanded as additional columns if expandTags=true")
     public void testExpandTagsTrue() throws SQLException {
         final String connectionString = getConnectStringWithExpandTagsValue("true");
         checkColumns(connectionString, both(hasItems(AVAILABLE_TAGS)).and(hasItem(TAGS_COLUMN)));
     }
 
     @Test
-    @DisplayName("Test that only tags column is exposed")
+    @DisplayName("Test that only tags column is exposed if expandTags=false")
     public void testExpandTagsFalse() throws SQLException {
         final String connectionString = getConnectStringWithExpandTagsValue("false");
         checkColumns(connectionString, both(not(hasItems(AVAILABLE_TAGS))).and(hasItem(TAGS_COLUMN)));

@@ -43,7 +43,7 @@ echo "	axibase.tsd.driver.jdbc.url=localhost:${array[0]}
 		axibase.tsd.driver.jdbc.metric.wrong=hgashjfgajhfg
 
 		#axibase.tsd.driver.jdbc.metric.small=
-		#axibase.tsd.driver.jdbc.metric.medium=jvm_memory_used
+		#axibase.tsd.driver.jdbc.metric.medium=
 		#axibase.tsd.driver.jdbc.metric.huge=
 		#axibase.tsd.driver.jdbc.metric.jumbo=
 		#axibase.tsd.driver.jdbc.metric.concurrent=" > ${PROPS}
@@ -61,19 +61,3 @@ while true;
   		fi
 	ans="`echo ping|nc ${IP} ${array[1]} 2>/dev/null`"
 done
-
-#mvn test
-#
-#docker rm -fv jdbc_test
-#docker rmi atsd:jdbc-test
-
-
-#beforre_install:
-#  - sudo apt-get update -qq
-#  - sudo apt-get install -qq maven
-#install: ./run_test.sh
-#script:
-#  - mvn test -B
-#after_script:
-#  - docker rm -fv jdbc_test
-#  - docker rmi atsd:jdbc-test

@@ -5,7 +5,6 @@ SCRIPTS_HOME="`dirname $SCRIPT`"
 DOCKERFILE="${SCRIPTS_HOME}/src/test/resources/Dockerfile/"
 PROPS="${SCRIPTS_HOME}/src/test/resources/dev.properties"
 
-IP=127.0.0.1
 array=()
 
 function scanner
@@ -65,5 +64,5 @@ while true;
 			logger "Ping is ok"
   		break
   		fi
-	ans="`echo ping|nc ${IP} ${array[1]} 2>/dev/null`"
+	ans="`echo ping|nc 127.0.0.1 ${array[1]} 2>/dev/null`"
 done

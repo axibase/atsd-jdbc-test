@@ -4,7 +4,8 @@ sudo: required
 services:
   - docker
 install: ./run_test.sh
-script: mvn test -B
+script:
+  - mvn test -B
 after_script:
   - docker rm -fv jdbc_test
   - docker rmi atsd:jdbc-test

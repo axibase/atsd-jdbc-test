@@ -75,7 +75,7 @@ public class MetaColumnsTest extends DriverTestBase {
                 "metric.dataType, metric.description, metric.enabled, metric.filter, metric.interpolate, " +
                 "metric.invalidValueAction, metric.label, metric.lastInsertTime, metric.maxValue, metric.minValue, " +
                 "metric.name, metric.persistent, metric.retentionIntervalDays, metric.tags, metric.timePrecision, " +
-                "metric.timeZone, metric.versioning, metric.units FROM '" + TABLE + "' LIMIT 1";
+                "metric.timeZone, metric.versioning, metric.units FROM \"" + TABLE + "\" LIMIT 1";
         metaColumnsTestScenario(connectString, hasItems(META_COLUMNS), expectedRemarks);
     }
 
@@ -83,14 +83,14 @@ public class MetaColumnsTest extends DriverTestBase {
     @DisplayName("Test that meta columns are not exposed in getColumns and table remarks if metaColumns=false")
     public void testMetaColumnsFalse() throws SQLException {
         final String connectString = getConnectStringWithMetaColumnsValue("false");
-        final String expectedRemarks = "SELECT time, datetime, value, text, metric, entity, tags FROM '" + TABLE + "' LIMIT 1";
+        final String expectedRemarks = "SELECT time, datetime, value, text, metric, entity, tags FROM \"" + TABLE + "\" LIMIT 1";
         metaColumnsTestScenario(connectString, not(hasItems(META_COLUMNS)), expectedRemarks);
     }
 
     @Test
     @DisplayName("Test that meta columns are hidden by default")
     public void testMetaColumnsDefault() throws SQLException {
-        final String expectedRemarks = "SELECT time, datetime, value, text, metric, entity, tags FROM '" + TABLE + "' LIMIT 1";
+        final String expectedRemarks = "SELECT time, datetime, value, text, metric, entity, tags FROM \"" + TABLE + "\" LIMIT 1";
         metaColumnsTestScenario(DEFAULT_JDBC_ATSD_URL, not(hasItems(META_COLUMNS)), expectedRemarks);
     }
 

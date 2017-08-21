@@ -26,7 +26,7 @@ import static util.TestProperties.*;
 @Issue("4291")
 public class ExpandTagsTest extends DriverTestBase {
     private static final String METRIC_WITH_TAGS = "java_method_invoke_average";
-    private static final String[] AVAILABLE_TAGS = {"tags.'host'", "tags.'name'"};
+    private static final String[] AVAILABLE_TAGS = {"tags.\"host\"", "tags.\"name\""};
     private static final String TAGS_COLUMN = "tags";
 
     @Rule

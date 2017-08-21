@@ -1,14 +1,7 @@
-language: bash
+language: java
 dist: trusty
 sudo: required
 services:
   - docker
-beforre_install:
-  - sudo apt-get install maven
-install: ./run_test.sh
-script:
-  - mvn test -B
-after_script:
-  - docker rm -fv jdbc_test
-  - docker rmi atsd:jdbc-test
+script: ./run_test.sh
 

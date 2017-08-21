@@ -28,8 +28,14 @@ for ((port=$first_port; port<=$last_port; port++))
 
 docker build --no-cache=true -t atsd:jdbc-test ${DOCKERFILE}
 
-#Looking for free ports
-scanner
+#Looking for free ports if there is no parameters
+if [ -z "$1" ] || [ -z "$2" ]; then
+	scanner
+else
+    array[0]="$1"
+    array[1]="$2"
+fi
+
 
 #Customize src/test/resources/dev.properties, the first five properties are mandatory
 echo "	axibase.tsd.driver.jdbc.url=localhost:${array[0]}
@@ -55,7 +61,7 @@ echo "Waiting for ATSD starts..."
 ans=""
 while true; 
 	do 
-		if [[ "$ans" != "" ]]; then
+		if [ -n "$ans" ]; then
 			logger "Ping is ok"
   		break
   		fi

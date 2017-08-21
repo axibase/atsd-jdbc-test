@@ -23,7 +23,7 @@ for item in ${ports[*]}
 do 
 	while true; 
 	do 
-		if [[ "$ans" != "" ]]; then
+		if [ -n "$ans" ]; then
 		sleep 6
   		logger "Port $item is ok"
   		break

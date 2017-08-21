@@ -8,14 +8,13 @@ PROPS="${SCRIPTS_HOME}/src/test/resources/dev.properties"
 IP=127.0.0.1
 array=()
 
-docker build --no-cache=true -t atsd:jdbc-test ${DOCKERFILE}
 function scanner
 {
 first_port=1025
 last_port=65535
 j=0
 for ((port=$first_port; port<=$last_port; port++))
-        do            
+        do
 		(echo >/dev/tcp/$IP/$port)> /dev/null 2>&1
 		if [ $? -eq 1 ]; then
     		array[j]=$port
@@ -27,15 +26,20 @@ for ((port=$first_port; port<=$last_port; port++))
         done
 }
 
+docker build --no-cache=true -t atsd:jdbc-test ${DOCKERFILE}
+
+#Looking for free ports
 scanner
 
+#Customize src/test/resources/dev.properties, the first five properties are mandatory
 echo "	axibase.tsd.driver.jdbc.url=localhost:${array[0]}
 		axibase.tsd.driver.jdbc.username=axibase
 		axibase.tsd.driver.jdbc.password=axibase
-		axibase.tsd.driver.jdbc.strategy=stream
 		axibase.tsd.driver.jdbc.metric.tiny.count=100
 		axibase.tsd.driver.jdbc.metric.tiny=m_small
+
 		axibase.tsd.driver.jdbc.metric.large=m_large
+		axibase.tsd.driver.jdbc.strategy=stream
 		axibase.tsd.driver.jdbc.metric.wrong=hgashjfgajhfg
 
 		#axibase.tsd.driver.jdbc.metric.small=
@@ -45,6 +49,8 @@ echo "	axibase.tsd.driver.jdbc.url=localhost:${array[0]}
 		#axibase.tsd.driver.jdbc.metric.concurrent=" > ${PROPS}
 
 docker run -d --name=jdbc_test --publish ${array[0]}:8443 --publish ${array[1]}:8081 atsd:jdbc-test
+
+echo "Waiting for ATSD starts..."
 
 ans=""
 while true; 

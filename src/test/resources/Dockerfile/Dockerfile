@@ -18,8 +18,10 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv-keys 26AEE425A5796
   && echo "deb [arch=amd64] http://axibase.com/public/repository/deb/ ./" >> /etc/apt/sources.list \
   && apt-get update && apt-get install --no-install-recommends -y atsd && rm -rf /var/lib/apt/lists/*; 
 
-#scripts which insert into ATSD required data
+#script creates ATSD instance and inserts required data
 ADD ATSD_fill.sh /
+
+#files with series commands
 ADD m_small /
 ADD m_large /
 

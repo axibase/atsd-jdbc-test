@@ -1,4 +1,6 @@
-function logger {    
+#!/usr/bin/env bash
+
+function logger {
     echo " * [FILL] $1" 
 }
 

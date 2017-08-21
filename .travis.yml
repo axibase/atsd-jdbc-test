@@ -3,4 +3,8 @@ dist: trusty
 sudo: required
 services:
   - docker
-script: ./run_test.sh
+install: ./run_test.sh
+after_script:
+  - docker rm -fv jdbc_test
+  - docker rmi atsd:jdbc-test
+

@@ -16,7 +16,7 @@ logger "Creating ATSD instance..."
 /opt/atsd/bin/entrypoint.sh &
 
 
-logger "Waiting ATSD starts..."
+logger "Waiting ATSD start..."
 ans=""
 ports=(8081 8082 8088 8443)
 for item in ${ports[*]}

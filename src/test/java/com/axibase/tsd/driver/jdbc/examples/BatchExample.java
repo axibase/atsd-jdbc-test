@@ -20,11 +20,11 @@ import static util.TestProperties.LOGIN_PASSWORD;
 
 @Slf4j
 public class BatchExample {
-    private static final String QUERY = "INSERT INTO \"user-dirs-size\" (entity, time, value, tags.file) VALUES (?,?,?,?)";
+    private static final String QUERY = "INSERT INTO \"user-dirs-size\" (entity, time, value, tags.directory) VALUES (?,?,?,?)";
 
     @Test
     public void testGenerateUserDirsBatch() throws Exception {
-        try (final Connection connection = DriverManager.getConnection("jdbc:atsd://localhost:8443;timestamptz=true", LOGIN_NAME, LOGIN_PASSWORD)) {
+        try (final Connection connection = DriverManager.getConnection("jdbc:atsd://localhost:8443", LOGIN_NAME, LOGIN_PASSWORD)) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY);
 
             final long now = System.currentTimeMillis();

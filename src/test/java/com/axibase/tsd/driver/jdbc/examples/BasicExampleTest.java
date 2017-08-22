@@ -1,5 +1,6 @@
-package com.axibase.tsd.driver.jdbc;
+package com.axibase.tsd.driver.jdbc.examples;
 
+import com.axibase.tsd.driver.jdbc.DriverTestBase;
 import org.junit.Test;
 
 import java.sql.*;

@@ -16,7 +16,7 @@ import static util.TestProperties.*;
 
 @Issue("4343")
 public class AssignColumnNamesTest extends DriverTestBase {
-    private static final String QUERY = "SELECT 'name' AS 'label'";
+    private static final String QUERY = "SELECT 'name' AS \"label\"";
 
     @Rule
     public OutputLogsToAllure outputLogsToAllure = new OutputLogsToAllure(REDIRECT_OUTPUT_TO_ALLURE);

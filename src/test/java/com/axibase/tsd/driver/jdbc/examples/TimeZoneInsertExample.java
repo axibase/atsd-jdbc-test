@@ -38,7 +38,7 @@ public class TimeZoneInsertExample {
 
     @Test
     public void testTimeZones() throws SQLException {
-        System.out.println(originalTimeZone);
+        System.out.println(TimeZone.getDefault());
         final String timestampStr = "2017-08-22 00:00:00";
 
         try (final Connection connection = DriverManager.getConnection("jdbc:atsd://localhost:8443;timestamptz=true", LOGIN_NAME, LOGIN_PASSWORD)) {

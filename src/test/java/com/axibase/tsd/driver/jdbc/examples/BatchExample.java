@@ -44,7 +44,7 @@ public class BatchExample {
                     }
                 }
                 final int[] updateCount = preparedStatement.executeBatch();
-                final int totalCount = IntStream.of(updateCount).reduce(Integer::sum).orElse(0);
+                final int totalCount = IntStream.of(updateCount).sum();
                 System.out.println("Updated: " + totalCount);
                 assertThat(totalCount, greaterThan(0));
             }

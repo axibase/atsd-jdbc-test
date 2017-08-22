@@ -68,5 +68,6 @@ while true;
 	ans="`echo ping|nc 127.0.0.1 ${array[1]} 2>/dev/null`"
 done
 
+#mvn clean test -B
 #docker rm -fv jdbc_test
 #docker rmi atsd:jdbc-test

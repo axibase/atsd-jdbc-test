@@ -3,7 +3,7 @@ dist: trusty
 sudo: required
 services:
   - docker
-install: ./run_test.sh 8443 8081
+install: ./run_atsd_container.sh "-p8443:8443 -p8081:8081"
 script:
   - mvn test -B
 

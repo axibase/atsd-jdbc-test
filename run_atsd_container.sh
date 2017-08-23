@@ -40,9 +40,9 @@ while true;
 	do
 		if [ -n "$ans" ]; then
 			echo -e "\nPing is ok"
-  		break
+  		    break
   		fi
-    sleep 6
+    sleep 3
 	ans=$(echo ping|nc ${HOST_NAME} ${TCP_PORT})
 	echo -n "."
 done

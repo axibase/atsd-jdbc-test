@@ -10,7 +10,6 @@ docker build --no-cache=true -t atsd:jdbc-test ${DOCKERFILE}
 
 timestamp="$(date +%s%N | cut -b1-13)"
 
-echo "Specified ports are ${1}"
 docker run -d --name=jdbc_test_${timestamp} ${1} atsd:jdbc-test
 
 TCP_PORT=$(docker port jdbc_test_${timestamp} 8081| cut -d ":" -f2)

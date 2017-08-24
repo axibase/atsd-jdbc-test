@@ -23,6 +23,6 @@ while true;
   		    break
   		fi
     sleep 3
-	ans=$(echo ping|netcat ${HOST_NAME} ${TCP_PORT})
+	ans=$(echo ping|nc ${HOST_NAME} ${TCP_PORT})
 	echo -n "."
 done

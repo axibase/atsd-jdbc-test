@@ -23,6 +23,6 @@ while true;
   		    break
   		fi
     sleep 3
-	ans=$(echo ping|nc localhost ${TCP_PORT})
+	ans=$(echo ping|nc 127.0.0.1 ${TCP_PORT})
 	echo -n "."
 done

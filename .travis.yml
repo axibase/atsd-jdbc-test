@@ -3,7 +3,10 @@ dist: trusty
 sudo: required
 services:
   - docker
-install: apt-get update && apt-get install --assume-yes netcat-openbsd && ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13)
+before-install:
+  - apt-get -qq update
+  - apt-get install -y netcat-openbsd
+install: ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13)
 script:
   - mvn test -B
 

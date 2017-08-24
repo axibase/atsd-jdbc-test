@@ -3,7 +3,7 @@
 SCRIPT=$(readlink -f $0)
 SCRIPTS_HOME="$(dirname ${SCRIPT})"
 DOCKERFILE="${SCRIPTS_HOME}/docker/"
-HOST_NAME=$(cat /proc/sys/kernel/hostname)
+#HOST_NAME=$(cat /proc/sys/kernel/hostname)
 DOCKER_PORTS=${1}
 CONTAINER_NAME=${2}
 
@@ -23,6 +23,6 @@ while true;
   		    break
   		fi
     sleep 3
-	ans=$(echo ping|nc ${HOST_NAME} ${TCP_PORT})
+	ans=$(echo ping|nc localhost ${TCP_PORT})
 	echo -n "."
 done

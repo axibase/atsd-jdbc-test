@@ -5,15 +5,15 @@ SCRIPTS_HOME="$(dirname ${SCRIPT})"
 DOCKERFILE="${SCRIPTS_HOME}/docker/"
 PROPS="${SCRIPTS_HOME}/src/test/resources/dev.properties"
 HOST_NAME=$(cat /proc/sys/kernel/hostname)
+DOCKER_PORTS=${1}
+CONTAINER_NAME=${2}
 
-docker build --no-cache=true -t atsd:jdbc-test ${DOCKERFILE}
+docker build --no-cache=true -t atsd:${CONTAINER_NAME} ${DOCKERFILE}
 
-timestamp="$(date +%s%N | cut -b1-13)"
+docker run -d --name=${CONTAINER_NAME} ${DOCKER_PORTS} atsd:${CONTAINER_NAME}
 
-docker run -d --name=jdbc_test_${timestamp} ${1} atsd:jdbc-test
-
-TCP_PORT=$(docker port jdbc_test_${timestamp} 8081| cut -d ":" -f2)
-HTTPS_PORT=$(docker port jdbc_test_${timestamp} 8443| cut -d ":" -f2)
+TCP_PORT=$(docker port ${CONTAINER_NAME} 8081| cut -d ":" -f2)
+HTTPS_PORT=$(docker port ${CONTAINER_NAME} 8443| cut -d ":" -f2)
    
 echo "HTTPS port is ${HTTPS_PORT}, TCP port is ${TCP_PORT}"
 
@@ -46,5 +46,3 @@ while true;
 	ans=$(echo ping|nc ${HOST_NAME} ${TCP_PORT})
 	echo -n "."
 done
-
-

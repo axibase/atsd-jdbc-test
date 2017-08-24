@@ -1,8 +1,8 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/57b45deaf0b3bb00487de3a7/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57b45deaf0b3bb00487de3a7)
 # Integration tests for JDBC driver
 
-- [Run tests with local ATSD](#run_tests_with_local_atsd)
-- [Run tests with ATSD in a Docker container](#run_tests_with_atsd_in_a_docker_container)
+- [Run tests with local ATSD](#run-tests-with-local-atsd)
+- [Run tests with ATSD in a Docker container](#run-tests-with-atsd-in-a-docker-container)
 ## Requirements
 
 * Java 1.8
@@ -23,9 +23,9 @@ axibase.tsd.driver.jdbc.metric.tiny.count=<TEST_METRIC_EXPECTED_RECORDS>
 ```
 See also:
 
-* [Custom JUnit Rules](#custom_junit_rules)
-* [Exposed parameters](#exposed_parameters)
-* [Generate report and run on localhost:1234](#generate_report_and_run on localhost:1234)
+* [Custom JUnit Rules](#custom-junit-rules)
+* [Exposed parameters](#exposed-parameters)
+* [Generate report and run on localhost:1234](#generate-report-and-run-on-localhost:1234)
 
 ## Run tests with ATSD in a Docker container
 
@@ -42,16 +42,15 @@ Parameter `DOCKER_PUBLISH_PORTS` is required, you can specify HTTPS and TCP port
 ./run_tests_in_container.sh "--publish-all"
 ./run_tests_in_container.sh "-p1234:8443 -p4321:8081"
 ```
-
-`TEST_OPTIONS` is not required, but must be specified in double quotes in case of use, see [exposed parameters](#exposed_parameters).
+`TEST_OPTIONS` is not required, but must be specified in double quotes in case of use, see [exposed parameters](#exposed-parameters).
 
 > Before the start of the tests run_tests_in_container.sh launches ATSD instance with pre-installed m_small (100 samples), m_large (500 000 samples) metrics and user axibase:axibase
 
 See also:
 
-* [Custom JUnit Rules](#custom_junit_rules)
-* [Exposed parameters](#exposed_parameters)
-* [Generate report and run on localhost:1234](#generate_report_and_run on localhost:1234)
+* [Custom JUnit Rules](#custom-junit-rules)
+* [Exposed parameters](#exposed-parameters)
+* [Generate report and run on localhost:1234](#generate-report-and-run-on-localhost:1234)
 
 ### Generate report and run on localhost:1234
 
@@ -78,6 +77,6 @@ mvn clean test -Dinsert.wait=500
 
 Parameter | Supported Values | Example Value | Description
 ------------|-------------|------------|-----------
-output.redirect.allure | true or not set | true | Redirect per-test execution logging to allure attachment. Works only for tests with [OutputLogsToAllure](#custom_junit_rules) rule enabled
+output.redirect.allure | true or not set | true | Redirect per-test execution logging to allure attachment. Works only for tests with [OutputLogsToAllure](#custom-junit-rules) rule enabled
 allure.link.issue.pattern | string with `{}` placeholder | https://localhost/redmine/issues/{} | Pattern for generating links to bugtracking system
 insert.wait | integral number, default is 1000 | 5000 | waiting timeout in ms between insert and subsequent select statement 

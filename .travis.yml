@@ -1,0 +1,9 @@
+language: java
+dist: trusty
+sudo: required
+services:
+  - docker
+install: ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13)
+script:
+  - mvn test -B
+

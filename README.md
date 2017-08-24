@@ -25,7 +25,7 @@ See also:
 
 * [Custom JUnit Rules](#custom-junit-rules)
 * [Exposed parameters](#exposed-parameters)
-* [Generate report and run on localhost:1234](#generate-report-and-run-on-localhost:1234)
+* [Generate report and run on localhost](#generate-report-and-run-on-localhost)
 
 ## Run tests with ATSD in a Docker container
 
@@ -50,9 +50,9 @@ See also:
 
 * [Custom JUnit Rules](#custom-junit-rules)
 * [Exposed parameters](#exposed-parameters)
-* [Generate report and run on localhost:1234](#generate-report-and-run-on-localhost:1234)
+* [Generate report and run on localhost](#generate-report-and-run-on-localhost)
 
-### Generate report and run on localhost:1234
+### Generate report and run on localhost
 
 ```bash
 $ mvn allure:report jetty:run -Djetty.port=1234

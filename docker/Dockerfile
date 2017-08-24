@@ -1,7 +1,7 @@
 FROM raipc/java-parent:j7u1404
 MAINTAINER ATSD Developers <dev-atsd@axibase.com>
-ENV LANG en_US.UTF-8
 
+ENV LANG en_US.UTF-8
 ENV axiname=axibase
 ENV axipass=axibase
 

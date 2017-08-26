@@ -3,7 +3,10 @@ dist: trusty
 sudo: required
 services:
   - docker
-install: ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13)
+install: ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13) axibase axibase
+cache:
+  directories:
+    - $HOME/.m2
 script:
   - mvn test -B
 

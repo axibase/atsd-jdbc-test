@@ -17,12 +17,12 @@ HTTPS_PORT=$(docker port ${CONTAINER_NAME} 8443| cut -d ":" -f2)
 echo "TCP port is ${TCP_PORT}"
 echo "HTTPS port is ${HTTPS_PORT}"
 
-while [[ $(curl --user $ATSD_LOGIN:$ATSD_PASSWORD --write-out %{http_code} --silent --output /dev/null https://$HOST:$HTTPS_PORT/version) != 200 ]];
+echo -n "Waiting for ATSD start"
+while [[ $(curl --user $ATSD_LOGIN:$ATSD_PASSWORD --write-out %{http_code} --silent --insecure --output /dev/null https://$HOST:$HTTPS_PORT/version) != 200 ]];
 do
-    echo "waiting to start server ...";
-    sleep 3;
+    echo -n ".";
+    sleep 5;
 done
-
 echo "ATSD is ready"
 
 echo "==========================================="

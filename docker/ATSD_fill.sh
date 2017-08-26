@@ -1,59 +1,43 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
+AXINAME=$1
+AXIPASS=$2
+HTTPS_PORT=$3
+TCP_PORT=$4
+SCRIPTS_HOME=$(dirname $0)
+HOST="127.0.0.1"
 
 function logger {
     echo " * [FILL] $1" 
 }
 
 logger "==========================================="
-logger "Start to fill at $(date +%Y-%m-%d\ %H-%M-%S)"
+logger "Start data preparation at $(date +%Y-%m-%d\ %H-%M-%S)"
 logger "==========================================="
 
-logger "Determining host"
-HOST_NAME=$(cat /proc/sys/kernel/hostname)
-
-
-logger "Creating ATSD instance..."
-/opt/atsd/bin/entrypoint.sh &
-
 logger "Waiting for ATSD start..."
-ports=(8081 8082 8088 8443)
-for item in ${ports[*]}
+ping_ok=""
+while [ -z $ping_ok ];
 do
-    ans=""
-	while true; 
-	do 
-		if [ -n "$ans" ]; then
-		sleep 6
-  		logger "Port $item is ok"
-  		break
-  		fi
-	ans=$(netstat -tuln 2>/dev/null | grep ${item})
-	done
+    sleep 3
+	ping_ok=$(echo ping|nc $HOST $TCP_PORT)
 done
 logger "ATSD is ready"
 
-
-logger "Creating admin user=$axiname..."
-curl --data "userBean.username=$axiname&userBean.password=$axipass&repeatPassword=$axipass" http://${HOST_NAME}:8088/login
+logger "Creating admin user=$AXINAME..."
+curl --data "userBean.username=$AXINAME&userBean.password=$AXIPASS&repeatPassword=$AXIPASS" https://$HOST:$HTTPS_PORT/login --insecure
+curl -u $AXINAME:$AXIPASS --data "options%5B0%5D.key=last.insert.write.period.seconds&options%5B0%5D.value=0&apply=Save" https://$HOST:$HTTPS_PORT/admin/serverproperties --insecure
 logger "User created"
 
-
-logger "Filling m_small, 100 records..."
-nc ${HOST_NAME} 8081 < m_small
+logger "Inserting m_small with 100 records..."
+nc $HOST $TCP_PORT < $SCRIPTS_HOME/m_small
 logger "m_small created"
 
 
-logger "Filling m_large, 500000 records..."
-nc ${HOST_NAME} 8081 < m_large
+logger "Inserting m_large with 500000 records..."
+nc $HOST $TCP_PORT < $SCRIPTS_HOME/m_large
 logger "m_large created"
 
-
-logger "Safety stopping ATSD..."
-/opt/atsd/bin/atsd-all.sh stop
-
-logger "Wait 30 seconds..."
-sleep 30
-
 logger "==========================================="
-logger "Finished to fill at $(date +%Y-%m-%d\ %H-%M-%S)"
+logger "Finished data preparation at $(date +%Y-%m-%d\ %H-%M-%S)"
 logger "==========================================="

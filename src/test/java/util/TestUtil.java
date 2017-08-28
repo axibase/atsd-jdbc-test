@@ -1,20 +1,17 @@
 package util;
 
 import com.axibase.tsd.driver.jdbc.content.ContentMetadata;
+import com.axibase.tsd.driver.jdbc.content.StatementContext;
 import com.axibase.tsd.driver.jdbc.enums.AtsdType;
 import com.axibase.tsd.driver.jdbc.enums.DefaultColumn;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Types;
 import lombok.experimental.UtilityClass;
 import org.apache.calcite.avatica.ColumnMetaData;
-
-import java.util.*;
+import org.apache.calcite.avatica.Meta;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.helpers.MessageFormatter;
+
+import java.sql.*;
+import java.util.*;
 
 @UtilityClass
 public class TestUtil {
@@ -110,6 +107,14 @@ public class TestUtil {
             }
             default : return rs.getString(columnIndex);
         }
+    }
+
+    private static Meta.StatementHandle createStatementHandle() {
+        return new Meta.StatementHandle("12345678", 1,null);
+    }
+
+    public static StatementContext createStatementContext() {
+        return new StatementContext(createStatementHandle(), false);
     }
 
 }

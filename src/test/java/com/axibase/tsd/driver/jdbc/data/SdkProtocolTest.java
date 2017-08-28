@@ -16,18 +16,18 @@ package com.axibase.tsd.driver.jdbc.data;
 
 import com.axibase.tsd.driver.jdbc.DriverTestBase;
 import com.axibase.tsd.driver.jdbc.content.ContentDescription;
-import com.axibase.tsd.driver.jdbc.content.StatementContext;
 import com.axibase.tsd.driver.jdbc.enums.Location;
 import com.axibase.tsd.driver.jdbc.ext.AtsdException;
 import com.axibase.tsd.driver.jdbc.intf.IContentProtocol;
 import com.axibase.tsd.driver.jdbc.protocol.ProtocolFactory;
 import com.axibase.tsd.driver.jdbc.protocol.SdkProtocolImpl;
+import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
+import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
 import com.opencsv.CSVReader;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Rule;
 import org.junit.Test;
-import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
-import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
+import util.TestUtil;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
@@ -53,7 +53,7 @@ public class SdkProtocolTest extends DriverTestBase {
 	public final void testReadContentSecure() throws IOException, AtsdException, GeneralSecurityException {
 		final ContentDescription contentDescription = new ContentDescription(
 				Location.SQL_ENDPOINT.getUrl(DEFAULT_CONNECTION_INFO), DEFAULT_CONNECTION_INFO,
-				SELECT_TVE_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, new StatementContext());
+				SELECT_TVE_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, TestUtil.createStatementContext());
 		IContentProtocol protocol = ProtocolFactory.create(SdkProtocolImpl.class, contentDescription);
         try (final InputStream inputStream = protocol.readContent(0)) {
 			final Reader reader = new BufferedReader(new InputStreamReader(inputStream));

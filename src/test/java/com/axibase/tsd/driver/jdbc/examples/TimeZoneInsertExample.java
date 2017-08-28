@@ -67,6 +67,13 @@ public class TimeZoneInsertExample {
             stmt.setString(4, timestamptzTag);
             stmt.setString(5, "setTimestamp");
             assertThat(stmt.executeUpdate(), is(1));
+
+            stmt.setLong(1, millis);
+            stmt.setString(2, ENTITY);
+            stmt.setDouble(3, 0);
+            stmt.setString(4, timestamptzTag);
+            stmt.setString(5, "setLong");
+            assertThat(stmt.executeUpdate(), is(1));
         }
     }
 }

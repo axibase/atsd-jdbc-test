@@ -6,10 +6,12 @@ import com.axibase.tsd.driver.jdbc.ext.AtsdStatement;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
+import lombok.SneakyThrows;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import util.TestProperties;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +30,7 @@ public class TagsManipulationTest extends AbstractDataTest {
     public final ExpectedException expectedException = ExpectedException.none();
 
     @BeforeClass
+    @SneakyThrows(InterruptedException.class)
     public static void prepareData() throws SQLException {
         String query = "INSERT INTO \"m-with-tags\" (value, entity, time%s) VALUES (0,'test-quotes',0%s)";
         try (final Statement statement = connection.createStatement()) {
@@ -37,6 +40,7 @@ public class TagsManipulationTest extends AbstractDataTest {
             statement.addBatch(String.format(query, ", tags.tag1, tags.tag2, tags.key\"\"quote", ",'value1','value2','true'"));
             statement.addBatch(String.format(query, ", tags.tag1, tags.tag2, tags.key\"\"quote", ",'value1','value2','value\"\"quote'"));
             assertThat(statement.executeBatch(), is(new int[]{1,1,1,1,1}));
+            Thread.sleep(TestProperties.INSERT_WAIT);
         }
     }
 

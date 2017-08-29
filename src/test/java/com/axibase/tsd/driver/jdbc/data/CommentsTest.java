@@ -1,7 +1,9 @@
 package com.axibase.tsd.driver.jdbc.data;
 
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +14,9 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CommentsTest extends AbstractDataTest {
+    @Rule
+    public final ExpectedException expectedException = ExpectedException.none();
+
     @Test
     @DisplayName("Test that select statement starting with comment is sent to ATSD")
     public void testSelectStatement() throws SQLException {
@@ -55,7 +60,7 @@ public class CommentsTest extends AbstractDataTest {
     @Test
     @DisplayName("Test that update statement starting with comment is executed")
     public void testUpdateStatement() throws SQLException {
-        String sql = "-- some insert query\n UPDATE blackhole SET entity = 'hole', value = -1 WHERE time = 10000";
+        String sql = "-- some update query\n UPDATE blackhole SET entity = 'hole', value = -1 WHERE time = 10000";
         try (final Statement statement = connection.createStatement()) {
             assertThat(statement.executeUpdate(sql), is(1));
         }
@@ -64,7 +69,7 @@ public class CommentsTest extends AbstractDataTest {
     @Test
     @DisplayName("Test that prepared update statement starting with comment is executed")
     public void testUpdatePreparedStatement() throws SQLException {
-        String sql = "-- some insert query\n UPDATE blackhole SET entity = 'hole', value = -1 WHERE time = 10000";
+        String sql = "-- some update query\n UPDATE blackhole SET entity = 'hole', value = -1 WHERE time = 10000";
         try (final PreparedStatement statement = connection.prepareStatement(sql)) {
             assertThat(statement.executeUpdate(), is(1));
         }
@@ -80,7 +85,7 @@ public class CommentsTest extends AbstractDataTest {
                 statement.setDouble(2, Math.log(i));
                 statement.addBatch();
             }
-            assertThat(statement.executeBatch(), is(new int[] {1,1,1,1,1}));
+            assertThat(statement.executeBatch(), is(new int[] {1,1,1,1}));
         }
     }
 
@@ -92,7 +97,27 @@ public class CommentsTest extends AbstractDataTest {
             for (int i = 1; i < 5; i++) {
                 statement.addBatch(String.format(sql, i * 10000L, Math.asin(i)));
             }
-            assertThat(statement.executeBatch(), is(new int[] {1,1,1,1,1}));
+            assertThat(statement.executeBatch(), is(new int[] {1,1,1,1}));
+        }
+    }
+
+    @Test
+    @DisplayName("Test that statement query consisting of only comments is sent to ATSD")
+    public void testStatementWithOnlyComments() throws SQLException {
+        String sql = "-- i don't know how to write this query\n";
+        try (final Statement statement = connection.createStatement()) {
+            expectedException.expect(SQLException.class);
+            statement.execute(sql);
+        }
+    }
+
+    @Test
+    @DisplayName("Test that prepared statement query consisting of only comments is sent to ATSD")
+    public void testPreparedStatementWithOnlyComments() throws SQLException {
+        String sql = "-- too lazy\n";
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
+            expectedException.expect(SQLException.class);
+            statement.execute();
         }
     }
 }

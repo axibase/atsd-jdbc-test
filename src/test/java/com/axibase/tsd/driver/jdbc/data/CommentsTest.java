@@ -10,8 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 public class CommentsTest extends AbstractDataTest {
     @Rule
@@ -107,6 +108,7 @@ public class CommentsTest extends AbstractDataTest {
         String sql = "-- i don't know how to write this query\n";
         try (final Statement statement = connection.createStatement()) {
             expectedException.expect(SQLException.class);
+            expectedException.expectMessage(containsString("Syntax error at line 1 position 39: mismatched input '<EOF>' expecting SELECT"));
             statement.execute(sql);
         }
     }
@@ -114,9 +116,10 @@ public class CommentsTest extends AbstractDataTest {
     @Test
     @DisplayName("Test that prepared statement query consisting of only comments is sent to ATSD")
     public void testPreparedStatementWithOnlyComments() throws SQLException {
-        String sql = "-- too lazy\n";
+        String sql = "-- i don't know how to write this query\n";
         try (final PreparedStatement statement = connection.prepareStatement(sql)) {
             expectedException.expect(SQLException.class);
+            expectedException.expectMessage(containsString("Syntax error at line 1 position 39: mismatched input '<EOF>' expecting SELECT"));
             statement.execute();
         }
     }

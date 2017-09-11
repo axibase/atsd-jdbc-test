@@ -70,10 +70,19 @@ public class TablesTest extends DriverTestBase {
 
     @Test
     @Issue("4383")
+    @Issue("4545")
     @DisplayName("Test that 'match all' wildcard allows to represent all metrics as tables together with 'atsd_series'")
     public void testAllMetrics() throws SQLException {
-        final String connectionString = getConnectStringWithTables("*");
+        final String connectionString = getConnectStringWithTables("%");
         getTablesGetColumnsCompare(connectionString, greaterThan(1), hasItem("atsd_series"));
+    }
+
+    @Test
+    @Issue("4545")
+    @DisplayName("Test that 'match all' ATSD expression doesn't match all metrics")
+    public void testAtsdMatchAllWildcardNotWorking() throws SQLException {
+        final String connectionString = getConnectStringWithTables("*");
+        getTablesGetColumnsCompare(connectionString, is(1), hasItem("*"));
     }
 
     @Test
@@ -85,16 +94,25 @@ public class TablesTest extends DriverTestBase {
 
     @Test
     @Issue("4383")
+    @Issue("4545")
     @DisplayName("Test that atsd_series can be resolved from wildcard")
     public void testAtsdSeriesWildcard() throws SQLException {
-        final String connectionString = getConnectStringWithTables("atsd?series");
+        final String connectionString = getConnectStringWithTables("atsd_series");
         getTablesGetColumnsCompare(connectionString, equalTo(1), hasItem("atsd_series"));
+    }
+
+    @Test
+    @Issue("4545")
+    @DisplayName("Test that atsd_series cannot be resolved from ATSD expression wildcard")
+    public void testAtsdSeriesExpressionWildcard() throws SQLException {
+        final String connectionString = getConnectStringWithTables("atsd?series");
+        getTablesGetColumnsCompare(connectionString, equalTo(1), hasItem("atsd?series"));
     }
 
     @Test
     @DisplayName("Test that explicitly specified non-existent metrics are added to list of tables")
     public void testNonExistentMetricsShownOnGetTables() throws SQLException {
-        final String connectionString = getConnectStringWithTables("tablestest_nonexistent_metric");
+        final String connectionString = getConnectStringWithTables("tablestest\\_nonexistent\\_metric");
         getTablesGetColumnsCompare(connectionString, equalTo(1), hasItem("tablestest_nonexistent_metric"));
     }
 

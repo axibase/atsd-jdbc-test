@@ -67,7 +67,7 @@ public class TagsManipulationTest extends AbstractDataTest {
     @Test
     @DisplayName("Test that AtsdResultSet#getTags method works with AtsdStatement")
     public void testStatement() throws SQLException {
-        String sql = "SELECT *, metric.tags, entity.tags FROM \"m-with-tags\" WHERE \"tags.key\"\"quo;te\"='true'";
+        String sql = "SELECT *, metric.tags, entity.tags FROM \"m-with-tags\" WHERE tags.\"key\"\"quo;te\"='true'";
         try (final AtsdStatement statement = (AtsdStatement) connection.createStatement()) {
             statement.setTagsEncoding(true);
             final AtsdResultSet resultSet = (AtsdResultSet) statement.executeQuery(sql);
@@ -100,7 +100,7 @@ public class TagsManipulationTest extends AbstractDataTest {
     @Test
     @DisplayName("Test that exception is thrown when AtsdResultSet#getTags is called unless tagsEncoding is set on AtsdStatement")
     public void testStatementWithoutTagsEncoding() throws SQLException {
-        String sql = "SELECT *, metric.tags, entity.tags FROM \"m-with-tags\" WHERE \"tags.key\"\"quo;te\"='true'";
+        String sql = "SELECT *, metric.tags, entity.tags FROM \"m-with-tags\" WHERE tags.\"key\"\"quo;te\"='true'";
         try (final AtsdStatement statement = (AtsdStatement) connection.createStatement()) {
             final AtsdResultSet resultSet = (AtsdResultSet) statement.executeQuery(sql);
             testRecordFound(resultSet);

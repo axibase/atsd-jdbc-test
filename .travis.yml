@@ -15,3 +15,4 @@ script:
   - spellcheck
   - linkcheck
   - stylecheck
+  - validate_anchors

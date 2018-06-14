@@ -66,7 +66,7 @@ See also:
 $ mvn allure:report jetty:run -Djetty.port=1234
 ```
 
-![](images/allure_fullscreen.png)
+![](./images/allure_fullscreen.png)
 
 ### Custom JUnit Rules
 
@@ -87,6 +87,6 @@ mvn clean test -Dinsert.wait=500
 
 Parameter | Supported Values | Example Value | Description
 ------------|-------------|------------|-----------
-`output.redirect.allure` | true or not set | `true` | Redirect per-test execution logging to allure attachment. Works only for tests with [OutputLogsToAllure](#custom-junit-rules) rule enabled
-`allure.link.issue.pattern` | string with `{}` placeholder | `https://localhost/redmine/issues/{}` | Pattern for generating links to bugtracking system
+`output.redirect.allure` | true or not set | `true` | Redirect per-test execution logging to allure attachment. Works only for tests with [`OutputLogsToAllure`](#custom-junit-rules) rule enabled
+`allure.link.issue.pattern` | string with `{}` placeholder | `https://localhost/redmine/issues/{}` | Pattern for generating links to bug tracking system
 `insert.wait` | integral number, default is 1000 | `5000` | waiting timeout in ms between insert and subsequent select statement

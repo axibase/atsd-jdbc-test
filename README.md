@@ -71,11 +71,11 @@ $ mvn allure:report jetty:run -Djetty.port=1234
 ### Custom JUnit Rules
 
 - `OutputLogsToAllure(boolean enable)` -- redirect logging to allure attachments
-- `SkipTestOnCondition` -- allows to skip test if required system variable is not set. Tests with required variables should be annotated with the `ExecuteWhenSysVariableSet` annotation which has a string parameter -- required system variable. This annotation is repeatable.
+- `SkipTestOnCondition` -- allows to skip test if required system variable is not set. Tests with required variables must be annotated with the `ExecuteWhenSysVariableSet` annotation which has a string parameter -- required system variable. This annotation is repeatable.
 
 ### Exposed parameters
 
-The following parameters may be specified on test execution, for example:
+The following parameters can be specified on test execution, for example:
 
 ```bash
 mvn clean test -Dinsert.wait=500

@@ -17,7 +17,7 @@
 $ mvn clean test
 ```
 
-To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. You need to fill the file `src/test/resources/dev.properties` with your metrics. The following properties are mandatory:
+To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. You need to fill the file `src/test/resources/dev.properties` with your metrics. The following properties are required.
 
 ```properties
 axibase.tsd.driver.jdbc.url=<ATSD_URL | host:port | >
@@ -35,7 +35,9 @@ See also:
 
 ## Run tests with ATSD in a Docker container
 
-The tests are built automatically by Travis CI, but you also can run it manually: launch run_tests_in_container.sh under root directory of atsd-jdbc-test
+The tests are built automatically by Travis CI, but you also can run it manually.
+
+Launch `run_tests_in_container.sh` in the `atsd-jdbc-test` base directory.
 
 ```bash
 ./run_tests_in_container.sh DOCKER_PUBLISH_PORTS TEST_OPTIONS
@@ -87,6 +89,6 @@ mvn clean test -Dinsert.wait=500
 
 Parameter | Supported Values | Example Value | Description
 ------------|-------------|------------|-----------
-`output.redirect.allure` | true or not set | `true` | Redirect per-test execution logging to allure attachment. Works only for tests with [`OutputLogsToAllure`](#custom-junit-rules) rule enabled
+`output.redirect.allure` | `true` or not set | `true` | Redirect per-test execution logging to allure attachment. Works only for tests with [`OutputLogsToAllure`](#custom-junit-rules) rule enabled
 `allure.link.issue.pattern` | string with `{}` placeholder | `https://localhost/redmine/issues/{}` | Pattern for generating links to bug tracking system
-`insert.wait` | integral number, default is 1000 | `5000` | waiting timeout in ms between insert and subsequent select statement
+`insert.wait` | integral number, default is 1000 | `5000` | Waiting timeout in milliseconds between insert and subsequent select statement

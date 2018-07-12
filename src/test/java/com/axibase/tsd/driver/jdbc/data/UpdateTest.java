@@ -206,7 +206,7 @@ public class UpdateTest extends AbstractDataTest {
         }
         sql = "SELECT time, value, text, tags, metric.name, metric.tags, metric.label, metric.enabled, metric.interpolate, metric.timeZone" +
                 ", metric.description, metric.versioning, metric.units, metric.minValue, metric.maxValue, metric.dataType, metric.filter" +
-                ", metric.invalidValueAction, metric.lastInsertTime, metric.persistent, metric.retentionIntervalDays, metric.timePrecision" +
+                ", metric.invalidValueAction, metric.lastInsertTime, metric.persistent, metric.retentionIntervalDays" +
                 " FROM \"" + metricName + "-2\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
@@ -229,7 +229,6 @@ public class UpdateTest extends AbstractDataTest {
         Assert.assertEquals("NONE", last.get(METRIC_INVALID_VALUE_ACTION));
         Assert.assertNotNull(last.get(METRIC_LAST_INSERT_TIME));
         Assert.assertTrue(Boolean.valueOf((String) last.get(METRIC_PERSISTENT)));
-        Assert.assertEquals("MILLISECONDS", last.get(METRIC_TIME_PRECISION));
     }
 
     @Test

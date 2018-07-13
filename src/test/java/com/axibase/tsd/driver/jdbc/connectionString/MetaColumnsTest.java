@@ -27,7 +27,7 @@ public class MetaColumnsTest extends DriverTestBase {
             "entity.tags", "entity.timeZone", "metric.dataType", "metric.description", "metric.enabled", "metric.filter",
             "metric.interpolate", "metric.invalidValueAction", "metric.label", "metric.lastInsertTime", "metric.maxValue",
             "metric.minValue", "metric.name", "metric.persistent", "metric.retentionIntervalDays", "metric.tags",
-            "metric.timePrecision", "metric.timeZone", "metric.versioning", "metric.units"};
+            "metric.timeZone", "metric.versioning", "metric.units"};
 
     @Rule
     public OutputLogsToAllure outputLogsToAllure = new OutputLogsToAllure(REDIRECT_OUTPUT_TO_ALLURE);
@@ -74,7 +74,7 @@ public class MetaColumnsTest extends DriverTestBase {
                 "entity.enabled, entity.groups, entity.interpolate, entity.label, entity.tags, entity.timeZone, " +
                 "metric.dataType, metric.description, metric.enabled, metric.filter, metric.interpolate, " +
                 "metric.invalidValueAction, metric.label, metric.lastInsertTime, metric.maxValue, metric.minValue, " +
-                "metric.name, metric.persistent, metric.retentionIntervalDays, metric.tags, metric.timePrecision, " +
+                "metric.name, metric.persistent, metric.retentionIntervalDays, metric.tags, " +
                 "metric.timeZone, metric.versioning, metric.units FROM \"" + TABLE + "\" LIMIT 1";
         metaColumnsTestScenario(connectString, hasItems(META_COLUMNS), expectedRemarks);
     }

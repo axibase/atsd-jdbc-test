@@ -54,7 +54,7 @@ Parameter `DOCKER_PUBLISH_PORTS` is required, you can specify HTTPS and TCP port
 
 `TEST_OPTIONS` is not required, but must be specified in double quotes in case of use, see [exposed parameters](#exposed-parameters).
 
-> Before the start of the tests run_tests_in_container.sh launches ATSD instance with pre-installed m_small (100 samples), m_large (500 000 samples) metrics and user axibase:axibase
+> In a preparation step, run_tests_in_container.sh launches ATSD instance with pre-installed m_small (100 samples), m_large (500 000 samples) metrics and user `axibase` with password `axibase`
 
 See also:
 

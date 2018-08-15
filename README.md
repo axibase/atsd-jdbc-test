@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/axibase/atsd-jdbc-test.png?branch=master)](https://travis-ci.org/axibase/atsd-jdbc-test)
+[![Build Status](https://api.travis-ci.org/axibase/atsd-jdbc-test.svg?branch=master)](https://travis-ci.org/axibase/atsd-jdbc-test)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f561a28bb0db4038b591a2e575f84e65)](https://www.codacy.com/app/anton-rib/atsd-jdbc-test?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=axibase/atsd-jdbc-test&amp;utm_campaign=Badge_Grade)
 [![License](https://img.shields.io/badge/License-Apache%202-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 

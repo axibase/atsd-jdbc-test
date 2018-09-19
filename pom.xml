@@ -37,7 +37,7 @@
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
         <powermock.version>1.7.0</powermock.version>
-        <atsd.jdbc.driver.version>1.4.2-SNAPSHOT</atsd.jdbc.driver.version>
+        <atsd.jdbc.driver.version>1.4.3-SNAPSHOT</atsd.jdbc.driver.version>
         <allure.version>2.6.0</allure.version>
         <aspectj.version>1.8.10</aspectj.version>
         <jackson.version>2.9.0</jackson.version>

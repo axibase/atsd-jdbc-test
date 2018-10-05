@@ -60,7 +60,7 @@ public class TestUtil {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < methodName.length(); i++) {
-            Character ch = methodName.charAt(i);
+            char ch = methodName.charAt(i);
             if (Character.isUpperCase(ch)) {
                 result.append("-");
             } else if ('_' == ch) {
@@ -73,6 +73,10 @@ public class TestUtil {
             result.append(suffix);
         }
         return result.toString();
+    }
+
+    public static String buildVariablePrefix() {
+        return buildVariableName("");
     }
 
     public static String format(String pattern, Object... args) {

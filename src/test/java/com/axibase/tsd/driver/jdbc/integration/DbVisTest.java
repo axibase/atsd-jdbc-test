@@ -30,55 +30,41 @@ public class DbVisTest {
         Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
         try (Connection connection = DriverManager.getConnection(DEFAULT_JDBC_ATSD_URL, LOGIN_NAME, LOGIN_PASSWORD)) {
             assertNotNull(connection);
-            if (log.isDebugEnabled())
-                log.debug(connection.toString());
+            log.debug("Connection: {}", connection);
             final DatabaseMetaData metaData = connection.getMetaData();
-            final String databaseProductName = metaData.getDatabaseProductName();
-            final String databaseProductVersion = metaData.getDatabaseProductVersion();
-            final String driverName = metaData.getDriverName();
-            final String driverVersion = metaData.getDriverVersion();
-            if (log.isDebugEnabled()) {
-                log.debug("databaseProductName: " + databaseProductName);
-                log.debug("databaseProductVersion: " + databaseProductVersion);
-                log.debug("driverName: " + driverName);
-                log.debug("driverVersion: " + driverVersion);
-            }
             assertNotNull(metaData);
-            final ResultSet rs0 = metaData.getTypeInfo();
-            assertNotNull(rs0);
-            while (rs0.next()) {
-                final String name = rs0.getString("TYPE_NAME");
-                final int type = rs0.getInt("DATA_TYPE");
-                final int precision = rs0.getInt("PRECISION");
-                final boolean isCS = rs0.getBoolean("CASE_SENSITIVE");
-                if (log.isDebugEnabled()) {
-                    log.debug("TypeInfo Name: " + name);
-                    log.debug("TypeInfo Type: " + type);
-                    log.debug("TypeInfo Precision: " + precision);
-                    log.debug("TypeInfo CS: " + isCS);
-                }
-            }
-            final ResultSet rs1 = metaData.getTableTypes();
-            assertNotNull(rs1);
-            while (rs1.next()) {
-                final String type = rs1.getString(1);
-                if (log.isDebugEnabled())
-                    log.debug("TableTypes: " + type);
-            }
-            final ResultSet rs2 = metaData.getCatalogs();
-            assertNotNull(rs2);
-            while (rs2.next()) {
-                final String catalog = rs2.getString(1);
-                if (log.isDebugEnabled())
-                    log.debug("Catalog: " + catalog);
-                final ResultSet rs3 = metaData.getSchemas(catalog, null);
-                assertNotNull(rs3);
-                while (rs3.next()) {
-                    final String schema = rs3.getString(1);
-                    log.debug("Schema: {}", schema);
-                }
-            }
+            log.debug("databaseProductName: {}", metaData.getDatabaseProductName());
+            log.debug("databaseProductVersion: {}", metaData.getDatabaseProductVersion());
+            log.debug("driverName: {}", metaData.getDriverName());
+            log.debug("driverVersion: {}", metaData.getDriverVersion());
 
+            try (final ResultSet typeInfo = metaData.getTypeInfo()) {
+                assertNotNull(typeInfo);
+                while (typeInfo.next()) {
+                    log.debug("TypeInfo Name: {}", typeInfo.getString("TYPE_NAME"));
+                    log.debug("TypeInfo Type: {}", typeInfo.getInt("DATA_TYPE"));
+                    log.debug("TypeInfo Precision: {}", typeInfo.getInt("PRECISION"));
+                    log.debug("TypeInfo CS: {}", typeInfo.getBoolean("CASE_SENSITIVE"));
+                }
+            }
+            try (final ResultSet tableTypes = metaData.getTableTypes()) {
+                assertNotNull(tableTypes);
+                while (tableTypes.next()) {
+                    log.debug("TableTypes: {}", tableTypes.getString(1));
+                }
+            }
+            try (final ResultSet catalogs = metaData.getCatalogs()) {
+                assertNotNull(catalogs);
+                while (catalogs.next()) {
+                    final String catalog = catalogs.getString(1);
+                    log.debug("Catalog: {}", catalog);
+                    final ResultSet schemas = metaData.getSchemas(catalog, null);
+                    assertNotNull(schemas);
+                    while (schemas.next()) {
+                        log.debug("Schema: {}", schemas.getString(1));
+                    }
+                }
+            }
         }
     }
 

@@ -11,12 +11,18 @@ import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_ALL_CLAUSE;
 import static com.axibase.tsd.driver.jdbc.TestConstants.WHERE_CLAUSE;
 import static com.axibase.tsd.driver.jdbc.data.DataFromProvidedTablesTest.checkRemoteStatement;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.Is.is;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)
@@ -82,5 +88,28 @@ public class DataFromDefaultTablesTest extends AbstractDataTest {
         checkRemotePreparedStatementWithLimits(SELECT_ALL_CLAUSE + "cpu_busy" + WHERE_CLAUSE,
                 new String[]{"nurswgvml212"}, 1001, 10001);
 
+    }
+
+    @DataProvider
+    public static Object[][] datetimeQueries() {
+        return new Object[][] {
+                { "SELECT * FROM jvm_memory_used LIMIT 1", "time", "datetime" },
+                { "SELECT time, datetime FROM jvm_memory_used LIMIT 1", "time", "datetime" },
+                { "SELECT t.time, t.datetime FROM jvm_memory_used t LIMIT 1", "t.time", "t.datetime" },
+                { "SELECT t.time, t.datetime as \"datetime\" FROM jvm_memory_used t LIMIT 1", "t.time", "datetime" },
+        };
+    }
+
+    @Test
+    @UseDataProvider("datetimeQueries")
+    public void testDatetimeColumnType(String query, String timeAlias, String datetimeAlias) throws SQLException {
+        try (final Statement statement = connection.createStatement()) {
+            final ResultSet resultSet = statement.executeQuery(query);
+            assertThat(resultSet.next(), is(true));
+            final long time = resultSet.getLong(timeAlias);
+            final Object datetime = resultSet.getObject(datetimeAlias);
+            assertThat(datetime, instanceOf(Timestamp.class));
+            assertThat(((Timestamp)datetime).getTime(), is(time));
+        }
     }
 }

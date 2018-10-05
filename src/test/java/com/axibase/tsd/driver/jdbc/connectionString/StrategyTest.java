@@ -37,6 +37,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
 import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
+import util.TestUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,10 +104,10 @@ public class StrategyTest {
 				.composeConnectionInfo();
 		final ContentDescription contentDescription = new ContentDescription(
 				Location.SQL_ENDPOINT.getUrl(atsdConnectionInfo), atsdConnectionInfo,
-				SELECT_ALL_CLAUSE + table, new StatementContext());
+				SELECT_ALL_CLAUSE + table, TestUtil.createStatementContext());
 		final IContentProtocol protocol = ProtocolFactory.create(SdkProtocolImpl.class, contentDescription);
 		protocol.readContent(0);
-		StatementContext context = new StatementContext();
+		StatementContext context = TestUtil.createStatementContext();
 		try (final IStoreStrategy strategy = StrategyFactory.create(
 				StrategyFactory.findClassByName(READ_STRATEGY), context, DriverConstants.DEFAULT_ON_MISSING_METRIC_VALUE);
 			 final InputStream inputStream = protocol.readContent(0)) {

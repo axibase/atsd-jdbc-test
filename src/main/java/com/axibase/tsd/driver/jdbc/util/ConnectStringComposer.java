@@ -40,6 +40,11 @@ public class ConnectStringComposer {
         return this;
     }
 
+    public ConnectStringComposer withTables(String tables) {
+        connectStringParameters.put(DriverConstants.TABLES_PARAM_NAME, tables);
+        return this;
+    }
+
     public ConnectStringComposer withExpandTags(String expandTags) {
         connectStringParameters.put(DriverConstants.EXPAND_TAGS_PARAM_NAME, expandTags);
         return this;

@@ -38,14 +38,14 @@ public class UpdateTest extends AbstractDataTest {
     public void testStatement() throws SQLException, InterruptedException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        final String pattern = "UPDATE '{}' SET time={}, value={}, tags={} WHERE entity='{}'";
+        final String pattern = "UPDATE \"{}\" SET time={}, value={}, tags={} WHERE entity='{}'";
         String sql = format(pattern, metricName, currentTime, DEFAULT_VALUE, null, entityName);
         try (Statement stmt = connection.createStatement()) {
             int res = stmt.executeUpdate(sql);
             Assert.assertEquals(1, res);
         }
 
-        sql = "SELECT time, value FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, (long) last.get(TIME));
@@ -64,7 +64,7 @@ public class UpdateTest extends AbstractDataTest {
             Assert.assertEquals(1, res);
         }
 
-        sql = "SELECT time, value FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, (long) last.get(TIME));
@@ -76,7 +76,7 @@ public class UpdateTest extends AbstractDataTest {
     public void testStatementBatch() throws SQLException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        final String pattern1 = "UPDATE '{}' SET time={}, value={}, entity.tags={}, metric.tags={} WHERE entity='{}'";
+        final String pattern1 = "UPDATE \"{}\" SET time={}, value={}, entity.tags={}, metric.tags={} WHERE entity='{}'";
         final String pattern2 = "UPDATE atsd_series SET time={}, value={}, entity.tags={}, metric.tags={} WHERE entity='{}' and metric='{}'";
         try (Statement stmt = connection.createStatement()) {
             stmt.addBatch(format(pattern1, metricName, currentTime + 1, DEFAULT_VALUE + 1, null, "'test1=value1'", entityName));
@@ -92,7 +92,7 @@ public class UpdateTest extends AbstractDataTest {
     public void testPreparedStatmentBatch() throws SQLException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        String sql = "UPDATE '" + metricName + "' SET time=?, value=?, tags=? WHERE entity=?";
+        String sql = "UPDATE \"" + metricName + "\" SET time=?, value=?, tags=? WHERE entity=?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             for (int i = 0; i < 3; i++) {
                 stmt.setLong(1, currentTime + i);
@@ -130,7 +130,7 @@ public class UpdateTest extends AbstractDataTest {
     public void testPreparedStatmentBatchWithMetaColumns() throws SQLException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        String sql = "UPDATE '" + metricName + "' SET time=?, value=?, entity.tags=?, metric.tags=? WHERE entity=?";
+        String sql = "UPDATE \"" + metricName + "\" SET time=?, value=?, entity.tags=?, metric.tags=? WHERE entity=?";
         List<List<Object>> batchValues = new ArrayList<>();
         batchValues.add(Arrays.asList(currentTime + 1, DEFAULT_VALUE + 1, null, "test1=value1", entityName));
         batchValues.add(Arrays.asList(currentTime + 2, DEFAULT_VALUE + 2, "test1=value1", null, entityName));
@@ -154,7 +154,7 @@ public class UpdateTest extends AbstractDataTest {
     public void testPreparedStatementWithMetricColumns() throws SQLException, InterruptedException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        String sql = "UPDATE '" + metricName + "-1' SET datetime=?, value=?, tags=?, metric.label=?, metric.tags=? WHERE entity=?";
+        String sql = "UPDATE \"" + metricName + "-1\" SET datetime=?, value=?, tags=?, metric.label=?, metric.tags=? WHERE entity=?";
         final String metricLabel = metricName + "-label";
         final String metricTags = "test1=value1";
         final String datetime = Instant.ofEpochMilli(currentTime).toString();
@@ -167,8 +167,8 @@ public class UpdateTest extends AbstractDataTest {
             stmt.setString(6, entityName);
             Assert.assertEquals(2, stmt.executeUpdate());
         }
-        sql = "SELECT time, value, text, tags, metric.label, metric.tags FROM '" + metricName
-                + "-1' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value, text, tags, metric.label, metric.tags FROM \"" + metricName
+                + "-1\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));
@@ -178,7 +178,7 @@ public class UpdateTest extends AbstractDataTest {
         Assert.assertEquals(metricLabel, last.get(METRIC_LABEL));
         Assert.assertEquals(metricTags, last.get(METRIC_TAGS));
 
-        sql = "UPDATE '" + metricName + "-2' SET datetime=?, value=?, tags=?, metric.tags.test1=?, metric.label=?, metric.enabled=?, metric.interpolate=?" +
+        sql = "UPDATE \"" + metricName + "-2\" SET datetime=?, value=?, tags=?, metric.tags.test1=?, metric.label=?, metric.enabled=?, metric.interpolate=?" +
                 ", metric.timeZone=?, metric.description=?, metric.versioning=?, metric.filter=?, metric.units=? WHERE entity=?";
         final String metricTagValue = "M1";
         final boolean metricEnabled = true;
@@ -206,8 +206,8 @@ public class UpdateTest extends AbstractDataTest {
         }
         sql = "SELECT time, value, text, tags, metric.name, metric.tags, metric.label, metric.enabled, metric.interpolate, metric.timeZone" +
                 ", metric.description, metric.versioning, metric.units, metric.minValue, metric.maxValue, metric.dataType, metric.filter" +
-                ", metric.invalidValueAction, metric.lastInsertTime, metric.persistent, metric.retentionIntervalDays, metric.timePrecision" +
-                " FROM '" + metricName + "-2' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+                ", metric.invalidValueAction, metric.lastInsertTime, metric.persistent, metric.retentionIntervalDays" +
+                " FROM \"" + metricName + "-2\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));
@@ -229,7 +229,6 @@ public class UpdateTest extends AbstractDataTest {
         Assert.assertEquals("NONE", last.get(METRIC_INVALID_VALUE_ACTION));
         Assert.assertNotNull(last.get(METRIC_LAST_INSERT_TIME));
         Assert.assertTrue(Boolean.valueOf((String) last.get(METRIC_PERSISTENT)));
-        Assert.assertEquals("MILLISECONDS", last.get(METRIC_TIME_PRECISION));
     }
 
     @Test
@@ -277,7 +276,7 @@ public class UpdateTest extends AbstractDataTest {
     public void testPreparedStatmentWithIsNull() throws SQLException, InterruptedException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        String sql = "UPDATE '" + metricName +  "' SET time=?, value=? where entity='" + entityName + "' and tags.tag1 IS NULL";
+        String sql = "UPDATE \"" + metricName +  "\" SET time=?, value=? where entity='" + entityName + "' and tags.tag1 IS NULL";
         try(PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, currentTime);
             stmt.setDouble(2, DEFAULT_VALUE);
@@ -285,7 +284,7 @@ public class UpdateTest extends AbstractDataTest {
             Assert.assertEquals(1, res);
         }
 
-        sql = "SELECT time, value, text, tags FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value, text, tags FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));

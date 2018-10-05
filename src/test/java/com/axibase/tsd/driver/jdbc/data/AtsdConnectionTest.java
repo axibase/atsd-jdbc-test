@@ -1,20 +1,34 @@
 package com.axibase.tsd.driver.jdbc.data;
 
+import com.axibase.tsd.driver.jdbc.AtsdDriver;
 import com.axibase.tsd.driver.jdbc.DriverConstants;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import static org.junit.Assert.assertNotNull;
-import static util.TestProperties.DEFAULT_JDBC_ATSD_URL;
-import static util.TestProperties.LOGIN_NAME;
-import static util.TestProperties.LOGIN_PASSWORD;
+import static util.TestProperties.*;
 
 public class AtsdConnectionTest extends AbstractDataTest {
+    private static AtsdDriver driver;
+
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        driver = new AtsdDriver();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        DriverManager.deregisterDriver(driver);
+    }
+
     @Rule
     public ExpectedException exception = ExpectedException.none();
 

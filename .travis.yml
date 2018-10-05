@@ -1,0 +1,18 @@
+language: java
+dist: trusty
+sudo: required
+services:
+  - docker
+install:
+  - ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13) axibase axibase
+  - wget https://raw.githubusercontent.com/axibase/atsd/master/.travis-functions.sh && source .travis-functions.sh
+  - install_checkers_in_non_doc_project
+cache:
+  directories:
+    - $HOME/.m2
+script:
+  - mvn test -B -Dinsert.wait=3000
+  - spellcheck
+  - linkcheck
+  - stylecheck
+  - validate_anchors

@@ -16,16 +16,16 @@ package com.axibase.tsd.driver.jdbc.data;
 
 import com.axibase.tsd.driver.jdbc.content.ContentDescription;
 import com.axibase.tsd.driver.jdbc.content.DataProvider;
-import com.axibase.tsd.driver.jdbc.content.StatementContext;
 import com.axibase.tsd.driver.jdbc.ext.AtsdConnectionInfo;
+import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
+import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
 import com.axibase.tsd.driver.jdbc.util.ConnectStringComposer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.calcite.avatica.Meta;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
-import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
+import util.TestUtil;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class DataProviderTest {
     private static List<List<Object>> testFetch(AtsdConnectionInfo atsdConnectionInfo, String table) throws Exception {
         try (DataProvider provider = new DataProvider(atsdConnectionInfo,
                 SELECT_ALL_CLAUSE + table + SELECT_LIMIT_1000,
-                new StatementContext(), Meta.StatementType.SELECT)) {
+                TestUtil.createStatementContext(),Meta.StatementType.SELECT)) {
             provider.fetchData(1, 0);
             return provider.getStrategy().fetch(0, 1);
         }
@@ -95,7 +95,7 @@ public class DataProviderTest {
     public final void testGetContentDescription() throws Exception {
         try (DataProvider provider = new DataProvider(DEFAULT_CONNECTION_INFO,
                 SELECT_ALL_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000,
-                new StatementContext(), Meta.StatementType.SELECT)) {
+                TestUtil.createStatementContext(), Meta.StatementType.SELECT)) {
             final ContentDescription contentDescription = provider.getContentDescription();
             assertNotNull(contentDescription);
 

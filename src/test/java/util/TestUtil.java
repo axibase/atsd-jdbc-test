@@ -1,10 +1,12 @@
 package util;
 
 import com.axibase.tsd.driver.jdbc.content.ContentMetadata;
+import com.axibase.tsd.driver.jdbc.content.StatementContext;
 import com.axibase.tsd.driver.jdbc.enums.AtsdType;
 import com.axibase.tsd.driver.jdbc.enums.DefaultColumn;
 import lombok.experimental.UtilityClass;
 import org.apache.calcite.avatica.ColumnMetaData;
+import org.apache.calcite.avatica.Meta;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.helpers.MessageFormatter;
 
@@ -58,7 +60,7 @@ public class TestUtil {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < methodName.length(); i++) {
-            Character ch = methodName.charAt(i);
+            char ch = methodName.charAt(i);
             if (Character.isUpperCase(ch)) {
                 result.append("-");
             } else if ('_' == ch) {
@@ -109,6 +111,14 @@ public class TestUtil {
             }
             default : return rs.getString(columnIndex);
         }
+    }
+
+    private static Meta.StatementHandle createStatementHandle() {
+        return new Meta.StatementHandle("12345678", 1,null);
+    }
+
+    public static StatementContext createStatementContext() {
+        return new StatementContext(createStatementHandle(), false);
     }
 
 }

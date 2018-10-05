@@ -17,7 +17,7 @@ import static util.TestProperties.*;
 import static util.TestUtil.*;
 
 public class InsertTest extends AbstractDataTest {
-    private static final String INSERT = "INSERT INTO '{}' ({}, entity, value, tags) VALUES (?,?,?,?)";
+    private static final String INSERT = "INSERT INTO \"{}\" ({}, entity, value, tags) VALUES (?,?,?,?)";
     private static final double DEFAULT_VALUE = 123.456;
 
     private long currentTime;
@@ -37,14 +37,14 @@ public class InsertTest extends AbstractDataTest {
     public void testStatement() throws SQLException, InterruptedException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        String pattern = "INSERT INTO '{}' (time, entity, value, tags) VALUES ({},'{}',{},{})";
+        String pattern = "INSERT INTO \"{}\" (time, entity, value, tags) VALUES ({},'{}',{},{})";
         String sql = format(pattern, metricName, currentTime, entityName + "-1", DEFAULT_VALUE, null);
         try (Statement stmt = connection.createStatement()) {
             int res = stmt.executeUpdate(sql);
             Assert.assertEquals(1, res);
         }
 
-        sql = "SELECT time, value FROM '" + metricName + "' WHERE entity='" + entityName + "-1' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value FROM \"" + metricName + "\" WHERE entity='" + entityName + "-1' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, (long) last.get(TIME));
@@ -63,7 +63,7 @@ public class InsertTest extends AbstractDataTest {
             Assert.assertEquals(1, res);
         }
 
-        sql = "SELECT time, value FROM '" + metricName + "' WHERE entity='" + entityName + "-2' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value FROM \"" + metricName + "\" WHERE entity='" + entityName + "-2' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, (long) last.get(TIME));
@@ -75,7 +75,7 @@ public class InsertTest extends AbstractDataTest {
     public void testStatementBatch() throws SQLException {
         final String entityName = buildVariableName(ENTITY);
         final String metricName = buildVariableName(METRIC);
-        final String pattern1 = "INSERT INTO '{}' (time, entity, value, entity.tags, metric.tags) VALUES ({},'{}',{},{},{})";
+        final String pattern1 = "INSERT INTO \"{}\" (time, entity, value, entity.tags, metric.tags) VALUES ({},'{}',{},{},{})";
         final String pattern2 = "INSERT INTO atsd_series (metric, time, entity, value, entity.tags, metric.tags) VALUES ('{}',{},'{}',{},{},{})";
         try (Statement stmt = connection.createStatement()) {
             stmt.addBatch(format(pattern1, metricName, currentTime + 1, entityName, DEFAULT_VALUE + 1, null, "'test1=value1'"));
@@ -96,15 +96,15 @@ public class InsertTest extends AbstractDataTest {
         final String entityTimeZone = "UTC";
         final String entityInterpolation = "linear";
         final String entityTagValue = "value1";
-        final String pattern = "INSERT INTO '{}' (datetime, entity, value, tags, entity.label, entity.interpolate, entity.timeZone, entity.tags.test1)" +
+        final String pattern = "INSERT INTO \"{}\" (datetime, entity, value, tags, entity.label, entity.interpolate, entity.timeZone, entity.tags.test1)" +
                 " VALUES ('{}','{}',{},{},'{}','{}','{}','{}')";
         String sql = format(pattern, metricName, datetime, entityName, DEFAULT_VALUE, null, entityLabel, entityInterpolation, entityTimeZone, entityTagValue);
         try (Statement stmt = connection.createStatement()) {
             int res = stmt.executeUpdate(sql);
             Assert.assertEquals(2, res);
         }
-        sql = "SELECT time, value, text, tags, entity.label, entity.interpolate, entity.timeZone, entity.tags FROM '" + metricName
-                + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value, text, tags, entity.label, entity.interpolate, entity.timeZone, entity.tags FROM \"" + metricName
+                + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));
@@ -131,7 +131,7 @@ public class InsertTest extends AbstractDataTest {
         final boolean metricVersioning = false;
         final String metricFilter = "filter1";
         final String metricUnits = "units1";
-        final String pattern = "INSERT INTO '{}' (datetime,entity,value,tags,metric.tags.test1,metric.label,metric.enabled" +
+        final String pattern = "INSERT INTO \"{}\" (datetime,entity,value,tags,metric.tags.test1,metric.label,metric.enabled" +
                 ",metric.interpolate,metric.timeZone,metric.description,metric.versioning,metric.filter,metric.units) " +
                 "VALUES ('{}','{}',{},{},'{}','{}',{},'{}','{}','{}',{},'{}','{}')";
         String sql = format(pattern, metricName, datetime, entityName, DEFAULT_VALUE, null, metricTagValue, metricLabel, metricEnabled, metricInterpolation,
@@ -142,8 +142,8 @@ public class InsertTest extends AbstractDataTest {
         }
         sql = "SELECT time, value, text, tags, metric.name, metric.tags, metric.label, metric.enabled, metric.interpolate, metric.timeZone" +
                 ", metric.description, metric.versioning, metric.units, metric.minValue, metric.maxValue, metric.dataType, metric.filter" +
-                ", metric.invalidValueAction, metric.lastInsertTime, metric.persistent, metric.retentionIntervalDays, metric.timePrecision" +
-                " FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+                ", metric.invalidValueAction, metric.lastInsertTime, metric.persistent, metric.retentionIntervalDays" +
+                " FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));
@@ -165,7 +165,6 @@ public class InsertTest extends AbstractDataTest {
         Assert.assertEquals("NONE", last.get(METRIC_INVALID_VALUE_ACTION));
         Assert.assertNotNull(last.get(METRIC_LAST_INSERT_TIME));
         Assert.assertTrue(Boolean.valueOf((String) last.get(METRIC_PERSISTENT)));
-        Assert.assertEquals("MILLISECONDS", last.get(METRIC_TIME_PRECISION));
     }
 
     @Test
@@ -251,7 +250,7 @@ public class InsertTest extends AbstractDataTest {
             stmt.setString(4, null);
             Assert.assertEquals(1, stmt.executeUpdate());
         }
-        String sql = "SELECT datetime, value, tags FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        String sql = "SELECT datetime, value, tags FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, ((Timestamp) last.get(DATETIME)).getTime());
@@ -271,7 +270,7 @@ public class InsertTest extends AbstractDataTest {
             stmt.setString(4, null);
             Assert.assertEquals(1, stmt.executeUpdate());
         }
-        String sql = "SELECT datetime, value, tags FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        String sql = "SELECT datetime, value, tags FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, ((Timestamp) last.get(DATETIME)).getTime());
@@ -335,7 +334,7 @@ public class InsertTest extends AbstractDataTest {
             stmt.setString(4, null);
             Assert.assertEquals(1, stmt.executeUpdate());
         }
-        final String sql = "SELECT time, value, text, tags FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        final String sql = "SELECT time, value, text, tags FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));
@@ -362,7 +361,7 @@ public class InsertTest extends AbstractDataTest {
             Assert.assertEquals(1, stmt.executeUpdate());
         }
 
-        final String sql = "SELECT time, value, text, tags FROM '" + metricName + "' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        final String sql = "SELECT time, value, text, tags FROM \"" + metricName + "\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));
@@ -388,8 +387,8 @@ public class InsertTest extends AbstractDataTest {
             stmt.setString(6, entityTags);
             Assert.assertEquals(2, stmt.executeUpdate());
         }
-        sql = "SELECT time, value, text, tags, entity.label, entity.tags FROM '" + metricName
-                + "-1' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value, text, tags, entity.label, entity.tags FROM \"" + metricName
+                + "-1\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         Map<String, Object> last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));
@@ -415,8 +414,8 @@ public class InsertTest extends AbstractDataTest {
             stmt.setString(8, entityTagValue);
             Assert.assertEquals(2, stmt.executeUpdate());
         }
-        sql = "SELECT time, value, text, tags, entity.label, entity.interpolate, entity.timeZone, entity.tags FROM '" + metricName
-                + "-2' WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
+        sql = "SELECT time, value, text, tags, entity.label, entity.interpolate, entity.timeZone, entity.tags FROM \"" + metricName
+                + "-2\" WHERE entity='" + entityName + "' ORDER BY time DESC LIMIT 1";
         last = getLastInserted(connection, sql);
         Assert.assertFalse("No results", last.isEmpty());
         Assert.assertEquals(currentTime, last.get(TIME));

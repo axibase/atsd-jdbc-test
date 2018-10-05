@@ -14,7 +14,7 @@ public final class TestProperties {
     public static final String LOGIN_PASSWORD = System.getProperty("axibase.tsd.driver.jdbc.password");
     public static final String READ_STRATEGY = System.getProperty("axibase.tsd.driver.jdbc.strategy");
     public static final boolean REDIRECT_OUTPUT_TO_ALLURE = "true".equalsIgnoreCase(System.getProperty("output.redirect.allure"));
-    public static final long INSERT_WAIT = getInsertWait(System.getProperty("insert.wait"), 1000L);
+    public static final long INSERT_WAIT = getInsertWait(System.getProperty("insert.wait"));
 
     public static final String DEFAULT_JDBC_ATSD_URL;
     public static final AtsdConnectionInfo DEFAULT_CONNECTION_INFO;
@@ -24,7 +24,7 @@ public final class TestProperties {
         DEFAULT_CONNECTION_INFO = composer.composeConnectionInfo();
     }
 
-    private static long getInsertWait(String property, long defaultValue) {
+    private static long getInsertWait(String property) {
         if (property != null) {
             try {
                 return Long.parseLong(property);
@@ -32,7 +32,7 @@ public final class TestProperties {
                 log.error("Error while setting insert.wait parameter: {}", property, e);
             }
         }
-        return defaultValue;
+        return 1000L;
     }
 
 }

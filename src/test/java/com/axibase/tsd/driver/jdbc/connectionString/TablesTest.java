@@ -102,6 +102,15 @@ public class TablesTest extends DriverTestBase {
     }
 
     @Test
+    @Issue("5728")
+    @DisplayName("Test that atsd_series can be resolved from wildcard")
+    public void testAtsdMetaTablesResolved() throws SQLException {
+        final String connectionString = getConnectStringWithTables("atsd_%");
+        getTablesGetColumnsCompare(connectionString, equalTo(3),
+                allOf(hasItem("atsd_series"), hasItem("atsd_metric"), hasItem("atsd_entity")));
+    }
+
+    @Test
     @Issue("4545")
     @DisplayName("Test that atsd_series cannot be resolved from ATSD expression wildcard")
     public void testAtsdSeriesExpressionWildcard() throws SQLException {

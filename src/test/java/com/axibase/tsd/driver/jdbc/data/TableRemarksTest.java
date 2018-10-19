@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.fail;
 import static util.TestProperties.*;
 
 @Slf4j
@@ -62,6 +63,10 @@ public class TableRemarksTest {
         try (Statement statement = connection.createStatement();
              final ResultSet resultSet = statement.executeQuery(remarks)) {
              assertThat(resultSet.next(), is(true));
+        } catch (SQLException e) {
+            String error = "Table: " + table + "\nQuery: " + remarks +
+                    "\nQuery from table remarks must have executed without errors, but the error appeared: " + e.getMessage();
+            fail(error);
         }
     }
 

@@ -23,8 +23,8 @@ import static util.TestProperties.*;
 @Issue("4346")
 public class MetaColumnsTest extends DriverTestBase {
     private static final String TABLE = "jvm_memory_used";
-    private static final String[] META_COLUMNS = {"entity.enabled", "entity.groups", "entity.interpolate", "entity.label",
-            "entity.tags", "entity.timeZone", "metric.dataType", "metric.description", "metric.enabled", "metric.filter",
+    private static final String[] META_COLUMNS = {"entity.creationTime", "entity.enabled", "entity.groups", "entity.interpolate", "entity.label",
+            "entity.tags", "entity.timeZone", "metric.creationTime", "metric.dataType", "metric.description", "metric.enabled", "metric.filter",
             "metric.interpolate", "metric.invalidValueAction", "metric.label", "metric.lastInsertTime", "metric.maxValue",
             "metric.minValue", "metric.name", "metric.persistent", "metric.retentionIntervalDays", "metric.tags",
             "metric.timeZone", "metric.versioning", "metric.units"};
@@ -71,8 +71,8 @@ public class MetaColumnsTest extends DriverTestBase {
     public void testMetaColumnsTrue() throws SQLException {
         final String connectString = getConnectStringWithMetaColumnsValue("true");
         final String expectedRemarks = "SELECT time, datetime, value, text, metric, entity, tags, " +
-                "entity.enabled, entity.groups, entity.interpolate, entity.label, entity.tags, entity.timeZone, " +
-                "metric.dataType, metric.description, metric.enabled, metric.filter, metric.interpolate, " +
+                "entity.creationTime, entity.enabled, entity.groups, entity.interpolate, entity.label, entity.tags, entity.timeZone, " +
+                "metric.creationTime, metric.dataType, metric.description, metric.enabled, metric.filter, metric.interpolate, " +
                 "metric.invalidValueAction, metric.label, metric.lastInsertTime, metric.maxValue, metric.minValue, " +
                 "metric.name, metric.persistent, metric.retentionIntervalDays, metric.tags, " +
                 "metric.timeZone, metric.versioning, metric.units FROM \"" + TABLE + "\" LIMIT 1";

@@ -63,7 +63,7 @@ public class TableRemarksTest {
         log.info("Executing remarks query for table {}:\n{}", table, remarks);
         try (Statement statement = connection.createStatement();
              final ResultSet resultSet = statement.executeQuery(remarks)) {
-             assertThat(resultSet.next(), is(true));
+             assertThat("ResultSet is not empty", resultSet.next(), is(true));
              compareColumnMetadata(table, resultSet);
         } catch (SQLException e) {
             String error = "Table: " + table + "\nQuery: " + remarks +
@@ -74,8 +74,7 @@ public class TableRemarksTest {
 
     @Step("Compare that column metadata is the same in DatabaseMetadata.getColumns() and ResultSet.getMetaData()")
     private void compareColumnMetadata(String table, ResultSet resultSet) throws SQLException {
-        if ("atsd_series".equals(table)) {
-            assertThat("ResultSet is not empty", resultSet.next(), is(true));
+        if ("atsd_series".equals(table)) { // SELECT FROM atsd_series may return different number of columns
             return;
         }
         final ResultSetMetaData rsMetaData = resultSet.getMetaData();

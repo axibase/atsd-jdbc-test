@@ -75,10 +75,6 @@ public class TestUtil {
         return result.toString();
     }
 
-    public static String buildVariablePrefix() {
-        return buildVariableName("");
-    }
-
     public static String format(String pattern, Object... args) {
         return args == null || args.length == 0 ? pattern : MessageFormatter.arrayFormat(pattern, args).getMessage();
     }

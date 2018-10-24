@@ -1,6 +1,7 @@
 package com.axibase.tsd.driver.jdbc.data;
 
 import com.axibase.tsd.driver.jdbc.util.ConnectStringComposer;
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,15 +59,34 @@ public class TableRemarksTest {
 
     @Test
     @DisplayName("Test that table remarks metadata are valid")
-    public void testTableRemarks() throws SQLException {
+    public void testTableRemarks() {
         log.info("Executing remarks query for table {}:\n{}", table, remarks);
         try (Statement statement = connection.createStatement();
              final ResultSet resultSet = statement.executeQuery(remarks)) {
-             assertThat(resultSet.next(), is(true));
+             assertThat("ResultSet is not empty", resultSet.next(), is(true));
+             compareColumnMetadata(table, resultSet);
         } catch (SQLException e) {
             String error = "Table: " + table + "\nQuery: " + remarks +
                     "\nQuery from table remarks must have executed without errors, but the error appeared: " + e.getMessage();
             fail(error);
+        }
+    }
+
+    @Step("Compare that column metadata is the same in DatabaseMetadata.getColumns() and ResultSet.getMetaData()")
+    private void compareColumnMetadata(String table, ResultSet resultSet) throws SQLException {
+        if ("atsd_series".equals(table)) { // SELECT FROM atsd_series may return different number of columns
+            return;
+        }
+        final ResultSetMetaData rsMetaData = resultSet.getMetaData();
+        try (final ResultSet columns = connection.getMetaData().getColumns(null, null, table, null)) {
+            int i = 0;
+            while (columns.next()) {
+                ++i;
+                final String columnName = rsMetaData.getColumnName(i);
+                assertThat("Column labels don't match on index=" + i, columnName, is(columns.getString("COLUMN_NAME")));
+                assertThat("Column types don't match for column " + columnName, rsMetaData.getColumnTypeName(i), is(columns.getString("TYPE_NAME")));
+            }
+            assertThat("Column size doesn't match in DatabaseMetadata.getColumns() and ResultSetMetaData", rsMetaData.getColumnCount(), is(i));
         }
     }
 

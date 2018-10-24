@@ -217,18 +217,18 @@ public class UpdateTest extends AbstractDataTest {
         Assert.assertEquals(metricName + "-2", last.get(METRIC_NAME));
         Assert.assertEquals("test1=" + metricTagValue, last.get(METRIC_TAGS));
         Assert.assertEquals(metricLabel, last.get(METRIC_LABEL));
-        Assert.assertTrue((Boolean)last.get(METRIC_ENABLED));
+        Assert.assertEquals("true", String.valueOf(last.get(METRIC_ENABLED)));
         Assert.assertEquals(metricInterpolation.toUpperCase(), last.get(METRIC_INTERPOLATE));
         Assert.assertEquals(metricTimeZone, last.get(METRIC_TIME_ZONE));
         Assert.assertEquals(metricDescription, last.get(METRIC_DESCRIPTION));
-        Assert.assertFalse((Boolean) last.get(METRIC_VERSIONING));
+        Assert.assertNotEquals("true", String.valueOf(last.get(METRIC_VERSIONING)));
         Assert.assertEquals(metricUnits, last.get(METRIC_UNITS));
         Assert.assertNull(metricUnits, last.get(METRIC_MIN_VALUE));
         Assert.assertNull(metricUnits, last.get(METRIC_MAX_VALUE));
         Assert.assertEquals(metricFilter, last.get(METRIC_FILTER));
         Assert.assertEquals("NONE", last.get(METRIC_INVALID_VALUE_ACTION));
         Assert.assertNotNull(last.get(METRIC_LAST_INSERT_TIME));
-        Assert.assertTrue((Boolean) last.get(METRIC_PERSISTENT));
+        Assert.assertEquals("true", String.valueOf(last.get(METRIC_PERSISTENT)));
     }
 
     @Test

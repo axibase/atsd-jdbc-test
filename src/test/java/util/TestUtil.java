@@ -4,6 +4,7 @@ import com.axibase.tsd.driver.jdbc.content.ContentMetadata;
 import com.axibase.tsd.driver.jdbc.content.StatementContext;
 import com.axibase.tsd.driver.jdbc.enums.AtsdType;
 import com.axibase.tsd.driver.jdbc.enums.DefaultColumn;
+import com.axibase.tsd.driver.jdbc.util.TestProperties;
 import lombok.experimental.UtilityClass;
 import org.apache.calcite.avatica.ColumnMetaData;
 import org.apache.calcite.avatica.Meta;

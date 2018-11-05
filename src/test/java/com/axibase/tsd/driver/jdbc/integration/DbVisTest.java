@@ -20,7 +20,7 @@ import org.junit.Test;
 import java.sql.*;
 
 import static org.junit.Assert.assertNotNull;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 @Slf4j
 public class DbVisTest {

@@ -13,8 +13,8 @@ import java.util.TimeZone;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static util.TestProperties.LOGIN_NAME;
-import static util.TestProperties.LOGIN_PASSWORD;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.LOGIN_NAME;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.LOGIN_PASSWORD;
 
 public class TimeZoneInsertExample {
     private static final String ENTITY = "test-tz";

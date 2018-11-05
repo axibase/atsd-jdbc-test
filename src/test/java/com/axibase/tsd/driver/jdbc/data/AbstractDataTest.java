@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import util.TableConstants;
 
 import java.sql.*;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 @Slf4j
 public abstract class AbstractDataTest extends DriverTestBase {
@@ -41,7 +40,7 @@ public abstract class AbstractDataTest extends DriverTestBase {
 
     protected void checkRemoteStatementWithDifferentResultSets() throws AtsdException, SQLException {
         try (final Statement statement = connection.createStatement()) {
-            String[] metrics = TableConstants.TWO_TABLES.split(",");
+            String[] metrics = TWO_TABLES.split(",");
             for (String metric : metrics) {
                 int count = executeAndReturnNumberOfLines(statement, SELECT_ALL_CLAUSE + metric);
                 assertThat(count, is(not(0)));
@@ -53,7 +52,7 @@ public abstract class AbstractDataTest extends DriverTestBase {
     protected void checkStatementWithTraversingSimultaneously() throws AtsdException, SQLException, InterruptedException {
         ExecutorService service = Executors.newFixedThreadPool(2);
         try (final Statement statement = connection.createStatement()) {
-            String[] metrics = TableConstants.TWO_TABLES.split(",");
+            String[] metrics = TWO_TABLES.split(",");
             for (final String metric : metrics) {
                 service.submit(() -> {
                     try {

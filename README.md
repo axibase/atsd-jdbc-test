@@ -17,7 +17,7 @@
 $ mvn clean test
 ```
 
-To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. You need to fill the file `src/test/resources/dev.properties` with your metrics. The following properties are required.
+To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. You need to fill the file `src/main/resources/dev.properties` with your metrics. The following properties are required.
 
 ```properties
 axibase.tsd.driver.jdbc.url=<ATSD_URL | host:port | >

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.sql.*;
 
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 public class BasicExampleTest extends DriverTestBase {
 	@Test

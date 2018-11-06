@@ -39,9 +39,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertNotNull;
-import static util.TableConstants.SMALL_TABLE;
-import static util.TableConstants.SMALL_TABLE_KEY;
-import static util.TestProperties.DEFAULT_CONNECTION_INFO;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE_KEY;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.DEFAULT_CONNECTION_INFO;
 
 @Slf4j
 public class SdkProtocolTest extends DriverTestBase {

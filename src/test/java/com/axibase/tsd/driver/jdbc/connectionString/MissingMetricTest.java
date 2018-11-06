@@ -8,7 +8,6 @@ import io.qameta.allure.Issue;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Rule;
 import org.junit.Test;
-import util.TableConstants;
 
 import java.sql.*;
 
@@ -17,7 +16,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 @Issue("4385")
 public class MissingMetricTest extends DriverTestBase {
@@ -30,7 +29,7 @@ public class MissingMetricTest extends DriverTestBase {
         final String connString = getConnectStringWithMissingMetricValue("warning");
         try (Connection connection = DriverManager.getConnection(connString, LOGIN_NAME, LOGIN_PASSWORD);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + TableConstants.WRONG_TABLE);) {
+             ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + WRONG_TABLE);) {
             assertThat(resultSet.getWarnings(), is(not(nullValue())));
         }
     }
@@ -41,7 +40,7 @@ public class MissingMetricTest extends DriverTestBase {
         final String connString = getConnectStringWithMissingMetricValue("error");
         try (Connection connection = DriverManager.getConnection(connString, LOGIN_NAME, LOGIN_PASSWORD);
              Statement statement = connection.createStatement()) {
-            statement.executeQuery(SELECT_ALL_CLAUSE + TableConstants.WRONG_TABLE);
+            statement.executeQuery(SELECT_ALL_CLAUSE + WRONG_TABLE);
         }
     }
 
@@ -51,7 +50,7 @@ public class MissingMetricTest extends DriverTestBase {
         final String connString = getConnectStringWithMissingMetricValue("none");
         try (Connection connection = DriverManager.getConnection(connString, LOGIN_NAME, LOGIN_PASSWORD);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + TableConstants.WRONG_TABLE);) {
+             ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + WRONG_TABLE);) {
             assertThat(resultSet, is(not(nullValue())));
             assertThat(resultSet.next(), is(false));
         }
@@ -62,7 +61,7 @@ public class MissingMetricTest extends DriverTestBase {
     public void warnOnMissingMetricDefault() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DEFAULT_JDBC_ATSD_URL, LOGIN_NAME, LOGIN_PASSWORD);
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + TableConstants.WRONG_TABLE);) {
+             ResultSet resultSet = statement.executeQuery(SELECT_ALL_CLAUSE + WRONG_TABLE);) {
             assertThat(resultSet.getWarnings(), is(not(nullValue())));
         }
     }

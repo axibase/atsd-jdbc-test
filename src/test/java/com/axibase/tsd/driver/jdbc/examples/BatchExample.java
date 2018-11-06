@@ -15,8 +15,8 @@ import java.util.stream.IntStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
-import static util.TestProperties.LOGIN_NAME;
-import static util.TestProperties.LOGIN_PASSWORD;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.LOGIN_NAME;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.LOGIN_PASSWORD;
 
 @Slf4j
 public class BatchExample {

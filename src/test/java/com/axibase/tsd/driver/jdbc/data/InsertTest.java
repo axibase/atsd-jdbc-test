@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.axibase.tsd.driver.jdbc.util.AtsdColumn.*;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 import static util.TestUtil.*;
 
 public class InsertTest extends AbstractDataTest {

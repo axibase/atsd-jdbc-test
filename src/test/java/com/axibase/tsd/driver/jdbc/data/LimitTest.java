@@ -18,8 +18,7 @@ import java.sql.*;
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_ALL_CLAUSE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static util.TableConstants.*;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)

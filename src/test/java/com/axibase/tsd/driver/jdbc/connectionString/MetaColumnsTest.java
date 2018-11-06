@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 @Issue("4346")
 public class MetaColumnsTest extends DriverTestBase {

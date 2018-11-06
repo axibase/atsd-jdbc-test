@@ -5,6 +5,7 @@ import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
 import com.axibase.tsd.driver.jdbc.spring.AtsdRepositoryConfig;
 import com.axibase.tsd.driver.jdbc.spring.EntityValueFloatRepository;
 import com.axibase.tsd.driver.jdbc.spring.entity.EntityValueFloat;
+import com.axibase.tsd.driver.jdbc.util.TestProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,6 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertTrue;
-import static util.TableConstants.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { AtsdRepositoryConfig.class })
@@ -55,21 +55,21 @@ public class EntityValueFloatRepositoryTest extends DriverTestBase {
     }
 
     @Test
-    @ExecuteWhenSysVariableSet(TINY_TABLE_KEY)
-    @ExecuteWhenSysVariableSet(TINY_TABLE_COUNT_KEY)
+    @ExecuteWhenSysVariableSet(TestProperties.TINY_TABLE_KEY)
+    @ExecuteWhenSysVariableSet(TestProperties.TINY_TABLE_COUNT_KEY)
     public void testCount() {
         long count = entityRepository.count();
-        assertThat(count, is(TINY_TABLE_COUNT));
+        assertThat(count, is(TestProperties.TINY_TABLE_COUNT));
     }
 
     @Test
-    @ExecuteWhenSysVariableSet(TINY_TABLE_KEY)
+    @ExecuteWhenSysVariableSet(TestProperties.TINY_TABLE_KEY)
     public void testFindAll() {
         final PageRequest page = new PageRequest(0, 1000, Direction.DESC, "time", "value");
         final Page<EntityValueFloat> result = entityRepository.findAll(page);
         List<EntityValueFloat> list = result.getContent();
         final List<Map<String, Object>> map = jdbc.queryForList(
-                String.format("SELECT entity, datetime, value FROM %s ORDER BY time, value DESC LIMIT 1000", TINY_TABLE));
+                String.format("SELECT entity, datetime, value FROM %s ORDER BY time, value DESC LIMIT 1000", TestProperties.TINY_TABLE));
         for (Map<String, Object> next : map) {
             final EntityValueFloat entityValueFloat = new EntityValueFloat(
                     (String) next.get("entity"),

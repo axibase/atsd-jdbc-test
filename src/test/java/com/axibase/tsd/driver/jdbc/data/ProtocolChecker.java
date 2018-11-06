@@ -25,9 +25,9 @@ import java.security.GeneralSecurityException;
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_LIMIT_1000;
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_TVE_CLAUSE;
 import static org.junit.Assert.assertNotNull;
-import static util.TableConstants.SMALL_TABLE;
-import static util.TableConstants.SMALL_TABLE_KEY;
-import static util.TestProperties.DEFAULT_CONNECTION_INFO;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE_KEY;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.DEFAULT_CONNECTION_INFO;
 
 @Slf4j
 @PowerMockIgnore({ "javax.net.ssl.*" })

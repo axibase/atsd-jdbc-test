@@ -45,8 +45,7 @@ import java.util.*;
 
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_ALL_CLAUSE;
 import static org.junit.Assert.assertNotNull;
-import static util.TableConstants.*;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 import static util.TestUtil.prepareMetadata;
 
 @Slf4j

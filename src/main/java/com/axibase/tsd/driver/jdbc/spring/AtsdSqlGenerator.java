@@ -1,7 +1,6 @@
 package com.axibase.tsd.driver.jdbc.spring;
 
-import org.springframework.data.domain.Pageable;
-
+import com.nurkiewicz.jdbcrepository.TableDescription;
 import com.nurkiewicz.jdbcrepository.sql.SqlGenerator;
 
 public class AtsdSqlGenerator extends SqlGenerator {
@@ -13,8 +12,7 @@ public class AtsdSqlGenerator extends SqlGenerator {
 	}
 
 	@Override
-	protected String limitClause(Pageable page) {
-		return "";
+	public String count(TableDescription table) {
+		return SELECT + "COUNT(*) " + FROM + '"' + table.getFromClause() + '"';
 	}
-
 }

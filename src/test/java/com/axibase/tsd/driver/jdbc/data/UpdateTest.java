@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.axibase.tsd.driver.jdbc.util.AtsdColumn.*;
-import static util.TestProperties.REDIRECT_OUTPUT_TO_ALLURE;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.REDIRECT_OUTPUT_TO_ALLURE;
 import static util.TestUtil.*;
 
 

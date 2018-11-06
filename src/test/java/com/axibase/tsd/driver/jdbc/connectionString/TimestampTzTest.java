@@ -7,7 +7,7 @@ import io.qameta.allure.Issue;
 import io.qameta.allure.junit4.DisplayName;
 import lombok.AllArgsConstructor;
 import org.junit.*;
-import util.TestProperties;
+import com.axibase.tsd.driver.jdbc.util.TestProperties;
 
 import java.sql.*;
 import java.time.Instant;
@@ -15,7 +15,7 @@ import java.util.TimeZone;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 @Issue("4369")
 public class TimestampTzTest {

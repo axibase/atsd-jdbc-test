@@ -76,24 +76,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>${project.build.testOutputDirectory}/dev.properties</file>
-                            </files>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
@@ -104,62 +86,6 @@
                     <forkCount>1</forkCount>
                     <reuseForks>false</reuseForks>
                     <systemProperties>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.url</name>
-                            <value>${axibase.tsd.driver.jdbc.url}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.trust</name>
-                            <value>${axibase.tsd.driver.jdbc.trust}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.username</name>
-                            <value>${axibase.tsd.driver.jdbc.username}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.password</name>
-                            <value>${axibase.tsd.driver.jdbc.password}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.tiny.count</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.tiny.count}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.tiny</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.tiny}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.small</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.small}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.medium</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.medium}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.large</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.large}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.huge</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.huge}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.jumbo</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.jumbo}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.wrong</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.wrong}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.metric.concurrent</name>
-                            <value>${axibase.tsd.driver.jdbc.metric.concurrent}</value>
-                        </property>
-                        <property>
-                            <name>axibase.tsd.driver.jdbc.strategy</name>
-                            <value>${axibase.tsd.driver.jdbc.strategy}</value>
-                        </property>
                         <property>
                             <name>allure.results.directory</name>
                             <value>target/${allure.results.directory}</value>

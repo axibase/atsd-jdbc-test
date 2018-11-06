@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import static org.junit.Assert.assertNotNull;
-import static util.TestProperties.*;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 
 public class AtsdConnectionTest extends AbstractDataTest {
     private static AtsdDriver driver;

@@ -43,7 +43,7 @@ Launch `run_tests_in_container.sh` in the `atsd-jdbc-test` base directory.
 ./run_tests_in_container.sh DOCKER_PUBLISH_PORTS TEST_OPTIONS
 ```
 
-> Note a set of test properties already specified, i.e. `src/test/resources/dev.properties` filled automatically
+> A set of test properties are already specified, i.e. ones from `src/main/resources/dev.properties` are filled automatically
 
 Parameter `DOCKER_PUBLISH_PORTS` is required, you can specify HTTPS and TCP ports or use "--publish-all" (in this case Docker finds free ports automatically):
 
@@ -52,9 +52,9 @@ Parameter `DOCKER_PUBLISH_PORTS` is required, you can specify HTTPS and TCP port
 ./run_tests_in_container.sh "-p1234:8443 -p4321:8081"
 ```
 
-`TEST_OPTIONS` is not required, but must be specified in double quotes in case of use, see [exposed parameters](#exposed-parameters).
+`TEST_OPTIONS` is not required, but must be specified in double quotes if used. See [exposed parameters](#exposed-parameters).
 
-> In a preparation step, run_tests_in_container.sh launches ATSD instance with pre-installed m_small (100 samples), m_large (500 000 samples) metrics and user `axibase` with password `axibase`
+> In a preparation step, `run_tests_in_container.sh` launches ATSD instance with pre-installed `m_small` (100 samples), `m_large` (500 000 samples) metrics and user `axibase` with password `axibase`
 
 See also:
 

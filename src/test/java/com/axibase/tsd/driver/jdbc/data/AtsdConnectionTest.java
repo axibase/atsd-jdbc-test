@@ -45,7 +45,7 @@ public class AtsdConnectionTest extends AbstractDataTest {
     @Test
     public void testConnectWithoutCredentials() throws Exception {
         exception.expect(SQLException.class);
-        exception.expectMessage("Wrong credentials provided");
+        exception.expectMessage("Authentication failed: Access Denied");
         Connection connection = driver.connect(DEFAULT_JDBC_ATSD_URL, new Properties());
         connection.close();
     }

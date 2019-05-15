@@ -9,7 +9,7 @@ ATSD_PASSWORD=$4
 
 HOST=127.0.0.1
 
-docker run -d --name=${CONTAINER_NAME} ${DOCKER_PORTS} -e ADMIN_USER_NAME="$ATSD_LOGIN" -e ADMIN_USER_PASSWORD="$ATSD_PASSWORD" -e DB_TIMEZONE="Antarctica/South_Pole" axibase/atsd:latest
+docker run -d --name=${CONTAINER_NAME} ${DOCKER_PORTS} -e ADMIN_USER_NAME="$ATSD_LOGIN" -e ADMIN_USER_PASSWORD="$ATSD_PASSWORD" -e DB_TIMEZONE="Antarctica/South_Pole" -e DEPLOYMENT_TYPE="jdbc-test" axibase/atsd:latest
 
 TCP_PORT=$(docker port ${CONTAINER_NAME} 8081| cut -d ":" -f2)
 HTTPS_PORT=$(docker port ${CONTAINER_NAME} 8443| cut -d ":" -f2)

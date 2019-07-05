@@ -2,16 +2,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.axibase</groupId>
     <artifactId>atsd-jdbc-test</artifactId>
+    <packaging>pom</packaging>
     <version>0.5.0-SNAPSHOT</version>
+    <modules>
+        <module>atsd-jdbc-acceptance-tests</module>
+        <module>atsd-jdbc-integration-spring-boot-1</module>
+        <module>atsd-jdbc-examples</module>
+        <module>atsd-jdbc-test-util</module>
+    </modules>
     <name>ATSD JDBC tests</name>
     <description>Integration tests for JDBC driver</description>
     <url>https://axibase.com</url>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.14.RELEASE</version>
-        <relativePath />
-    </parent>
     <inceptionYear>2016</inceptionYear>
     <organization>
         <name>Axibase</name>
@@ -28,9 +29,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:https://github.com/axibase/atsd-jdbc-test.git</connection>
-        <developerConnection>scm:git:https://github.com/axibase/atsd-jdbc-test.git</developerConnection>
-        <url>http://github.com/axibase/atsd-jdbc-test.git</url>
+        <connection>scm:git:https://github.com/axibase/atsd-com.axibase.tsd.driver.jdbc-test.git</connection>
+        <developerConnection>scm:git:https://github.com/axibase/atsd-com.axibase.tsd.driver.jdbc-test.git</developerConnection>
+        <url>http://github.com/axibase/atsd-com.axibase.tsd.driver.jdbc-test.git</url>
         <tag>HEAD</tag>
     </scm>
     <properties>
@@ -47,7 +48,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
-        <defaultGoal>clean test</defaultGoal>
+        <!--<defaultGoal>clean test</defaultGoal>-->
         <finalName>${project.artifactId}-${project.version}</finalName>
         <pluginManagement>
             <plugins />
@@ -56,6 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <fork>false</fork>
@@ -66,60 +68,58 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <failOnError>false</failOnError>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20</version>
-                <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <useSystemClassLoader>true</useSystemClassLoader>
-                    <printSummary>true</printSummary>
-                    <forkCount>1</forkCount>
-                    <reuseForks>false</reuseForks>
-                    <systemProperties>
-                        <property>
-                            <name>allure.results.directory</name>
-                            <value>target/${allure.results.directory}</value>
-                        </property>
-                        <property>
-                            <name>allure.link.issue.pattern</name>
-                            <value>${allure.link.issue.pattern}</value>
-                        </property>
-                    </systemProperties>
 
-                    <testFailureIgnore>false</testFailureIgnore>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
-                    <properties>
-                        <property>
-                            <name>listener</name>
-                            <value>io.qameta.allure.junit4.AllureJunit4</value>
-                        </property>
-                    </properties>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit4</artifactId>
-                        <version>2.20</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                <!--<version>2.20</version>-->
+                <!--<configuration>-->
+                    <!--<testFailureIgnore>false</testFailureIgnore>-->
+                    <!--<useSystemClassLoader>true</useSystemClassLoader>-->
+                    <!--<printSummary>true</printSummary>-->
+                    <!--<forkCount>1</forkCount>-->
+                    <!--<reuseForks>false</reuseForks>-->
+                    <!--<systemProperties>-->
+                        <!--<property>-->
+                            <!--<name>allure.results.directory</name>-->
+                            <!--<value>target/${allure.results.directory}</value>-->
+                        <!--</property>-->
+                        <!--<property>-->
+                            <!--<name>allure.link.issue.pattern</name>-->
+                            <!--<value>${allure.link.issue.pattern}</value>-->
+                        <!--</property>-->
+                    <!--</systemProperties>-->
+
+                    <!--<testFailureIgnore>false</testFailureIgnore>-->
+                    <!--<argLine>-->
+                         <!-- -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"-->
+                    <!--</argLine>-->
+                    <!--<properties>-->
+                        <!--<property>-->
+                            <!--<name>listener</name>-->
+                            <!--<value>io.qameta.allure.junit4.AllureJunit4</value>-->
+                        <!--</property>-->
+                    <!--</properties>-->
+                <!--</configuration>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.aspectj</groupId>-->
+                        <!--<artifactId>aspectjweaver</artifactId>-->
+                        <!--<version>${aspectj.version}</version>-->
+                    <!--</dependency>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.apache.maven.surefire</groupId>-->
+                        <!--<artifactId>surefire-junit4</artifactId>-->
+                        <!--<version>2.20</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
@@ -147,31 +147,12 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
+            <version>2.7.1</version>
         </dependency>
         <dependency>
             <groupId>com.nurkiewicz.jdbcrepository</groupId>
             <artifactId>jdbcrepository</artifactId>
             <version>0.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -179,6 +160,16 @@
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-clean-plugin</artifactId>
+            <version>3.1.0</version>
         </dependency>
 
         <!-- Test -->

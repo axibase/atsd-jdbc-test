@@ -5,22 +5,22 @@
     <parent>
         <artifactId>atsd-jdbc-test</artifactId>
         <groupId>com.axibase</groupId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>atsd-jdbc-examples</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.axibase</groupId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.5.0</version>
             <artifactId>atsd-jdbc-acceptance-tests</artifactId>
         </dependency>
         <dependency>
             <groupId>com.axibase</groupId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.5.0</version>
             <artifactId>atsd-jdbc-test-util</artifactId>
         </dependency>
     </dependencies>

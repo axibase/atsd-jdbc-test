@@ -11,7 +11,7 @@ cache:
   directories:
     - $HOME/.m2
 script:
-  - mvn package -B -Dinsert.wait=3000
+  - mvn package -B -Dinsert.wait=3000 --fail-at-end
   - spellcheck
   - linkcheck
   - stylecheck

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d[%4.4t]%-5p %-21.21logger{20}: %m%n</Pattern>
+        </encoder>
+    </appender>
+ 
+    <logger name="com.axibase.tsd.driver.jdbc">
+        <level value="DEBUG" />
+    </logger>
+    
+    <logger name="com.zaxxer.hikari">
+        <level value="WARN" />
+    </logger>
+    
+    <logger name="org.springframework">
+        <level value="WARN" />
+    </logger>
+
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

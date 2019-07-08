@@ -9,11 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import util.TestUtil;
 
 import java.io.BufferedReader;
@@ -24,24 +19,19 @@ import java.security.GeneralSecurityException;
 
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_LIMIT_1000;
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_TVE_CLAUSE;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 import static org.junit.Assert.assertNotNull;
-import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE;
-import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE_KEY;
-import static com.axibase.tsd.driver.jdbc.util.TestProperties.DEFAULT_CONNECTION_INFO;
 
 @Slf4j
-@PowerMockIgnore({ "javax.net.ssl.*" })
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(SdkProtocolImpl.class)
 public class ProtocolChecker {
 	private SdkProtocolImpl protocol;
 
 	@Before
-    public void setUp() throws Exception {
+    public void setUp() {
 		final ContentDescription contentDescription = new ContentDescription(
 				Location.SQL_ENDPOINT.getUrl(DEFAULT_CONNECTION_INFO), DEFAULT_CONNECTION_INFO,
 				SELECT_TVE_CLAUSE + SMALL_TABLE + SELECT_LIMIT_1000, TestUtil.createStatementContext());
-		this.protocol = PowerMockito.spy(new SdkProtocolImpl(contentDescription));
+		this.protocol = new SdkProtocolImpl(contentDescription);
 	}
 
 	@After

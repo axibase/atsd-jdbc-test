@@ -37,7 +37,6 @@
     <properties>
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
-        <powermock.version>1.7.0</powermock.version>
         <atsd.jdbc.driver.version>1.4.7-SNAPSHOT</atsd.jdbc.driver.version>
         <allure.version>2.6.0</allure.version>
         <aspectj.version>1.8.10</aspectj.version>
@@ -162,18 +161,6 @@
         </dependency>
 
         <!-- Test -->
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>${powermock.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-            <version>${powermock.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>com.tngtech.java</groupId>
             <artifactId>junit-dataprovider</artifactId>

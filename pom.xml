@@ -3,7 +3,7 @@
     <groupId>com.axibase</groupId>
     <artifactId>atsd-jdbc-test</artifactId>
     <packaging>pom</packaging>
-    <version>0.5.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <modules>
         <module>atsd-jdbc-acceptance-tests</module>
         <module>atsd-jdbc-integration-spring-boot-1</module>
@@ -46,6 +46,7 @@
         <locale>en_US</locale>
         <allure.results.directory>allure-results</allure.results.directory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <revision>0.5.0-SNAPSHOT</revision>
     </properties>
     <build>
         <defaultGoal>clean test</defaultGoal>
@@ -54,16 +55,6 @@
             <plugins />
         </pluginManagement>
         <plugins>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -153,11 +144,6 @@
             <groupId>com.axibase</groupId>
             <artifactId>atsd-jdbc</artifactId>
             <version>${atsd.jdbc.driver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>2.7.1</version>
         </dependency>
         <dependency>
             <groupId>com.nurkiewicz.jdbcrepository</groupId>

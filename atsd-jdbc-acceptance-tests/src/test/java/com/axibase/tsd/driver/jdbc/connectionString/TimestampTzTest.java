@@ -7,6 +7,7 @@ import io.qameta.allure.Issue;
 import io.qameta.allure.junit4.DisplayName;
 import lombok.AllArgsConstructor;
 import org.junit.*;
+import com.axibase.tsd.driver.jdbc.util.TestProperties;
 
 import java.sql.*;
 import java.time.Instant;
@@ -113,7 +114,7 @@ public class TimestampTzTest {
             assertThat(inserted, is (1));
 
             try {
-                Thread.sleep(INSERT_WAIT);
+                Thread.sleep(TestProperties.INSERT_WAIT);
             } catch (InterruptedException e) {
                 Assert.fail(e.getMessage());
             }

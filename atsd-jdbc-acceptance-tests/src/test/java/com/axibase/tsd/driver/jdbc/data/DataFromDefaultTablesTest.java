@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_ALL_CLAUSE;
 import static com.axibase.tsd.driver.jdbc.TestConstants.WHERE_CLAUSE;
+import static com.axibase.tsd.driver.jdbc.data.DataFromProvidedTablesTest.checkRemoteStatement;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -55,13 +56,13 @@ public class DataFromDefaultTablesTest extends AbstractDataTest {
     @Test
     @UseDataProvider("queries")
     public void testRemoteStatementWithJoins(String query) throws AtsdException, SQLException {
-        final long count = DataFromProvidedTablesTest.checkRemoteStatement(query, NO_RETRIES);
+        final long count = checkRemoteStatement(query, NO_RETRIES);
         log.info("Returned {} rows for query '{}'", count, query);
     }
 
     @Test
     public final void testStatementsWithCondition() throws AtsdException, SQLException {
-        DataFromProvidedTablesTest.checkRemoteStatement(
+        checkRemoteStatement(
                 "SELECT entity, datetime, value, tags.mount_point, tags.file_system FROM df.disk_used_percent WHERE entity = 'NURSWGHBS001' AND datetime > now - 1 * HOUR LIMIT 10", NO_RETRIES);
     }
 

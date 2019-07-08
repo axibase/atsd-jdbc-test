@@ -14,7 +14,7 @@
 ## Run tests with local ATSD
 
 ```bash
-$ mvn clean test
+$ mvn clean package --fail-at-end
 ```
 
 To run tests, you have to choose (or create) your own ATSD metrics. A test phase requires a set of test properties listed below. You need to fill the file `src/main/resources/dev.properties` with your metrics. The following properties are required.
@@ -80,7 +80,7 @@ $ mvn allure:report jetty:run -Djetty.port=1234
 The following parameters can be specified on test execution, for example:
 
 ```bash
-mvn clean test -Dinsert.wait=500
+mvn clean package -Dinsert.wait=500 --fail-at-end
 ```
 
 ```bash

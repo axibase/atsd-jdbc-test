@@ -12,13 +12,16 @@
 
     <artifactId>atsd-jdbc-integration-spring-boot-1</artifactId>
     <packaging>jar</packaging>
+    <properties>
+        <spring.boot.version>1.5.21.RELEASE</spring.boot.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>1.5.14.RELEASE</version>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -60,6 +63,11 @@
             <artifactId>HikariCP</artifactId>
             <version>2.7.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.nurkiewicz.jdbcrepository</groupId>
+            <artifactId>jdbcrepository</artifactId>
+            <version>0.4.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -67,6 +75,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
             </plugin>
         </plugins>
     </build>

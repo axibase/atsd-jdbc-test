@@ -18,6 +18,7 @@
             <groupId>com.axibase</groupId>
             <version>${project.parent.version}</version>
             <artifactId>atsd-jdbc-test-util</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

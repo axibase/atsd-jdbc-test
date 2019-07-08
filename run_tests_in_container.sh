@@ -19,6 +19,6 @@ else
 
     echo "HTTPS port is ${HTTPS_PORT}"
 
-    mvn clean test -B ${TEST_OPTIONS} -Daxibase.tsd.driver.jdbc.url=localhost:${HTTPS_PORT}
+    mvn package ${TEST_OPTIONS} -Daxibase.tsd.driver.jdbc.url=localhost:${HTTPS_PORT}
     docker rm -vf ${CONTAINER_NAME}
 fi

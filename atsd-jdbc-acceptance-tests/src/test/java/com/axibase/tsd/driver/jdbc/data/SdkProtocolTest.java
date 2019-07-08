@@ -15,6 +15,8 @@
 package com.axibase.tsd.driver.jdbc.data;
 
 import com.axibase.tsd.driver.jdbc.DriverTestBase;
+import com.axibase.tsd.driver.jdbc.com.univocity.parsers.csv.CsvParser;
+import com.axibase.tsd.driver.jdbc.com.univocity.parsers.csv.CsvParserSettings;
 import com.axibase.tsd.driver.jdbc.content.ContentDescription;
 import com.axibase.tsd.driver.jdbc.enums.Location;
 import com.axibase.tsd.driver.jdbc.ext.AtsdException;
@@ -23,7 +25,6 @@ import com.axibase.tsd.driver.jdbc.protocol.ProtocolFactory;
 import com.axibase.tsd.driver.jdbc.protocol.SdkProtocolImpl;
 import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
 import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
-import com.opencsv.CSVReader;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,13 +36,11 @@ import java.util.Arrays;
 
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_LIMIT_1000;
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_TVE_CLAUSE;
+import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertNotNull;
-import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE;
-import static com.axibase.tsd.driver.jdbc.util.TestProperties.SMALL_TABLE_KEY;
-import static com.axibase.tsd.driver.jdbc.util.TestProperties.DEFAULT_CONNECTION_INFO;
 
 @Slf4j
 public class SdkProtocolTest extends DriverTestBase {
@@ -59,13 +58,12 @@ public class SdkProtocolTest extends DriverTestBase {
 			final Reader reader = new BufferedReader(new InputStreamReader(inputStream));
 			assertNotNull(contentDescription.getJsonScheme());
 			String[] nextLine;
-			try (final CSVReader csvReader = new CSVReader(reader)) {
-				while ((nextLine = csvReader.readNext()) != null) {
-					String next = Arrays.toString(nextLine);
-					assertThat(nextLine.length, is(greaterThan(0)));
-
-					log.trace(next);
-				}
+			final CsvParser csvParser = new CsvParser(new CsvParserSettings());
+			csvParser.beginParsing(reader);
+			while ((nextLine = csvParser.parseNext()) != null) {
+				String next = Arrays.toString(nextLine);
+				assertThat(nextLine.length, is(greaterThan(0)));
+				log.trace(next);
 			}
 		}
 	}

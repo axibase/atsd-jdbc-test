@@ -24,7 +24,7 @@ public class BatchExample {
 
     @Test
     public void testGenerateUserDirsBatch() throws Exception {
-        try (final Connection connection = DriverManager.getConnection("com.axibase.tsd.driver.jdbc:atsd://localhost:8443", LOGIN_NAME, LOGIN_PASSWORD)) {
+        try (final Connection connection = DriverManager.getConnection("jdbc:atsd://localhost:8443", LOGIN_NAME, LOGIN_PASSWORD)) {
             final PreparedStatement preparedStatement = connection.prepareStatement(QUERY);
 
             final long now = System.currentTimeMillis();

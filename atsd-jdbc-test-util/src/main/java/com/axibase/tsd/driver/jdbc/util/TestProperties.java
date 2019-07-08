@@ -20,12 +20,12 @@ public final class TestProperties {
     // Table names used in conditional tests
     public static final String TINY_TABLE_COUNT_KEY = "axibase.tsd.driver.jdbc.metric.tiny.count";
     public static final String TINY_TABLE_KEY = "axibase.tsd.driver.jdbc.metric.tiny";
-    public static final String SMALL_TABLE_KEY = "axibase.tsd.driver.com.axibase.tsd.driver.jdbc.metric.small";
-    public static final String MEDIUM_TABLE_KEY = "axibase.tsd.driver.com.axibase.tsd.driver.jdbc.metric.medium";
+    public static final String SMALL_TABLE_KEY = "axibase.tsd.driver.jdbc.metric.small";
+    public static final String MEDIUM_TABLE_KEY = "axibase.tsd.driver.jdbc.metric.medium";
     public static final String LARGE_TABLE_KEY = "axibase.tsd.driver.jdbc.metric.large";
-    public static final String HUGE_TABLE_KEY = "axibase.tsd.driver.com.axibase.tsd.driver.jdbc.metric.huge";
-    public static final String JUMBO_TABLE_KEY = "axibase.tsd.driver.com.axibase.tsd.driver.jdbc.metric.jumbo";
-    public static final String TWO_TABLES_KEY = "axibase.tsd.driver.com.axibase.tsd.driver.jdbc.metric.concurrent";
+    public static final String HUGE_TABLE_KEY = "axibase.tsd.driver.jdbc.metric.huge";
+    public static final String JUMBO_TABLE_KEY = "axibase.tsd.driver.jdbc.metric.jumbo";
+    public static final String TWO_TABLES_KEY = "axibase.tsd.driver.jdbc.metric.concurrent";
     public static final String WRONG_TABLE_KEY = "axibase.tsd.driver.jdbc.metric.wrong";
 
     // Table name values

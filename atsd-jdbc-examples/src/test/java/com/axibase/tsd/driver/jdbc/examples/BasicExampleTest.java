@@ -36,7 +36,7 @@ public class BasicExampleTest extends DriverTestBase {
 	@Test
 	public void testMetadata() throws ClassNotFoundException, SQLException {
 		Class.forName("com.axibase.tsd.driver.jdbc.AtsdDriver");
-		String sqlUrl = "com.axibase.tsd.driver.jdbc:atsd://" + HTTP_ATSD_URL;
+		String sqlUrl = "jdbc:atsd://" + HTTP_ATSD_URL;
     try (Connection connection = DriverManager.getConnection(sqlUrl, LOGIN_NAME, LOGIN_PASSWORD)) {
 			DatabaseMetaData metaData = connection.getMetaData();
 			String databaseProductName = metaData.getDatabaseProductName();

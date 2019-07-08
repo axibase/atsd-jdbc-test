@@ -13,4 +13,12 @@
     <artifactId>atsd-jdbc-test-util</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit4</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

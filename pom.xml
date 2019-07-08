@@ -145,11 +145,6 @@
             <artifactId>atsd-jdbc</artifactId>
             <version>${atsd.jdbc.driver.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.nurkiewicz.jdbcrepository</groupId>
-            <artifactId>jdbcrepository</artifactId>
-            <version>0.4.1</version>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -157,15 +152,13 @@
             <version>1.16.18</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--Logging-->
         <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>3.1.0</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.26</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Test -->
@@ -185,6 +178,7 @@
             <groupId>com.tngtech.java</groupId>
             <artifactId>junit-dataprovider</artifactId>
             <version>1.12.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -208,16 +202,8 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
-        </dependency>
-
-        <!--Logging-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.26</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
     <repositories>
         <repository>

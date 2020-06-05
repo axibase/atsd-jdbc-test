@@ -32,7 +32,7 @@ public class DatetimeCoalesceTypeResolveTest extends AbstractDataTest {
                 { "COALESCE(datetime, 'test')", "java_object", String.class },
                 { "COALESCE(datetime, value)", "java_object", String.class },
                 { "COALESCE(time, 'test')", "java_object", Double.class },
-                { "COALESCE(time, value)", "double", Double.class },
+                { "COALESCE(time, value)", "java_object", Double.class },
         };
     }
 

@@ -97,6 +97,7 @@ public class DataFromDefaultTablesTest extends AbstractDataTest {
                 { "SELECT time, datetime FROM jvm_memory_used LIMIT 1", "time", "datetime" },
                 { "SELECT t.time, t.datetime FROM jvm_memory_used t LIMIT 1", "t.time", "t.datetime" },
                 { "SELECT t.time, t.datetime as \"datetime\" FROM jvm_memory_used t LIMIT 1", "t.time", "datetime" },
+                { "SELECT now, current_timestamp", "now", "current_timestamp" },
         };
     }
 

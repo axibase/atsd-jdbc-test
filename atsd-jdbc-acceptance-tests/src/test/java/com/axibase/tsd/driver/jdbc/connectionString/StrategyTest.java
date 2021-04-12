@@ -25,8 +25,9 @@ import com.axibase.tsd.driver.jdbc.intf.IContentProtocol;
 import com.axibase.tsd.driver.jdbc.intf.IStoreStrategy;
 import com.axibase.tsd.driver.jdbc.protocol.ProtocolFactory;
 import com.axibase.tsd.driver.jdbc.protocol.SdkProtocolImpl;
+import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
 import com.axibase.tsd.driver.jdbc.rules.OutputLogsToAllure;
-import com.axibase.tsd.driver.jdbc.strategies.StrategyFactory;
+import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
 import com.axibase.tsd.driver.jdbc.util.ConnectStringComposer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import com.axibase.tsd.driver.jdbc.rules.ExecuteWhenSysVariableSet;
-import com.axibase.tsd.driver.jdbc.rules.SkipTestOnCondition;
 import util.TestUtil;
 
 import java.io.IOException;
@@ -44,8 +43,8 @@ import java.io.InputStream;
 import java.util.*;
 
 import static com.axibase.tsd.driver.jdbc.TestConstants.SELECT_ALL_CLAUSE;
-import static org.junit.Assert.assertNotNull;
 import static com.axibase.tsd.driver.jdbc.util.TestProperties.*;
+import static org.junit.Assert.assertNotNull;
 import static util.TestUtil.prepareMetadata;
 
 @Slf4j
@@ -107,8 +106,7 @@ public class StrategyTest {
 		final IContentProtocol protocol = ProtocolFactory.create(SdkProtocolImpl.class, contentDescription);
 		protocol.readContent(0);
 		StatementContext context = TestUtil.createStatementContext();
-		try (final IStoreStrategy strategy = StrategyFactory.create(
-				StrategyFactory.findClassByName(READ_STRATEGY), context, DriverConstants.DEFAULT_ON_MISSING_METRIC_VALUE);
+		try (final IStoreStrategy strategy = Strategy.byName(READ_STRATEGY).initialize(context, DriverConstants.DEFAULT_ON_MISSING_METRIC_VALUE);
 			 final InputStream inputStream = protocol.readContent(0)) {
 			assertNotNull(inputStream);
 			strategy.store(inputStream);

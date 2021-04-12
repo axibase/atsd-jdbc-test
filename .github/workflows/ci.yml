@@ -11,15 +11,18 @@ on:
 
 jobs:
   run-tests:
+    strategy:
+      matrix:
+        java_version: ['1.8', '11']
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: axibase/checkout@v2
-    - name: Set up JDK 11
+    - name: Set up JDK for Java ${{matrix.java_version}}
       uses: axibase/setup-java@v1
       with:
-        java-version: '8'
+        java-version: ${{matrix.java_version}}
     - name: Run tests in Docker
       run: |
         ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13) axibase axibase

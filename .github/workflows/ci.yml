@@ -25,7 +25,7 @@ jobs:
         java-version: ${{matrix.java_version}}
     - name: Run tests in Docker
       run: |
-        ./run_atsd_container.sh "-p8443:8443 -p8081:8081" jdbc_test_$(date +%s%N | cut -b1-13) axibase axibase
+        ./run_atsd_container.sh "-p8443:8443 -p8081:8081 -p8085:8085" jdbc_test_$(date +%s%N | cut -b1-13) axibase axibase
         mvn package -B -Dinsert.wait=3000 --fail-at-end
         
   lint:

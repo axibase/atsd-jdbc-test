@@ -13,6 +13,7 @@ docker run -d --name=${CONTAINER_NAME} ${DOCKER_PORTS} -e ADMIN_USER_NAME="$ATSD
 
 TCP_PORT=$(docker port ${CONTAINER_NAME} 8081| cut -d ":" -f2)
 HTTPS_PORT=$(docker port ${CONTAINER_NAME} 8443| cut -d ":" -f2)
+TRADE_TCP_PORT=$(docker port ${CONTAINER_NAME} 8085| cut -d ":" -f2)
 
 echo "TCP port is ${TCP_PORT}"
 echo "HTTPS port is ${HTTPS_PORT}"
@@ -37,6 +38,10 @@ echo "m_small created"
 echo "Inserting m_large with 500000 records..."
 nc -w 1 $HOST $TCP_PORT < $SCRIPTS_HOME/docker/m_large
 echo "m_large created"
+
+echo "Inserting trade data for GOOG, AMZN, TSLA with 23987 entries"
+nc -w 1 $HOST $TRADE_TCP_PORT < $SCRIPTS_HOME/docker/trades.log
+echo "Trades inserted"
 
 echo "==========================================="
 echo "Finished data preparation at $(date +%Y-%m-%d\ %H-%M-%S)"

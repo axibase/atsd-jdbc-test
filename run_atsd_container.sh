@@ -40,7 +40,7 @@ nc -w 1 $HOST $TCP_PORT < $SCRIPTS_HOME/docker/m_large
 echo "m_large created"
 
 echo "Inserting trade data for GOOG, AMZN, TSLA with 23987 entries"
-nc -w 1 $HOST TRADE_TCP_PORT < $SCRIPTS_HOME/docker/trades.log
+nc -w 1 $HOST $TRADE_TCP_PORT < $SCRIPTS_HOME/docker/trades.log
 echo "Trades inserted"
 
 echo "==========================================="

@@ -13,7 +13,7 @@ jobs:
   run-tests:
     strategy:
       matrix:
-        java_version: ['1.8', '11']
+        java_version: ['1.8']
 
     runs-on: ubuntu-latest
 

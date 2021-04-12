@@ -30,12 +30,12 @@ echo "Start data preparation at $(date +%Y-%m-%d\ %H-%M-%S)"
 echo "==========================================="
 
 echo "Inserting m_small with 100 records..."
-nc $HOST $TCP_PORT < $SCRIPTS_HOME/docker/m_small
+nc -w 1 $HOST $TCP_PORT < $SCRIPTS_HOME/docker/m_small
 echo "m_small created"
 
 
 echo "Inserting m_large with 500000 records..."
-nc $HOST $TCP_PORT < $SCRIPTS_HOME/docker/m_large
+nc -w 1 $HOST $TCP_PORT < $SCRIPTS_HOME/docker/m_large
 echo "m_large created"
 
 echo "==========================================="

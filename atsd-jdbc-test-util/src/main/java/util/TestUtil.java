@@ -118,4 +118,13 @@ public class TestUtil {
         return new StatementContext(createStatementHandle(), false);
     }
 
+    public static List<String> resolveColumnLabels(ResultSetMetaData metaData) throws SQLException {
+        final int columnCount = metaData.getColumnCount();
+        List<String> result = new ArrayList<>(columnCount);
+        for (int i = 1; i <= columnCount; i++) {
+            result.add(metaData.getColumnLabel(i));
+        }
+        return result;
+    }
+
 }
